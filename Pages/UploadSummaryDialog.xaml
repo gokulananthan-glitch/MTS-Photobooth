@@ -1,0 +1,64 @@
+<Window x:Class="PhotoBooth.Pages.UploadSummaryDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Upload Summary" Height="300" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#1A1A1A">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0" Text="Offline Frames Upload" 
+                   FontSize="20" FontWeight="Bold" 
+                   Foreground="White" Margin="0,0,0,15"
+                   HorizontalAlignment="Center"/>
+
+        <!-- Summary Content -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <TextBlock Name="SummaryText" 
+                       Text="" 
+                       FontSize="14" 
+                       Foreground="#D8D0DC" 
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,20"/>
+        </StackPanel>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                    HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Name="RetryButton" 
+                    Content="Retry Failed" 
+                    Width="100" Height="35" 
+                    Margin="0,0,10,0"
+                    Click="RetryButton_Click"
+                    Background="#2D2D2D"
+                    Foreground="White"
+                    BorderThickness="1"
+                    BorderBrush="#444"/>
+            <Button Name="DeleteFailedButton" 
+                    Content="Delete Failed" 
+                    Width="110" Height="35" 
+                    Margin="0,0,10,0"
+                    Click="DeleteFailedButton_Click"
+                    Background="#8B0000"
+                    Foreground="White"
+                    BorderThickness="1"
+                    BorderBrush="#CC0000"/>
+            <Button Name="CloseButton" 
+                    Content="Close" 
+                    Width="100" Height="35"
+                    Click="CloseButton_Click"
+                    Background="#2D2D2D"
+                    Foreground="White"
+                    BorderThickness="1"
+                    BorderBrush="#444"/>
+        </StackPanel>
+    </Grid>
+</Window>
+

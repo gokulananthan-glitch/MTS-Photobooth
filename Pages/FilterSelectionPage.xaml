@@ -1,0 +1,613 @@
+<Page x:Class="PhotoBooth.Pages.FilterSelectionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:fa="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:controls="clr-namespace:PhotoBooth.Controls"
+      Title="Filter Selection">
+    
+    <Grid>
+        <!-- Background -->
+        <Grid.Background>
+            <SolidColorBrush Color="#221017"/>
+        </Grid.Background>
+        
+        <!-- Ambient Background Glows -->
+        <Canvas ClipToBounds="False">
+            <!-- Top Left Glow -->
+            <Ellipse Width="1000" Height="1000" 
+                     Canvas.Left="-300" Canvas.Top="-200"
+                     Opacity="0.2">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                        <GradientStop Color="#f4257b" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+                <Ellipse.Effect>
+                    <BlurEffect Radius="120"/>
+                </Ellipse.Effect>
+        </Ellipse>
+        
+            <!-- Bottom Right Glow -->
+            <Ellipse Width="1200" Height="1200"
+                     Canvas.Right="-400" Canvas.Bottom="-400"
+                     Opacity="0.1">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                        <GradientStop Color="#a855f7" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+                <Ellipse.Effect>
+                    <BlurEffect Radius="150"/>
+                </Ellipse.Effect>
+        </Ellipse>
+        </Canvas>
+
+        <Grid Margin="40,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="20,20,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Back Button -->
+                <Button Grid.Column="0"
+                        Name="BackButton"
+                        Width="40" Height="40"
+                        Cursor="Hand"
+                        Click="BackButton_Click"
+                        Background="Transparent"
+                        BorderThickness="0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#1AFFFFFF"
+                                    CornerRadius="20"
+                                    BorderBrush="#33FFFFFF"
+                                    BorderThickness="1"
+                                    Width="40" Height="40">
+                                <fa:PackIconFontAwesome Kind="ArrowLeftSolid"
+                                                       Width="18" Height="18"
+                                                       Foreground="White"
+                   HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <!-- Brand/Logo -->
+                <StackPanel Grid.Column="1" 
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center">
+                    <fa:PackIconFontAwesome Kind="CameraSolid"
+                                           Width="20" Height="20"
+                                           Foreground="#f4257b"
+                   VerticalAlignment="Center"
+                                           Margin="0,0,8,0"/>
+                    <TextBlock Text="MemoraBooth"
+                              FontSize="18"
+                         FontWeight="Bold"
+                         Foreground="White"
+                              VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Reset Button -->
+                <Button Grid.Column="2"
+                        Name="ResetButton"
+                        Height="36"
+                        Padding="20,8"
+                        Cursor="Hand"
+                        Click="ResetButton_Click"
+                                                  Background="Transparent"
+                        BorderThickness="0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#1AFFFFFF"
+                                    CornerRadius="18"
+                                    BorderBrush="#33FFFFFF"
+                                    BorderThickness="1"
+                                    Padding="20,8">
+                                <TextBlock Text="Reset"
+                                          FontSize="14"
+                                          FontWeight="Medium"
+                                          Foreground="White"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                                            </Border>
+                                        <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <!-- Heading -->
+            <StackPanel Grid.Row="1" 
+                       Name="TitleSection"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,30">
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center">
+                    <TextBlock Text="Pick Your Vibe"
+                              FontSize="48"
+                              FontWeight="Bold"
+                              Foreground="White"
+                              VerticalAlignment="Center"/>
+                    <fa:PackIconFontAwesome Kind="TvSolid"
+                                           Width="36" Height="36"
+                                           Foreground="#f4257b"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Live Preview Viewport -->
+            <Grid Grid.Row="2" Margin="100,0">
+                <controls:LivePreviewControl x:Name="LivePreview"/>
+            </Grid>
+
+            <!-- Filter Chips -->
+            <Grid Grid.Row="3" Margin="0,40,0,30">
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center"
+                           Margin="20,0">
+                    
+                    <!-- Glow Chip (Active by default) -->
+                    <Border Name="GlowChip"
+                            Margin="6"
+                            Background="#f4257b"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="GlowChip_Click">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.5"/>
+                        </Border.Effect>
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="✨"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Glow"
+                                      FontSize="15"
+                              FontWeight="Bold"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Moody Chip -->
+                    <Border Name="MoodyChip"
+                            Margin="6"
+                            Background="#2a1a1f"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="MoodyChip_Click">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🖤"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Moody"
+                                      FontSize="15"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Dreamy Chip -->
+                    <Border Name="DreamyChip"
+                            Margin="6"
+                            Background="#2a1a1f"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="DreamyChip_Click">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="☁️"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Dreamy"
+                                      FontSize="15"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Fire Chip -->
+                    <Border Name="FireChip"
+                            Margin="6"
+                            Background="#2a1a1f"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="FireChip_Click">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🔥"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Fire"
+                                      FontSize="15"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Retro Chip -->
+                    <Border Name="RetroChip"
+                            Margin="6"
+                            Background="#2a1a1f"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="RetroChip_Click">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🎞️"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Retro"
+                                      FontSize="15"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Mono Chip -->
+                    <Border Name="MonoChip"
+                            Margin="6"
+                            Background="#2a1a1f"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="MonoChip_Click">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🏁"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Mono"
+                                      FontSize="15"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Normal Chip -->
+                    <Border Name="NormalChip"
+                            Margin="6"
+                            Background="#2a1a1f"
+                            CornerRadius="20"
+                            Padding="20,12"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="NormalChip_Click">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="20"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1.05" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                       To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📷"
+                                      FontSize="18"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
+                            <TextBlock Text="Normal"
+                                      FontSize="15"
+                                      FontWeight="Medium"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+            </Grid>
+
+            <!-- Bottom Control Bar -->
+            <Grid Grid.Row="4" Margin="0,20,0,30">
+                <StackPanel Orientation="Horizontal"
+                           HorizontalAlignment="Center">
+                    <!-- Timer Icon -->
+                    <Border Width="48" Height="48"
+                            CornerRadius="24"
+                            Background="#1AFFFFFF"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Margin="0,0,16,0"
+                            Cursor="Hand">
+                        <TextBlock Text="⏱️"
+                                  FontSize="20"
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Flash Icon -->
+                    <Border Width="48" Height="48"
+                            CornerRadius="24"
+                            Background="#1AFFFFFF"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Margin="0,0,16,0"
+                            Cursor="Hand">
+                        <TextBlock Text="⚡"
+                                  FontSize="20"
+                   Foreground="White"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Capture Button -->
+                    <Button Name="CaptureButton"
+                            Width="72" Height="72"
+                   Cursor="Hand"
+                            Click="CaptureButton_Click">
+                        <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                <Border Background="#f4257b"
+                                        CornerRadius="36"
+                                        BorderThickness="0">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                                    </Border.Effect>
+                                    <fa:PackIconFontAwesome Kind="CameraSolid"
+                                                           Width="32" Height="32"
+                                                           Foreground="White"
+                                                           HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"/>
+                                    </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                            </Setter.Value>
+                        </Setter>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                            </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                                <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                            </Setter.Value>
+                        </Setter>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                            </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                    </Style>
+                </Button.Style>
+            </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

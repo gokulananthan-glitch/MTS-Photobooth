@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<PlatformTarget>x64</PlatformTarget>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="6.2.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+		<PackageReference Include="System.Speech" Version="8.0.0" />
+		<PackageReference Include="System.Text.Json" Version="9.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+		<PackageReference Include="OpenCvSharp4" Version="4.10.0.20240616" />
+		<PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0.20240616" />
+	</ItemGroup>
+
+	<!-- Configuration File -->
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<!-- Assets/Images -->
+	<ItemGroup>
+		<Resource Include="Assets\logo.png">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+
+
+	<!-- EDSDK References - ALL DLLs must be in the same folder as the executable per EDSDK documentation -->
+	<ItemGroup>
+		<!-- Copy main EDSDK DLLs to output directory root (required for P/Invoke) -->
+		<Content Include="EDSDK_64\Dll\EDSDK.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Link>EDSDK.dll</Link>
+		</Content>
+		<Content Include="EDSDK_64\Dll\EdsImage.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Link>EdsImage.dll</Link>
+		</Content>
+	</ItemGroup>
+	
+	<!-- Copy DPP4Lib DLLs to root (required per EDSDK documentation section 1.4.3) -->
+	<ItemGroup>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\CanonHEIFHandlingLibrary.dll"><Link>CanonHEIFHandlingLibrary.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\crxdec.dll"><Link>crxdec.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Dpp3Engine.dll"><Link>Dpp3Engine.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCore.dll"><Link>DppCore.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCoreSub.dll"><Link>DppCoreSub.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCoreSubD.dll"><Link>DppCoreSubD.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCoreSubM.dll"><Link>DppCoreSubM.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCoreSubQ.dll"><Link>DppCoreSubQ.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCoreSubW.dll"><Link>DppCoreSubW.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppCRXEnc.dll"><Link>DppCRXEnc.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppDeepLearning.dll"><Link>DppDeepLearning.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppFD.dll"><Link>DppFD.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppMath.dll"><Link>DppMath.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\DppUPS.dll"><Link>DppUPS.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\EdsCFParse.dll"><Link>EdsCFParse.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\EdsLRSC.dll"><Link>EdsLRSC.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\FocusStackingLib.dll"><Link>FocusStackingLib.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\libmmd.dll"><Link>libmmd.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\MLib.dll"><Link>MLib.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\msvcp120.dll"><Link>msvcp120.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\msvcp140.dll"><Link>msvcp140.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\msvcr120.dll"><Link>msvcr120.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Ucs32P.dll"><Link>Ucs32P.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Ucs32P316.dll"><Link>Ucs32P316.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\vcruntime140.dll"><Link>vcruntime140.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Model\DppModel.dll"><Link>DppModel.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Extension\cudart32_70.dll"><Link>cudart32_70.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Extension\cudart64_70.dll"><Link>cudart64_70.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\Extension\DppCoreG.dll"><Link>DppCoreG.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+	</ItemGroup>
+	
+	<!-- Copy IHL DLLs to root (required per EDSDK documentation section 1.4.3) -->
+	<ItemGroup>
+		<Content Include="EDSDK_64\Dll\IHL\canonIHLVersion.dll"><Link>canonIHLVersion.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipBaseParse.dll"><Link>ipBaseParse.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipCanonIHL.dll"><Link>ipCanonIHL.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipCodec.dll"><Link>ipCodec.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipCommonPolicy.dll"><Link>ipCommonPolicy.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipCommonProp.dll"><Link>ipCommonProp.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipDCPolicy.dll"><Link>ipDCPolicy.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipDCProp.dll"><Link>ipDCProp.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipDSPolicy.dll"><Link>ipDSPolicy.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipDSProp.dll"><Link>ipDSProp.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipMWGPolicy.dll"><Link>ipMWGPolicy.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipParse.dll"><Link>ipParse.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+		<Content Include="EDSDK_64\Dll\IHL\ipProp.dll"><Link>ipProp.dll</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+	</ItemGroup>
+	
+	<!-- Copy ICC profiles and other resources (preserve subdirectory structure for these) -->
+	<ItemGroup>
+		<Content Include="EDSDK_64\Dll\DPP4Lib\icc\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>
