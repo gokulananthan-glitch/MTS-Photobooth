@@ -43,6 +43,10 @@ namespace PhotoBooth.Pages
                 else
                 {
                     System.Diagnostics.Debug.WriteLine("[StyleSelectionPage] No machine config found in database.");
+                    MessageBox.Show("Machine configuration not found in database. Please sync configuration from the settings menu.", 
+                        "Configuration Missing", 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Warning);
                 }
             }
             else
@@ -453,36 +457,16 @@ namespace PhotoBooth.Pages
                 {
                     var normalContent = buttonTemplate.FindName("NormalContent", StartSnapButton) as FrameworkElement;
                     var loadingContent = buttonTemplate.FindName("LoadingContent", StartSnapButton) as FrameworkElement;
-                    var spinnerRotate = buttonTemplate.FindName("SpinnerRotate", StartSnapButton) as RotateTransform;
 
                     if (show)
                     {
                         if (normalContent != null) normalContent.Visibility = Visibility.Collapsed;
                         if (loadingContent != null) loadingContent.Visibility = Visibility.Visible;
-                        
-                        // Start spinner animation
-                        if (spinnerRotate != null)
-                        {
-                            var rotateAnimation = new System.Windows.Media.Animation.DoubleAnimation
-                            {
-                                From = 0,
-                                To = 360,
-                                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(1)),
-                                RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever
-                            };
-                            spinnerRotate.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation);
-                        }
                     }
                     else
                     {
                         if (normalContent != null) normalContent.Visibility = Visibility.Visible;
                         if (loadingContent != null) loadingContent.Visibility = Visibility.Collapsed;
-                        
-                        // Stop spinner animation
-                        if (spinnerRotate != null)
-                        {
-                            spinnerRotate.BeginAnimation(RotateTransform.AngleProperty, null);
-                        }
                     }
                 }
             }

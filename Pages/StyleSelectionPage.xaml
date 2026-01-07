@@ -718,12 +718,16 @@
                                 <Border.Effect>
                                     <DropShadowEffect Color="#f62585" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
                                 </Border.Effect>
-                                <Grid>
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      Width="280" Height="60" 
+                                      UseLayoutRounding="True"
+                                      SnapsToDevicePixels="True">
                                     <!-- Normal Content -->
                                     <StackPanel x:Name="NormalContent"
                                               Orientation="Horizontal"
                                               HorizontalAlignment="Center"
-                                              VerticalAlignment="Center">
+                                              VerticalAlignment="Center"
+                                              UseLayoutRounding="True">
                                         <fa:PackIconFontAwesome Kind="CameraSolid"
                                                                Width="20" Height="20"
                                                                Foreground="White"
@@ -748,29 +752,15 @@
                                                       VerticalAlignment="Center"/>
                                         </Border>
                                     </StackPanel>
-                                    <!-- Loading Spinner -->
-                                    <StackPanel x:Name="LoadingContent"
-                                              Orientation="Horizontal"
+                                    <!-- Loading Content - Text only, no loader -->
+                                    <TextBlock x:Name="LoadingContent"
+                                              Text="Processing..."
+                                              FontSize="18"
+                                              FontWeight="Bold"
+                                              Foreground="White"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
-                                              Visibility="Collapsed">
-                                        <Ellipse x:Name="SpinnerCircle"
-                                                Width="20" Height="20"
-                                                Stroke="White"
-                                                StrokeThickness="2"
-                                                StrokeDashArray="3 2"
-                                                VerticalAlignment="Center"
-                                                Margin="0,0,10,0">
-                                            <Ellipse.RenderTransform>
-                                                <RotateTransform x:Name="SpinnerRotate" Angle="0"/>
-                                            </Ellipse.RenderTransform>
-                                        </Ellipse>
-                                        <TextBlock Text="Processing..."
-                                                  FontSize="16"
-                                                  FontWeight="Medium"
-                                                  Foreground="White"
-                                                  VerticalAlignment="Center"/>
-                                    </StackPanel>
+                                              Visibility="Collapsed"/>
                                 </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
