@@ -80,7 +80,8 @@ namespace PhotoBooth.Services
                     machine_code TEXT NOT NULL,
                     site_code TEXT NOT NULL,
                     filePath TEXT NOT NULL,
-                    createdAt TEXT NOT NULL
+                    createdAt TEXT NOT NULL,
+                    event_id TEXT
                 );
 
                 CREATE TABLE IF NOT EXISTS TransactionData (
@@ -106,6 +107,18 @@ namespace PhotoBooth.Services
                 var alterCommand = connection.CreateCommand();
                 alterCommand.CommandText = "ALTER TABLE MachineConfig ADD COLUMN SavedAt TEXT";
                 alterCommand.ExecuteNonQuery();
+            }
+            catch
+            {
+                // Column already exists, ignore
+            }
+
+            // Add event_id column to OfflineFrames if it doesn't exist (for existing databases)
+            try
+            {
+                var alterCommand2 = connection.CreateCommand();
+                alterCommand2.CommandText = "ALTER TABLE OfflineFrames ADD COLUMN event_id TEXT";
+                alterCommand2.ExecuteNonQuery();
             }
             catch
             {
@@ -502,7 +515,7 @@ namespace PhotoBooth.Services
             });
         }
 
-        public async Task SaveOfflineFrameAsync(string frameId, string machineCode, string siteCode, string filePath, DateTime createdAt)
+        public async Task SaveOfflineFrameAsync(string frameId, string machineCode, string siteCode, string filePath, string? eventId, DateTime createdAt)
         {
             await Task.Run(() =>
             {
@@ -511,18 +524,19 @@ namespace PhotoBooth.Services
 
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-                    INSERT OR REPLACE INTO OfflineFrames (frame_id, machine_code, site_code, filePath, createdAt)
-                    VALUES ($frameId, $machineCode, $siteCode, $filePath, $createdAt)
+                    INSERT OR REPLACE INTO OfflineFrames (frame_id, machine_code, site_code, filePath, event_id, createdAt)
+                    VALUES ($frameId, $machineCode, $siteCode, $filePath, $eventId, $createdAt)
                 ";
 
                 command.Parameters.AddWithValue("$frameId", frameId);
                 command.Parameters.AddWithValue("$machineCode", machineCode);
                 command.Parameters.AddWithValue("$siteCode", siteCode);
                 command.Parameters.AddWithValue("$filePath", filePath);
+                command.Parameters.AddWithValue("$eventId", (object?)eventId ?? DBNull.Value);
                 command.Parameters.AddWithValue("$createdAt", createdAt.ToString("O"));
 
                 command.ExecuteNonQuery();
-                System.Diagnostics.Debug.WriteLine($"[DB] Offline frame saved: {frameId}");
+                System.Diagnostics.Debug.WriteLine($"[DB] Offline frame saved: {frameId}, eventId: {eventId ?? "null"}");
             });
         }
 
@@ -574,7 +588,7 @@ namespace PhotoBooth.Services
 
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-                    SELECT Id, frame_id, machine_code, site_code, filePath, createdAt
+                    SELECT Id, frame_id, machine_code, site_code, filePath, event_id, createdAt
                     FROM OfflineFrames
                     ORDER BY createdAt ASC
                 ";
@@ -589,7 +603,8 @@ namespace PhotoBooth.Services
                         MachineCode = reader.GetString(2),
                         SiteCode = reader.GetString(3),
                         FilePath = reader.GetString(4),
-                        CreatedAt = DateTime.Parse(reader.GetString(5))
+                        EventId = reader.IsDBNull(5) ? null : reader.GetString(5),
+                        CreatedAt = DateTime.Parse(reader.GetString(6))
                     });
                 }
 

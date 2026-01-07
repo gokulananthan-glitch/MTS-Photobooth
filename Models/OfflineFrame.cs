@@ -9,6 +9,7 @@ namespace PhotoBooth.Models
         public string MachineCode { get; set; } = string.Empty;
         public string SiteCode { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
+        public string? EventId { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

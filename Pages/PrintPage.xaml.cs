@@ -545,6 +545,7 @@ namespace PhotoBooth.Pages
                     machineCode: machineCode,
                     siteCode: siteCode,
                     filePath: storedFilePath,
+                    eventId: machineConfig.EventId,
                     createdAt: now
                 );
 
