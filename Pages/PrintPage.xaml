@@ -278,7 +278,8 @@
                         
                         <StackPanel>
                             <!-- Quantity Selector -->
-                            <Border Background="#402d1520"
+                            <Border Name="QuantitySelectorBorder"
+                                    Background="#402d1520"
                                     CornerRadius="16"
                                     Padding="20"
                                     BorderBrush="#0Dffffff"

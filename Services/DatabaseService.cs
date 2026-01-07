@@ -91,8 +91,8 @@ namespace PhotoBooth.Services
                     site_code TEXT NOT NULL,
                     frame TEXT NOT NULL,
                     amount REAL NOT NULL,
-                    created_at TEXT NOT NULL,
-                    sale_date TEXT NOT NULL,
+                    created_at TEXT,
+                    sale_date TEXT,
                     payment_mode TEXT NOT NULL,
                     total_copies INTEGER NOT NULL,
                     total_amount REAL NOT NULL,
@@ -541,7 +541,7 @@ namespace PhotoBooth.Services
         }
 
         public async Task SaveTransactionDataAsync(string orderId, string machineCode, string siteCode, string frame, 
-            double amount, DateTime createdAt, DateTime saleDate, string paymentMode, int totalCopies, 
+            double amount, DateTime? createdAt, DateTime? saleDate, string paymentMode, int totalCopies, 
             double totalAmount, string? eventId, string? onEvent)
         {
             await Task.Run(() =>
@@ -564,8 +564,8 @@ namespace PhotoBooth.Services
                 command.Parameters.AddWithValue("$siteCode", siteCode);
                 command.Parameters.AddWithValue("$frame", frame);
                 command.Parameters.AddWithValue("$amount", amount);
-                command.Parameters.AddWithValue("$createdAt", createdAt.ToString("O"));
-                command.Parameters.AddWithValue("$saleDate", saleDate.ToString("O"));
+                command.Parameters.AddWithValue("$createdAt", createdAt?.ToString("O") ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("$saleDate", saleDate?.ToString("O") ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("$paymentMode", paymentMode);
                 command.Parameters.AddWithValue("$totalCopies", totalCopies);
                 command.Parameters.AddWithValue("$totalAmount", totalAmount);
@@ -654,6 +654,26 @@ namespace PhotoBooth.Services
                     
                     System.Diagnostics.Debug.WriteLine($"[DB] Reading transaction: OrderId={orderId}, MachineCode='{machineCode}', SiteCode='{siteCode}'");
                     
+                    // Handle nullable DateTime fields
+                    DateTime? createdAt = null;
+                    DateTime? saleDate = null;
+                    
+                    if (!reader.IsDBNull(5) && !string.IsNullOrWhiteSpace(reader.GetString(5)))
+                    {
+                        if (DateTime.TryParse(reader.GetString(5), out DateTime parsedCreatedAt))
+                        {
+                            createdAt = parsedCreatedAt;
+                        }
+                    }
+                    
+                    if (!reader.IsDBNull(6) && !string.IsNullOrWhiteSpace(reader.GetString(6)))
+                    {
+                        if (DateTime.TryParse(reader.GetString(6), out DateTime parsedSaleDate))
+                        {
+                            saleDate = parsedSaleDate;
+                        }
+                    }
+                    
                     transactions.Add(new TransactionData
                     {
                         OrderId = orderId,
@@ -661,8 +681,8 @@ namespace PhotoBooth.Services
                         SiteCode = siteCode,
                         Frame = reader.GetString(3),
                         Amount = reader.GetDouble(4),
-                        CreatedAt = DateTime.Parse(reader.GetString(5)),
-                        SaleDate = DateTime.Parse(reader.GetString(6)),
+                        CreatedAt = createdAt,
+                        SaleDate = saleDate,
                         PaymentMode = reader.GetString(7),
                         TotalCopies = reader.GetInt32(8),
                         TotalAmount = reader.GetDouble(9),

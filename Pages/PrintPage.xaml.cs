@@ -60,6 +60,50 @@ namespace PhotoBooth.Pages
                     
                     PreviewImage.Source = bitmap;
                 }
+
+                // Check if copy selection should be hidden
+                // Hide if payment_type is not 'N' OR offline_mode is not true
+                bool shouldHideCopySelection = false;
+                
+                if (App.CurrentMachineConfig != null)
+                {
+                    string paymentType = App.CurrentMachineConfig.PaymentType ?? "";
+                    bool offlineMode = App.CurrentMachineConfig.OfflineMode;
+                    
+                    // Hide copy selection if payment is required (payment_type != 'N') OR not in offline mode
+                    // Show copy selection only if payment_type is 'N' AND offline_mode is true
+                    shouldHideCopySelection = (paymentType != "N") || !offlineMode;
+                    
+                    System.Diagnostics.Debug.WriteLine($"[PrintPage] PaymentType: '{paymentType}', OfflineMode: {offlineMode}, ShouldHideCopySelection: {shouldHideCopySelection}");
+                }
+                else
+                {
+                    // If no machine config, default to showing copy selection (safe fallback)
+                    shouldHideCopySelection = false;
+                    System.Diagnostics.Debug.WriteLine("[PrintPage] No machine config found, showing copy selection by default");
+                }
+
+                if (shouldHideCopySelection)
+                {
+                    // Hide the copy selection Border
+                    QuantitySelectorBorder.Visibility = Visibility.Collapsed;
+                    
+                    // Use copy count from PaymentPage (App.NumberOfCopies)
+                    // Ensure it's at least 1
+                    _quantity = App.NumberOfCopies > 0 ? App.NumberOfCopies : 1;
+                    QuantityText.Text = _quantity.ToString();
+                    
+                    System.Diagnostics.Debug.WriteLine($"[PrintPage] Copy selection hidden. Using {_quantity} copies from PaymentPage.");
+                }
+                else
+                {
+                    // Show copy selection and use default quantity (1)
+                    QuantitySelectorBorder.Visibility = Visibility.Visible;
+                    _quantity = 1;
+                    QuantityText.Text = _quantity.ToString();
+                    
+                    System.Diagnostics.Debug.WriteLine("[PrintPage] Copy selection visible. User can select quantity.");
+                }
             }
             catch (Exception ex)
             {
@@ -247,8 +291,9 @@ namespace PhotoBooth.Pages
                 });
                 
                 // Auto-navigate to home after 2 seconds
-                Task.Delay(2000).ContinueWith(_ =>
+                _ = Task.Run(async () =>
                 {
+                    await Task.Delay(2000);
                     Dispatcher.Invoke(() => HomeButton_Click(null, null));
                 });
                 
@@ -606,7 +651,7 @@ namespace PhotoBooth.Pages
                                 SiteCode = siteCode,
                                 Frame = gridType, // Already in "grid2" format
                                 Amount = amount,
-                                CreatedAt = App.PendingTransactionData.CreatedAt,
+                                CreatedAt = App.PendingTransactionData.CreatedAt ?? now,
                                 SaleDate = now,
                                 PaymentMode = paymentMethod,
                                 TotalCopies = _quantity,

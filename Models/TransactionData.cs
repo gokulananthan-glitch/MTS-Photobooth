@@ -21,10 +21,10 @@ namespace PhotoBooth.Models
         public double Amount { get; set; }
         
         [JsonPropertyName("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         
         [JsonPropertyName("sale_date")]
-        public DateTime SaleDate { get; set; }
+        public DateTime? SaleDate { get; set; }
         
         [JsonPropertyName("payment_mode")]
         public string PaymentMode { get; set; } = string.Empty;

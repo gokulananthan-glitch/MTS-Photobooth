@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
@@ -334,7 +335,8 @@ namespace PhotoBooth.Services
                     // Parse response
                     var options = new JsonSerializerOptions
                     {
-                        PropertyNameCaseInsensitive = true
+                        PropertyNameCaseInsensitive = true,
+                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                     };
 
                     var apiResponse = JsonSerializer.Deserialize<ApiResponse<TransactionData>>(responseJson, options);
@@ -366,6 +368,335 @@ namespace PhotoBooth.Services
             {
                 System.Diagnostics.Debug.WriteLine($"[API] Error creating payment received transaction: {ex.Message}");
                 return null;
+            }
+        }
+
+        public async Task<RazorpayOrderResponse?> CreateRazorpayOrderAsync(double amount, string currency = "INR", CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                string url = $"{_baseUrl}/api/payment/create-order";
+                System.Diagnostics.Debug.WriteLine($"[API] Creating Razorpay order: amount={amount}, currency={currency}");
+
+                var payload = new
+                {
+                    amount = (int)(amount * 100), // Razorpay expects amount in smallest currency unit (paise)
+                    currency = currency
+                };
+
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                // Create timeout cancellation token (60 seconds)
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(TimeSpan.FromSeconds(60));
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content, timeoutCts.Token);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Razorpay order created successfully: {responseJson}");
+
+                    // Parse response
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse<RazorpayOrderResponse>>(responseJson, options);
+                    
+                    if (apiResponse?.Data != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Razorpay order ID: {apiResponse.Data.Id}");
+                        return apiResponse.Data;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Razorpay order response data is null");
+                        return null;
+                    }
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Razorpay order creation failed: {response.StatusCode} - {errorContent}");
+                    return null;
+                }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Razorpay order creation timeout");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Error creating Razorpay order: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<TransactionData?> CreateProcessingSaleTransactionAsync(string machineCode, string siteCode, string frame, double amount, string paymentMethod, int totalCopies, double totalAmount, string orderId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                string url = $"{_baseUrl}/api/sale-transaction/create-processing-sale-transaction";
+                System.Diagnostics.Debug.WriteLine($"[API] Creating processing sale transaction: orderId={orderId}, paymentMethod={paymentMethod}");
+
+                var payload = new
+                {
+                    machine_code = machineCode,
+                    site_code = siteCode,
+                    frame = frame,
+                    amount = amount,
+                    payment_method = paymentMethod,
+                    total_copies = totalCopies,
+                    total_amount = totalAmount,
+                    order_id = orderId
+                };
+
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(TimeSpan.FromSeconds(60));
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content, timeoutCts.Token);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Processing transaction created successfully: {responseJson}");
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                    };
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse<TransactionData>>(responseJson, options);
+                    
+                    if (apiResponse?.Data != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Processing transaction data: OrderId={apiResponse.Data.OrderId}");
+                        return apiResponse.Data;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Processing transaction response data is null");
+                        return null;
+                    }
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Processing transaction creation failed: {response.StatusCode} - {errorContent}");
+                    return null;
+                }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Processing transaction creation timeout");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Error creating processing transaction: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<TransactionData?> CreatePaymentReceivedSaleTransactionAsync(string machineCode, string siteCode, string frame, double amount, string paymentMethod, int totalCopies, double totalAmount, string orderId, string? razorPayOrderId = null, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                string url = $"{_baseUrl}/api/sale-transaction/create-payment-received-sale-transaction";
+                System.Diagnostics.Debug.WriteLine($"[API] Creating payment received sale transaction: orderId={orderId}, paymentMethod={paymentMethod}");
+
+                var payload = new
+                {
+                    machine_code = machineCode,
+                    site_code = siteCode,
+                    frame = frame,
+                    amount = amount,
+                    payment_method = paymentMethod,
+                    total_copies = totalCopies,
+                    total_amount = totalAmount,
+                    order_id = orderId,
+                    razor_pay_order_id = razorPayOrderId
+                };
+
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(TimeSpan.FromSeconds(60));
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content, timeoutCts.Token);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Payment received transaction created successfully: {responseJson}");
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                    };
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse<TransactionData>>(responseJson, options);
+                    
+                    if (apiResponse?.Data != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Payment received transaction data: OrderId={apiResponse.Data.OrderId}");
+                        return apiResponse.Data;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Payment received transaction response data is null");
+                        return null;
+                    }
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Payment received transaction creation failed: {response.StatusCode} - {errorContent}");
+                    return null;
+                }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Payment received transaction creation timeout");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Error creating payment received transaction: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<TransactionData?> CreateCancelledSaleTransactionAsync(string machineCode, string siteCode, string frame, double amount, string paymentMethod, int totalCopies, double totalAmount, string orderId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                string url = $"{_baseUrl}/api/sale-transaction/create-cancelled-sale-transaction";
+                System.Diagnostics.Debug.WriteLine($"[API] Creating cancelled sale transaction: orderId={orderId}, paymentMethod={paymentMethod}");
+
+                var payload = new
+                {
+                    machine_code = machineCode,
+                    site_code = siteCode,
+                    frame = frame,
+                    amount = amount,
+                    payment_method = paymentMethod,
+                    total_copies = totalCopies,
+                    total_amount = totalAmount,
+                    order_id = orderId
+                };
+
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(TimeSpan.FromSeconds(60));
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content, timeoutCts.Token);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Cancelled transaction created successfully: {responseJson}");
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                    };
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse<TransactionData>>(responseJson, options);
+                    
+                    if (apiResponse?.Data != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Cancelled transaction data: OrderId={apiResponse.Data.OrderId}");
+                        return apiResponse.Data;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[API] Cancelled transaction response data is null");
+                        return null;
+                    }
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] Cancelled transaction creation failed: {response.StatusCode} - {errorContent}");
+                    return null;
+                }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Cancelled transaction creation timeout");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Error creating cancelled transaction: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<bool> VerifyOtpAsync(string machineCode, string otp, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                string url = $"{_baseUrl}/api/machines/verify-otp/{machineCode}";
+                System.Diagnostics.Debug.WriteLine($"[API] Verifying OTP: machineCode={machineCode}");
+
+                var payload = new
+                {
+                    otp = otp
+                };
+
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(TimeSpan.FromSeconds(60));
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content, timeoutCts.Token);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] OTP verification response: {responseJson}");
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse<bool>>(responseJson, options);
+                    
+                    return apiResponse?.Data == true;
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[API] OTP verification failed: {response.StatusCode} - {errorContent}");
+                    return false;
+                }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] OTP verification timeout");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Error verifying OTP: {ex.Message}");
+                return false;
             }
         }
 
@@ -402,7 +733,8 @@ namespace PhotoBooth.Services
                     // Parse response
                     var options = new JsonSerializerOptions
                     {
-                        PropertyNameCaseInsensitive = true
+                        PropertyNameCaseInsensitive = true,
+                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                     };
 
                     var apiResponse = JsonSerializer.Deserialize<ApiResponse<TransactionData>>(responseJson, options);

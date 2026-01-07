@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:fa="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
       Title="Payment Page">
     
     <Grid>
@@ -68,92 +69,150 @@
                 
                 <!-- Selected Style Card -->
                 <Border Name="StyleCardBorder"
-                       Width="280"
+                       Width="320"
                        Background="#1AFFFFFF"
-                       CornerRadius="20"
+                       CornerRadius="24"
                        BorderBrush="#f4257b"
                        BorderThickness="2"
-                       Padding="20"
-                       Margin="0,0,0,30"
+                       Padding="24"
+                       Margin="0,0,0,35"
                        HorizontalAlignment="Center">
                     <Border.Effect>
-                        <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                        <DropShadowEffect Color="#f4257b" BlurRadius="25" ShadowDepth="0" Opacity="0.7"/>
                     </Border.Effect>
                     <StackPanel>
-                        <!-- Style Preview Box -->
+                        <!-- Style Preview Box with Gradient Border -->
                         <Border Background="#1a0c12"
-                               CornerRadius="16"
-                               Padding="20"
-                               MaxHeight="200"
-                               Margin="0,0,0,16">
+                               CornerRadius="18"
+                               Padding="24"
+                               MaxHeight="220"
+                               Margin="0,0,0,20"
+                               BorderBrush="#33f4257b"
+                               BorderThickness="1">
                             <Viewbox Stretch="Uniform" Name="StylePreviewViewbox">
                                 <!-- Preview content will be set in code-behind based on selected style -->
                             </Viewbox>
                         </Border>
                         
-                        <!-- Style Name -->
-                        <TextBlock Name="StyleNameText"
-                                  Text="Dynamic Duo"
-                                  FontSize="22"
-                                  FontWeight="Bold"
-                                  Foreground="#f4257b"
-                                  HorizontalAlignment="Center"
-                                  Margin="0,0,0,6"/>
+                        <!-- Style Name with Icon -->
+                        <StackPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,8">
+                            <TextBlock Text="✨"
+                                      FontSize="18"
+                                      Margin="0,0,8,0"
+                                      VerticalAlignment="Center"/>
+                            <TextBlock Name="StyleNameText"
+                                      Text="Dynamic Duo"
+                                      FontSize="24"
+                                      FontWeight="Bold"
+                                      Foreground="#f4257b"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
                         
                         <!-- Style Description -->
                         <TextBlock Name="StyleDescriptionText"
                                   Text="2 Frames • Vertical"
-                                  FontSize="14"
+                                  FontSize="15"
                                   FontWeight="Medium"
                                   Foreground="#80FFFFFF"
                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
                 
-                <!-- Number of Copies -->
-                <TextBlock Text="No of copy"
-                          FontSize="24"
-                          Foreground="White"
-                          HorizontalAlignment="Center"
-                          Margin="0,0,0,20"/>
-                
-                <StackPanel Orientation="Horizontal"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,30">
-                    <Button Name="DecreaseButton"
-                           Width="50"
-                           Height="50"
-                           Content="-"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Background="#f4257b"
-                           Foreground="White"
-                           BorderThickness="0"
-                           Cursor="Hand"
-                           Click="DecreaseButton_Click"
-                           Margin="0,0,20,0"/>
-                    
-                    <TextBlock Name="CopyCountText"
-                              Text="1"
-                              FontSize="32"
-                              FontWeight="Bold"
+                <!-- Number of Copies Section -->
+                <StackPanel HorizontalAlignment="Center"
+                           Margin="0,0,0,35">
+                    <TextBlock Text="Number of Copies"
+                              FontSize="22"
+                              FontWeight="SemiBold"
                               Foreground="White"
-                              VerticalAlignment="Center"
-                              Width="60"
-                              TextAlignment="Center"/>
+                              HorizontalAlignment="Center"
+                              Margin="0,0,0,20"/>
                     
-                    <Button Name="IncreaseButton"
-                           Width="50"
-                           Height="50"
-                           Content="+"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Background="#f4257b"
-                           Foreground="White"
-                           BorderThickness="0"
-                           Cursor="Hand"
-                           Click="IncreaseButton_Click"
-                           Margin="20,0,0,0"/>
+                    <StackPanel Orientation="Horizontal"
+                               HorizontalAlignment="Center">
+                        <Button Name="DecreaseButton"
+                               Width="56"
+                               Height="56"
+                               Content="−"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Background="#f4257b"
+                               Foreground="White"
+                               BorderThickness="0"
+                               Cursor="Hand"
+                               Click="DecreaseButton_Click"
+                               Margin="0,0,25,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                       CornerRadius="28">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#ff4d7b"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        
+                        <Border Background="#1AFFFFFF"
+                               CornerRadius="16"
+                               Padding="20,12"
+                               BorderBrush="#33f4257b"
+                               BorderThickness="1"
+                               MinWidth="80">
+                            <TextBlock Name="CopyCountText"
+                                      Text="1"
+                                      FontSize="36"
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"/>
+                        </Border>
+                        
+                        <Button Name="IncreaseButton"
+                               Width="56"
+                               Height="56"
+                               Content="+"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Background="#f4257b"
+                               Foreground="White"
+                               BorderThickness="0"
+                               Cursor="Hand"
+                               Click="IncreaseButton_Click"
+                               Margin="25,0,0,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                       CornerRadius="28">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#ff4d7b"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
                 
                 <!-- Price Info -->
@@ -170,30 +229,74 @@
                 <!-- Buttons -->
                 <StackPanel Orientation="Horizontal"
                            HorizontalAlignment="Center"
-                           Margin="0,20,0,0">
+                           Margin="0,30,0,0">
                     <Button Name="BackButton"
                            Content="Back"
-                           Width="150"
-                           Height="60"
+                           MinWidth="160"
+                           Height="65"
                            FontSize="18"
-                           Background="#333"
+                           FontWeight="SemiBold"
+                           Background="#2A2A2A"
                            Foreground="White"
                            BorderThickness="0"
                            Cursor="Hand"
                            Click="BackButton_Click"
-                           Margin="0,0,20,0"/>
+                           Margin="0,0,20,0">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                   CornerRadius="16">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#3A3A3A"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     
                     <Button Name="PayButton"
                            Content="Pay ₹200"
-                           Width="150"
-                           Height="60"
-                           FontSize="18"
+                           MinWidth="180"
+                           Height="65"
+                           FontSize="20"
                            FontWeight="Bold"
                            Background="#f4257b"
                            Foreground="White"
                            BorderThickness="0"
                            Cursor="Hand"
-                           Click="PayButton_Click"/>
+                           Click="PayButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                   CornerRadius="16">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="#f4257b" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                                </Border.Effect>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#ff4d7b"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
             </StackPanel>
             </Grid>
@@ -201,59 +304,107 @@
         
         <!-- Payment Type Selection Modal -->
         <Border Name="PaymentModal"
-               Background="#CC000000"
+               Background="#E6000000"
                Visibility="Collapsed"
                Panel.ZIndex="1000">
-            <Border Background="#221017"
-                   MinWidth="500"
-                   MaxWidth="700"
-                   MinHeight="450"
-                   MaxHeight="600"
-                   CornerRadius="20"
+            <Border Background="#1a0d12"
+                   MinWidth="550"
+                   MaxWidth="750"
+                   MinHeight="500"
+                   MaxHeight="650"
+                   CornerRadius="24"
                    BorderBrush="#f4257b"
                    BorderThickness="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Margin="20">
                 <Border.Effect>
-                    <DropShadowEffect Color="#f4257b" BlurRadius="30" ShadowDepth="0" Opacity="0.8"/>
+                    <DropShadowEffect Color="#f4257b" BlurRadius="40" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
-                <Grid Margin="30">
+                
+                <Grid>
+                    <!-- Animated Glow Effect -->
+                    <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
+                        <Border.Effect>
+                            <BlurEffect Radius="20"/>
+                        </Border.Effect>
+                    </Border>
+                    
+                    <!-- Content Grid -->
+                    <Grid Margin="30">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     
-                    <!-- Header with Close Button -->
-                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <!-- Header with Icon and Close Button -->
+                    <Grid Grid.Row="0" Margin="0,0,0,30">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         
+                        <!-- Payment Icon -->
+                        <Border Grid.Column="0"
+                               Width="48"
+                               Height="48"
+                               CornerRadius="24"
+                               Background="#1Af4257b"
+                               Margin="0,0,15,0">
+                            <TextBlock Text="💳"
+                                      FontSize="28"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        
                         <!-- Title -->
-                        <TextBlock Grid.Column="0"
-                                  Text="Select Payment Method"
-                                  FontSize="28"
-                                  FontWeight="Bold"
-                                  Foreground="White"
-                                  VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Select Payment Method"
+                                      FontSize="28"
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                            <TextBlock Text="Choose your preferred payment option"
+                                      FontSize="12"
+                                      Foreground="#80FFFFFF"
+                                      Margin="0,4,0,0"/>
+                        </StackPanel>
                         
                         <!-- Close Button -->
-                        <Button Grid.Column="1"
+                        <Button Grid.Column="2"
                                Name="CloseModalButton"
-                               Width="32"
-                               Height="32"
-                               Background="Transparent"
+                               Width="36"
+                               Height="36"
+                               Background="#1AFFFFFF"
                                BorderThickness="0"
                                Cursor="Hand"
                                Click="CloseModalButton_Click"
                                Padding="0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                       CornerRadius="18">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                             <TextBlock Text="✕"
-                                      FontSize="24"
+                                      FontSize="20"
                                       FontWeight="Bold"
-                                      Foreground="#CCFFFFFF"
+                                      Foreground="White"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"/>
                         </Button>
@@ -267,16 +418,16 @@
                                Margin="0,20">
                         <!-- Cash Payment -->
                         <Button Name="CashPaymentButton"
-                               MinWidth="180"
-                               MinHeight="180"
-                               MaxWidth="220"
-                               MaxHeight="220"
+                               MinWidth="200"
+                               MinHeight="220"
+                               MaxWidth="260"
+                               MaxHeight="260"
                                Background="Transparent"
                                BorderBrush="#f4257b"
                                BorderThickness="3"
                                Cursor="Hand"
                                Click="CashPaymentButton_Click"
-                               Margin="0,0,15,0"
+                               Margin="0,0,20,0"
                                Visibility="Collapsed">
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -286,7 +437,10 @@
                                                 <Border Background="{TemplateBinding Background}"
                                                        BorderBrush="{TemplateBinding BorderBrush}"
                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="15">
+                                                       CornerRadius="20">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#f4257b" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                    </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -300,38 +454,48 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <StackPanel>
+                            <StackPanel Margin="20">
                                 <!-- Cash Icon with colored background -->
-                                <Border Width="80"
-                                       Height="80"
-                                       CornerRadius="40"
+                                <Border Width="90"
+                                       Height="90"
+                                       CornerRadius="45"
                                        HorizontalAlignment="Center"
-                                       Margin="0,0,0,15">
+                                       Margin="0,0,0,20">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="#FFD700" Offset="0"/>
                                             <GradientStop Color="#FFA500" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#FFD700" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                    </Border.Effect>
                                     <TextBlock Text="💰"
-                                              FontSize="45"
+                                              FontSize="50"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                                 </Border>
                                 <TextBlock Text="Pay Via Cash"
-                                          FontSize="18"
+                                          FontSize="20"
                                           FontWeight="Bold"
                                           Foreground="White"
-                                          HorizontalAlignment="Center"/>
+                                          HorizontalAlignment="Center"
+                                          Margin="0,0,0,5"/>
+                                <TextBlock Text="Hand over cash to front desk"
+                                          FontSize="12"
+                                          Foreground="#80FFFFFF"
+                                          HorizontalAlignment="Center"
+                                          TextWrapping="Wrap"
+                                          TextAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         
                         <!-- UPI Payment -->
                         <Button Name="UpiPaymentButton"
-                               MinWidth="180"
-                               MinHeight="180"
-                               MaxWidth="220"
-                               MaxHeight="220"
+                               MinWidth="200"
+                               MinHeight="220"
+                               MaxWidth="260"
+                               MaxHeight="260"
                                Background="Transparent"
                                BorderBrush="#f4257b"
                                BorderThickness="3"
@@ -346,7 +510,10 @@
                                                 <Border Background="{TemplateBinding Background}"
                                                        BorderBrush="{TemplateBinding BorderBrush}"
                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="15">
+                                                       CornerRadius="20">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#f4257b" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                    </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -360,29 +527,39 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <StackPanel>
+                            <StackPanel Margin="20">
                                 <!-- UPI Icon with colored background -->
-                                <Border Width="80"
-                                       Height="80"
-                                       CornerRadius="40"
+                                <Border Width="90"
+                                       Height="90"
+                                       CornerRadius="45"
                                        HorizontalAlignment="Center"
-                                       Margin="0,0,0,15">
+                                       Margin="0,0,0,20">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="#4A90E2" Offset="0"/>
                                             <GradientStop Color="#357ABD" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#4A90E2" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                    </Border.Effect>
                                     <TextBlock Text="📱"
-                                              FontSize="45"
+                                              FontSize="50"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                                 </Border>
                                 <TextBlock Text="Pay Via UPI"
-                                          FontSize="18"
+                                          FontSize="20"
                                           FontWeight="Bold"
                                           Foreground="White"
-                                          HorizontalAlignment="Center"/>
+                                          HorizontalAlignment="Center"
+                                          Margin="0,0,0,5"/>
+                                <TextBlock Text="Quick &amp; secure online payment"
+                                          FontSize="12"
+                                          Foreground="#80FFFFFF"
+                                          HorizontalAlignment="Center"
+                                          TextWrapping="Wrap"
+                                          TextAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -400,28 +577,39 @@
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"/>
                     </StackPanel>
+                    </Grid>
                 </Grid>
             </Border>
         </Border>
         
         <!-- OTP Verification Modal -->
         <Border Name="OtpModal"
-               Background="#CC000000"
+               Background="#E6000000"
                Visibility="Collapsed"
                Panel.ZIndex="1001">
-            <Border Background="#221017"
-                   MinWidth="350"
-                   MaxWidth="450"
-                   CornerRadius="20"
+            <Border Background="#1a0d12"
+                   MinWidth="380"
+                   MaxWidth="480"
+                   CornerRadius="24"
                    BorderBrush="#f4257b"
                    BorderThickness="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Margin="20">
                 <Border.Effect>
-                    <DropShadowEffect Color="#f4257b" BlurRadius="30" ShadowDepth="0" Opacity="0.8"/>
+                    <DropShadowEffect Color="#f4257b" BlurRadius="40" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
-                <Grid Margin="30">
+                
+                <Grid>
+                    <!-- Animated Glow Effect -->
+                    <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
+                        <Border.Effect>
+                            <BlurEffect Radius="20"/>
+                        </Border.Effect>
+                    </Border>
+                    
+                    <!-- Content Grid -->
+                    <Grid Margin="35">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -429,43 +617,61 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     
-                    <!-- Title -->
-                    <TextBlock Grid.Row="0"
-                              Text="Enter OTP Code"
-                              FontSize="24"
-                              FontWeight="Bold"
-                              Foreground="White"
-                              Margin="0,0,0,20"
-                              HorizontalAlignment="Center"/>
+                    <!-- Header with Icon -->
+                    <StackPanel Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,25">
+                        <Border Width="56"
+                               Height="56"
+                               CornerRadius="28"
+                               Background="#1Af4257b"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,15">
+                            <TextBlock Text="🔐"
+                                      FontSize="32"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="Enter OTP Code"
+                                  FontSize="26"
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"/>
+                    </StackPanel>
                     
                     <!-- OTP Input Label -->
                     <TextBlock Grid.Row="1"
-                              Text="Please enter the code provided:"
+                              Text="Please enter the code provided by the front desk:"
                               FontSize="14"
                               Foreground="#CCFFFFFF"
-                              Margin="0,0,0,10"
+                              Margin="0,0,0,20"
                               HorizontalAlignment="Center"
-                              TextWrapping="Wrap"/>
+                              TextWrapping="Wrap"
+                              TextAlignment="Center"/>
                     
                     <!-- OTP TextBox -->
                     <Border Grid.Row="2"
-                           CornerRadius="8"
+                           CornerRadius="12"
                            BorderBrush="#f4257b"
                            BorderThickness="2"
                            Background="#1a0d12"
-                           Margin="0,0,0,25">
+                           Margin="0,0,0,30">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#f4257b" BlurRadius="10" ShadowDepth="0" Opacity="0.4"/>
+                        </Border.Effect>
                         <TextBox Name="OtpTextBox"
-                                MinHeight="50"
-                                FontSize="22"
+                                MinHeight="60"
+                                FontSize="24"
                                 FontWeight="Bold"
                                 Background="Transparent"
                                 Foreground="White"
                                 BorderThickness="0"
-                                Padding="15,12"
+                                Padding="20,15"
                                 TextChanged="OtpTextBox_TextChanged"
                                 TextAlignment="Center"
                                 MaxLength="6"
-                                VerticalContentAlignment="Center"/>
+                                VerticalContentAlignment="Center"
+                                CaretBrush="#f4257b"/>
                     </Border>
                     
                     <!-- Buttons -->
@@ -533,6 +739,153 @@
                             </Button.Style>
                         </Button>
                     </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Border>
+        
+        <!-- Razorpay Payment Modal -->
+        <Border Name="RazorpayModal"
+               Background="#E6000000"
+               Visibility="Collapsed"
+               Panel.ZIndex="1002">
+            <Border Background="#1a0d12"
+                   MinWidth="400"
+                   MaxWidth="900"
+                   MinHeight="500"
+                   MaxHeight="700"
+                   Width="850"
+                   Height="650"
+                   CornerRadius="24"
+                   BorderBrush="#f4257b"
+                   BorderThickness="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="20">
+                <Border.Effect>
+                    <DropShadowEffect Color="#f4257b" BlurRadius="40" ShadowDepth="0" Opacity="1"/>
+                </Border.Effect>
+                
+                <Grid>
+                    <!-- Animated Glow Effect -->
+                    <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
+                        <Border.Effect>
+                            <BlurEffect Radius="20"/>
+                        </Border.Effect>
+                    </Border>
+                    
+                    <!-- Content Grid -->
+                    <Grid Margin="25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Header with Icon and Close Button -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Payment Icon -->
+                        <Border Grid.Column="0"
+                               Width="48"
+                               Height="48"
+                               CornerRadius="24"
+                               Background="#1Af4257b"
+                               Margin="0,0,15,0">
+                            <TextBlock Text="💳"
+                                      FontSize="28"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        
+                        <!-- Title -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Complete Payment via UPI"
+                                      FontSize="26"
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+                            <TextBlock Text="Secure payment powered by Razorpay"
+                                      FontSize="12"
+                                      Foreground="#80FFFFFF"
+                                      Margin="0,4,0,0"/>
+                        </StackPanel>
+                        
+                        <!-- Close Button -->
+                        <Button Grid.Column="2"
+                               Name="CloseRazorpayModalButton"
+                               Width="36"
+                               Height="36"
+                               Background="#1AFFFFFF"
+                               BorderThickness="0"
+                               Cursor="Hand"
+                               Click="CloseRazorpayModalButton_Click"
+                               Padding="0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                       CornerRadius="18">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="✕"
+                                      FontSize="20"
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Button>
+                    </Grid>
+                    
+                    <!-- WebView2 for Razorpay Checkout -->
+                    <Border Grid.Row="1"
+                           Background="White"
+                           CornerRadius="16"
+                           BorderBrush="#33f4257b"
+                           BorderThickness="2">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#000000" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                        </Border.Effect>
+                        <wv2:WebView2 Name="RazorpayWebView"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"/>
+                    </Border>
+                    
+                    <!-- Status Text with Icon -->
+                    <StackPanel Grid.Row="2"
+                              Name="RazorpayStatusPanel"
+                              Orientation="Horizontal"
+                              HorizontalAlignment="Center"
+                              Margin="0,20,0,0"
+                              Visibility="Collapsed">
+                        <TextBlock Text="⏳"
+                                  FontSize="16"
+                                  Margin="0,0,8,0"
+                                  VerticalAlignment="Center"/>
+                        <TextBlock Name="RazorpayStatusText"
+                                  Text="Processing payment..."
+                                  FontSize="14"
+                                  Foreground="#CCFFFFFF"
+                                  VerticalAlignment="Center"/>
+                    </StackPanel>
+                    </Grid>
                 </Grid>
             </Border>
         </Border>
