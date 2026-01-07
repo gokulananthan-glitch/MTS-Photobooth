@@ -250,20 +250,17 @@
                             <Border x:Name="CardBorder"
                                     Background="#1AFFFFFF"
                                     CornerRadius="20"
-                                    BorderBrush="#f4257b"
-                                    BorderThickness="2"
+                                    BorderBrush="#33FFFFFF"
+                                    BorderThickness="1"
                                     Padding="16">
-                                <Border.Effect>
-                                    <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
-                                </Border.Effect>
                                 <StackPanel>
                                     <fa:PackIconFontAwesome x:Name="CheckMark"
                                                            Kind="CheckSolid"
                                                            Width="20" Height="20"
                                                            Foreground="#f4257b"
                                                            HorizontalAlignment="Right"
-                                                           Margin="0,0,0,-20"
-                                                           Opacity="1"/>
+                                                           Margin="0,0,10,-20"
+                                                           Opacity="0"/>
                                     
                                     <Border Background="#1a0c12"
                                             CornerRadius="16"
@@ -296,7 +293,7 @@
                                     <TextBlock Text="Dynamic Duo"
                                               FontSize="22"
                                               FontWeight="Bold"
-                                              Foreground="#f4257b"
+                                              Foreground="White"
                                               HorizontalAlignment="Center"
                                               Margin="0,0,0,6"/>
                                     <TextBlock Text="2 Frames • Vertical"
