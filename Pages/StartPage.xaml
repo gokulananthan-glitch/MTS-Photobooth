@@ -260,7 +260,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"/>
 
-                <!-- Settings -->
+                <!-- Settings Icon with Border and Hover -->
                 <Border Grid.Column="2"
                         Name="SettingsBorder"
                         Width="46"
@@ -272,51 +272,14 @@
                         HorizontalAlignment="Right"
                         Margin="0,0,30,0"
                         Cursor="Hand"
+                        Visibility="Visible"
                         MouseLeftButtonUp="SettingsBorder_MouseLeftButtonUp">
-                    <Grid>
-                        <!-- Settings Icon (visible when not syncing) -->
-                        <fa:PackIconFontAwesome Name="SettingsIcon"
-                                                Kind="GearSolid"
-                                                Width="20" Height="20"
-                                                Foreground="#FFFFFF"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Visibility="Visible"/>
-                        
-                        <!-- Loading Spinner (visible when syncing) -->
-                        <Border Name="SyncLoaderBorder"
-                                Visibility="Collapsed"
-                                Width="20" Height="20"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                Margin="0,2,0,0">
-                            <Border.RenderTransform>
-                                <RotateTransform x:Name="SyncLoaderRotate" CenterX="10" CenterY="10"/>
-                            </Border.RenderTransform>
-                            <fa:PackIconFontAwesome Kind="GearSolid"
-                                                    Width="20" Height="20"
-                                                    Foreground="#f4257b"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"/>
-                        </Border>
-                        
-                        <!-- Progress Text (visible when syncing) -->
-                        <TextBlock Name="SyncProgressText"
-                                   Text=""
-                                   FontSize="5.5"
-                                   Foreground="#f4257b"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Bottom"
-                                   Margin="0,0,0,2"
-                                   Visibility="Collapsed"
-                                   TextAlignment="Center"
-                                   FontWeight="Bold"
-                                   RenderTransformOrigin="0.5,0.5">
-                            <TextBlock.Effect>
-                                <DropShadowEffect Color="#000000" BlurRadius="2" ShadowDepth="0" Opacity="0.8"/>
-                            </TextBlock.Effect>
-                        </TextBlock>
-                    </Grid>
+                    <fa:PackIconFontAwesome Name="SettingsIcon"
+                                            Kind="GearSolid"
+                                            Width="20" Height="20"
+                                            Foreground="#FFFFFF"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
                     <Border.RenderTransform>
                         <RotateTransform x:Name="SettingsRotate" CenterX="23" CenterY="23"/>
                     </Border.RenderTransform>
@@ -344,6 +307,38 @@
                         </EventTrigger>
                     </Border.Triggers>
                 </Border>
+                
+                <!-- Sync Loader (NO Border, NO Hover) - Separate Container -->
+                <Grid Grid.Column="2"
+                      Name="SyncLoaderBorder"
+                      Width="46"
+                      Height="46"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,30,0"
+                      Visibility="Collapsed"
+                     >
+                    <!-- Spinning Gear Icon -->
+                    <fa:PackIconFontAwesome Width="20" Height="20"
+                                            Kind="GearSolid"
+                                            Foreground="#f4257b"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                        <fa:PackIconFontAwesome.RenderTransform>
+                            <RotateTransform x:Name="SyncLoaderRotate" CenterX="10" CenterY="10"/>
+                        </fa:PackIconFontAwesome.RenderTransform>
+                    </fa:PackIconFontAwesome>
+                    
+                    <!-- Progress Text -->
+                    <TextBlock Name="SyncProgressText"
+                               Text=""
+                               FontSize="5.5"
+                               Foreground="#f4257b"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="0,0,0,4"
+                               TextAlignment="Center"
+                               FontWeight="Bold"/>
+                </Grid>
             </Grid>
         </Grid>
 

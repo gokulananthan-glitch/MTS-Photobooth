@@ -377,12 +377,11 @@ namespace PhotoBooth.Pages
             // Hide error border initially
             ErrorBorder.Visibility = Visibility.Collapsed;
             
-            // Show loader on settings icon
+            // Hide settings border, show loader
             await Dispatcher.InvokeAsync(() =>
             {
-                SettingsIcon.Visibility = Visibility.Collapsed;
+                SettingsBorder.Visibility = Visibility.Collapsed;
                 SyncLoaderBorder.Visibility = Visibility.Visible;
-                SyncProgressText.Visibility = Visibility.Visible;
                 SyncProgressText.Text = "Syncing...";
                 StartSyncLoaderAnimation();
             });
@@ -431,77 +430,35 @@ namespace PhotoBooth.Pages
                     
                     Console.WriteLine($"[SYNC] SUCCESS: Config and frames synced successfully");
                     
-                    // Hide loader on settings icon
+                    // Hide loader, show settings border
                     await Dispatcher.InvokeAsync(() =>
                     {
                         StopSyncLoaderAnimation();
-                        SettingsIcon.Visibility = Visibility.Visible;
                         SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                        SyncProgressText.Visibility = Visibility.Collapsed;
+                        SettingsBorder.Visibility = Visibility.Visible;
                         SettingsBorder.ToolTip = null;
                     });
                     
-                    // Show success message on page with success styling
-                    ErrorText.Text = "Config and frames synced successfully.";
-                    
-                    // Change icon border and main border color to green for success
-                    var innerBorder = ErrorBorder.Child as Border;
-                    if (innerBorder != null)
-                    {
-                        innerBorder.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x4C, 0xAF, 0x50)); // Green
-                        innerBorder.Effect = new System.Windows.Media.Effects.DropShadowEffect
-                        {
-                            Color = System.Windows.Media.Color.FromRgb(0x00, 0xFF, 0x00),
-                            BlurRadius = 60,
-                            ShadowDepth = 0,
-                            Opacity = 0.5
-                        };
-                    }
-                    
-                    // Update error border elements for success
-                    UpdateErrorBorderForSuccess();
-                    
-                    ErrorBorder.Visibility = Visibility.Visible;
-                    
-                    // Auto-hide success message after 3 seconds
-                    await Task.Delay(3000);
-                    ErrorBorder.Visibility = Visibility.Collapsed;
+                    // Show success alert
+                    MessageBox.Show("Config and frames synced successfully.", 
+                        "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     Console.WriteLine($"[SYNC] FAILED: Unable to sync configuration - API returned null");
                     
-                    // Hide loader on settings icon
+                    // Hide loader, show settings border
                     await Dispatcher.InvokeAsync(() =>
                     {
                         StopSyncLoaderAnimation();
-                        SettingsIcon.Visibility = Visibility.Visible;
                         SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                        SyncProgressText.Visibility = Visibility.Collapsed;
+                        SettingsBorder.Visibility = Visibility.Visible;
                         SettingsBorder.ToolTip = null;
                     });
                     
-                    // Show error on page with error styling
-                    ErrorText.Text = "Unable to sync configuration. Please check your connection.";
-                    
-                    // Reset border color to red for error
-                    var innerBorder = ErrorBorder.Child as Border;
-                    if (innerBorder != null)
-                    {
-                        innerBorder.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0xE9, 0x45, 0x60)); // Red
-                        innerBorder.Effect = new System.Windows.Media.Effects.DropShadowEffect
-                        {
-                            Color = System.Windows.Media.Color.FromRgb(0xFF, 0x00, 0x00),
-                            BlurRadius = 60,
-                            ShadowDepth = 0,
-                            Opacity = 0.7
-                        };
-                    }
-                    
-                    // Update error border elements for error
-                    UpdateErrorBorderForError();
-                    
-                    ErrorBorder.Visibility = Visibility.Visible;
+                    // Show error alert
+                    MessageBox.Show("Unable to sync configuration. Please check your connection.", 
+                        "Sync Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
@@ -509,37 +466,18 @@ namespace PhotoBooth.Pages
                 Console.WriteLine($"[SYNC] EXCEPTION: {ex.GetType().Name}: {ex.Message}");
                 Console.WriteLine($"[SYNC] EXCEPTION StackTrace: {ex.StackTrace}");
                 
-                // Hide loader on settings icon
+                // Hide loader, show settings border
                 await Dispatcher.InvokeAsync(() =>
                 {
                     StopSyncLoaderAnimation();
-                    SettingsIcon.Visibility = Visibility.Visible;
                     SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                    SyncProgressText.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Visible;
                     SettingsBorder.ToolTip = null;
                 });
                 
-                // Show error on page with error styling
-                ErrorText.Text = $"Error syncing: {ex.Message}";
-                
-                // Reset border color to red for error
-                var innerBorder = ErrorBorder.Child as Border;
-                if (innerBorder != null)
-                {
-                    innerBorder.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0xE9, 0x45, 0x60)); // Red
-                    innerBorder.Effect = new System.Windows.Media.Effects.DropShadowEffect
-                    {
-                        Color = System.Windows.Media.Color.FromRgb(0xFF, 0x00, 0x00),
-                        BlurRadius = 60,
-                        ShadowDepth = 0,
-                        Opacity = 0.7
-                    };
-                }
-                
-                // Update error border elements for error
-                UpdateErrorBorderForError();
-                
-                ErrorBorder.Visibility = Visibility.Visible;
+                // Show error alert
+                MessageBox.Show($"Error syncing: {ex.Message}", 
+                    "Sync Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -599,12 +537,11 @@ namespace PhotoBooth.Pages
 
             try
             {
-                // Show loader on settings icon
+                // Hide settings border, show loader
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    SettingsIcon.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Collapsed;
                     SyncLoaderBorder.Visibility = Visibility.Visible;
-                    SyncProgressText.Visibility = Visibility.Visible;
                     UpdateSyncProgress(syncedCount, failedCount, transactions.Count);
                     StartSyncLoaderAnimation();
                 });
@@ -706,13 +643,12 @@ namespace PhotoBooth.Pages
                     }
                 }
 
-                // Hide loader on settings icon
+                // Hide loader, show settings border
                 await Dispatcher.InvokeAsync(() =>
                 {
                     StopSyncLoaderAnimation();
-                    SettingsIcon.Visibility = Visibility.Visible;
                     SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                    SyncProgressText.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Visible;
                 });
 
                 System.Diagnostics.Debug.WriteLine($"[OFFLINE_TXN_SYNC] Complete - Synced: {syncedCount}, Failed: {failedCount}");
@@ -751,9 +687,8 @@ namespace PhotoBooth.Pages
                 Dispatcher.Invoke(() =>
                 {
                     StopSyncLoaderAnimation();
-                    SettingsIcon.Visibility = Visibility.Visible;
                     SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                    SyncProgressText.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Visible;
                     SettingsBorder.ToolTip = null; // Clear tooltip
                 });
             }
@@ -825,12 +760,11 @@ namespace PhotoBooth.Pages
 
             try
             {
-                // Show loader on settings icon
+                // Hide settings border, show loader
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    SettingsIcon.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Collapsed;
                     SyncLoaderBorder.Visibility = Visibility.Visible;
-                    SyncProgressText.Visibility = Visibility.Visible;
                     UpdateSyncProgress(successCount, failedCount, framesToUpload.Count);
                     StartSyncLoaderAnimation();
                 });
@@ -915,13 +849,12 @@ namespace PhotoBooth.Pages
                     });
                 }
 
-                // Hide loader on settings icon
+                // Hide loader, show settings border
                 await Dispatcher.InvokeAsync(() =>
                 {
                     StopSyncLoaderAnimation();
-                    SettingsIcon.Visibility = Visibility.Visible;
                     SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                    SyncProgressText.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Visible;
                 });
 
                 // Show summary dialog
@@ -973,9 +906,8 @@ namespace PhotoBooth.Pages
                 Dispatcher.Invoke(() =>
                 {
                     StopSyncLoaderAnimation();
-                    SettingsIcon.Visibility = Visibility.Visible;
                     SyncLoaderBorder.Visibility = Visibility.Collapsed;
-                    SyncProgressText.Visibility = Visibility.Collapsed;
+                    SettingsBorder.Visibility = Visibility.Visible;
                     SettingsBorder.ToolTip = null; // Clear tooltip
                 });
             }
