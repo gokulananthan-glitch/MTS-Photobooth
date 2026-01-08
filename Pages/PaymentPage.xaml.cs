@@ -783,9 +783,9 @@ namespace PhotoBooth.Pages
         }
         
         private async Task InitializeWebView2Async(string htmlContent)
-        {
-            try
-            {
+                {
+                    try
+                    {
                 // Ensure WebView2 is initialized
                 if (RazorpayWebView.CoreWebView2 == null)
                 {
@@ -899,14 +899,14 @@ namespace PhotoBooth.Pages
                     "UPI",
                     _numberOfCopies,
                     totalAmount,
-                    App.PendingTransactionData.OrderId,
+                            App.PendingTransactionData.OrderId,
                     razorpayOrderId
-                );
-                
-                if (paymentReceivedData != null)
-                {
-                    App.PendingTransactionData = paymentReceivedData;
-                    System.Diagnostics.Debug.WriteLine($"[PaymentPage] Payment received transaction stored: OrderId={paymentReceivedData.OrderId}");
+                        );
+
+                        if (paymentReceivedData != null)
+                        {
+                            App.PendingTransactionData = paymentReceivedData;
+                            System.Diagnostics.Debug.WriteLine($"[PaymentPage] Payment received transaction stored: OrderId={paymentReceivedData.OrderId}");
                     
                     // Close Razorpay modal and navigate (like React Native)
                     RazorpayModal.Visibility = Visibility.Collapsed;
@@ -917,9 +917,9 @@ namespace PhotoBooth.Pages
                     
                     // Navigate to Camera/FilterSelection (like React Native: navigation.navigate("Camera"))
                     _navigationService.NavigateTo(typeof(FilterSelectionPage));
-                }
-                else
-                {
+                        }
+                        else
+                        {
                     MessageBox.Show("Failed to create payment received transaction. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -947,7 +947,7 @@ namespace PhotoBooth.Pages
                 
                 // Get machine code and site code with fallback
                 if (App.PendingTransactionData == null || _apiService == null)
-                {
+                    {
                     _isLoading = false;
                     UpdateButtonStates();
                     RazorpayModal.Visibility = Visibility.Collapsed;
@@ -1110,22 +1110,22 @@ namespace PhotoBooth.Pages
                                 "CASH",
                                 _numberOfCopies,
                                 totalAmount,
-                                App.PendingTransactionData.OrderId,
+                                    App.PendingTransactionData.OrderId,
                                 null // No razorpay order ID for cash
-                            );
+                                );
 
-                            if (paymentReceivedData != null)
-                            {
-                                App.PendingTransactionData = paymentReceivedData;
-                                System.Diagnostics.Debug.WriteLine($"[PaymentPage] Payment received transaction stored: OrderId={paymentReceivedData.OrderId}");
-                                
-                                // Navigate to Camera/FilterSelection (like React Native: navigation.navigate("Camera"))
-                                OtpModal.Visibility = Visibility.Collapsed;
-                                if (BackgroundBlurEffect != null)
+                                if (paymentReceivedData != null)
                                 {
-                                    BackgroundBlurEffect.Radius = 0;
-                                }
-                                _navigationService.NavigateTo(typeof(FilterSelectionPage));
+                                    App.PendingTransactionData = paymentReceivedData;
+                                    System.Diagnostics.Debug.WriteLine($"[PaymentPage] Payment received transaction stored: OrderId={paymentReceivedData.OrderId}");
+                        
+                                // Navigate to Camera/FilterSelection (like React Native: navigation.navigate("Camera"))
+                        OtpModal.Visibility = Visibility.Collapsed;
+                        if (BackgroundBlurEffect != null)
+                        {
+                            BackgroundBlurEffect.Radius = 0;
+                        }
+                        _navigationService.NavigateTo(typeof(FilterSelectionPage));
                             }
                             else
                             {

@@ -102,11 +102,11 @@
                                       FontSize="18"
                                       Margin="0,0,8,0"
                                       VerticalAlignment="Center"/>
-                            <TextBlock Name="StyleNameText"
-                                      Text="Dynamic Duo"
+                        <TextBlock Name="StyleNameText"
+                                  Text="Dynamic Duo"
                                       FontSize="24"
-                                      FontWeight="Bold"
-                                      Foreground="#f4257b"
+                                  FontWeight="Bold"
+                                  Foreground="#f4257b"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                         
@@ -126,23 +126,23 @@
                     <TextBlock Text="Number of Copies"
                               FontSize="22"
                               FontWeight="SemiBold"
-                              Foreground="White"
-                              HorizontalAlignment="Center"
-                              Margin="0,0,0,20"/>
-                    
-                    <StackPanel Orientation="Horizontal"
+                          Foreground="White"
+                          HorizontalAlignment="Center"
+                          Margin="0,0,0,20"/>
+                
+                <StackPanel Orientation="Horizontal"
                                HorizontalAlignment="Center">
-                        <Button Name="DecreaseButton"
+                    <Button Name="DecreaseButton"
                                Width="56"
                                Height="56"
                                Content="−"
                                FontSize="32"
-                               FontWeight="Bold"
-                               Background="#f4257b"
-                               Foreground="White"
-                               BorderThickness="0"
-                               Cursor="Hand"
-                               Click="DecreaseButton_Click"
+                           FontWeight="Bold"
+                           Background="#f4257b"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                           Click="DecreaseButton_Click"
                                Margin="0,0,25,0">
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -171,26 +171,26 @@
                                BorderBrush="#33f4257b"
                                BorderThickness="1"
                                MinWidth="80">
-                            <TextBlock Name="CopyCountText"
-                                      Text="1"
+                    <TextBlock Name="CopyCountText"
+                              Text="1"
                                       FontSize="36"
-                                      FontWeight="Bold"
-                                      Foreground="White"
-                                      VerticalAlignment="Center"
+                              FontWeight="Bold"
+                              Foreground="White"
+                              VerticalAlignment="Center"
                                       HorizontalAlignment="Center"/>
                         </Border>
-                        
-                        <Button Name="IncreaseButton"
+                    
+                    <Button Name="IncreaseButton"
                                Width="56"
                                Height="56"
-                               Content="+"
+                           Content="+"
                                FontSize="28"
-                               FontWeight="Bold"
-                               Background="#f4257b"
-                               Foreground="White"
-                               BorderThickness="0"
-                               Cursor="Hand"
-                               Click="IncreaseButton_Click"
+                           FontWeight="Bold"
+                           Background="#f4257b"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"
+                           Click="IncreaseButton_Click"
                                Margin="25,0,0,0">
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -327,11 +327,11 @@
                     <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
                         <Border.Effect>
                             <BlurEffect Radius="20"/>
-                        </Border.Effect>
+                </Border.Effect>
                     </Border>
                     
                     <!-- Content Grid -->
-                    <Grid Margin="30">
+                <Grid Margin="30">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -362,10 +362,10 @@
                         <!-- Title -->
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Select Payment Method"
-                                      FontSize="28"
-                                      FontWeight="Bold"
-                                      Foreground="White"
-                                      VerticalAlignment="Center"/>
+                                  FontSize="28"
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  VerticalAlignment="Center"/>
                             <TextBlock Text="Choose your preferred payment option"
                                       FontSize="12"
                                       Foreground="#80FFFFFF"
@@ -605,7 +605,7 @@
                     <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
                         <Border.Effect>
                             <BlurEffect Radius="20"/>
-                        </Border.Effect>
+                </Border.Effect>
                     </Border>
                     
                     <!-- Content Grid -->
@@ -634,9 +634,9 @@
                         </Border>
                         <TextBlock Text="Enter OTP Code"
                                   FontSize="26"
-                                  FontWeight="Bold"
-                                  Foreground="White"
-                                  HorizontalAlignment="Center"/>
+                              FontWeight="Bold"
+                              Foreground="White"
+                              HorizontalAlignment="Center"/>
                     </StackPanel>
                     
                     <!-- OTP Input Label -->
