@@ -170,7 +170,7 @@ namespace PhotoBooth.Services
             }
         }
 
-        public async Task<bool> UploadOfflineFrameAsync(string filePath, string frameId, string machineCode, string siteCode, DateTime createdAt, CancellationToken cancellationToken = default)
+        public async Task<bool> UploadOfflineFrameAsync(string filePath, string frameId, string machineCode, string siteCode, DateTime createdAt, string? eventId = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -200,6 +200,9 @@ namespace PhotoBooth.Services
                 
                 if (!string.IsNullOrEmpty(siteCode))
                     formData.Add(new StringContent(siteCode), "site_code");
+                
+                if (!string.IsNullOrEmpty(eventId))
+                    formData.Add(new StringContent(eventId), "event_id");
                 
                 formData.Add(new StringContent(createdAt.ToString("O")), "createdAt");
 

@@ -796,7 +796,7 @@ namespace PhotoBooth.Pages
                             continue;
                         }
 
-                        System.Diagnostics.Debug.WriteLine($"[OFFLINE_SYNC] Uploading: {frameId}");
+                        System.Diagnostics.Debug.WriteLine($"[OFFLINE_SYNC] Uploading: {frameId}, eventId: {frame.EventId ?? "null"}");
 
                         // Upload - wait for this to complete before next
                         bool success = await _apiService.UploadOfflineFrameAsync(
@@ -804,7 +804,8 @@ namespace PhotoBooth.Pages
                             frameId,
                             frame.MachineCode,
                             frame.SiteCode,
-                            frame.CreatedAt
+                            frame.CreatedAt,
+                            frame.EventId
                         );
 
                         if (success)
