@@ -35,6 +35,9 @@ namespace PhotoBooth.Pages
         {
             try
             {
+                // Trigger title animations
+                TriggerTitleAnimations();
+                
                 // Get frame data for selected style (for aspect ratio)
                 _currentFrameData = FrameDataProvider.GetFrameDataForStyle(App.SelectedStyle);
                 
@@ -85,6 +88,65 @@ namespace PhotoBooth.Pages
         }
 
 
+        private void TriggerTitleAnimations()
+        {
+            // Find the title elements and manually trigger their animations
+            var titleSection = this.FindName("TitleSection") as StackPanel;
+            if (titleSection != null)
+            {
+                // Get all TextBlocks in the title section
+                var textBlocks = FindVisualChildren<TextBlock>(titleSection);
+                
+                foreach (var textBlock in textBlocks)
+                {
+                    // Reset opacity and position
+                    textBlock.Opacity = 0;
+                    if (textBlock.RenderTransform is TranslateTransform transform)
+                    {
+                        transform.Y = 20;
+                    }
+                    
+                    // Manually trigger the storyboard
+                    if (textBlock.Triggers.Count > 0)
+                    {
+                        foreach (var trigger in textBlock.Triggers)
+                        {
+                            if (trigger is EventTrigger eventTrigger)
+                            {
+                                foreach (var action in eventTrigger.Actions)
+                                {
+                                    if (action is BeginStoryboard beginStoryboard)
+                                    {
+                                        beginStoryboard.Storyboard?.Begin(textBlock, true);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        private static System.Collections.Generic.IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+        
         private void FilterSelectionPage_Unloaded(object sender, RoutedEventArgs e)
         {
             try

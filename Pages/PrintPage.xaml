@@ -202,7 +202,35 @@
                         <TextBlock FontFamily="Cormorant Garamond"
                                   FontSize="64"
                                   FontWeight="Bold"
-                                  Foreground="#F8F5F0">
+                                  Foreground="#F8F5F0"
+                                  Opacity="0">
+                            <TextBlock.RenderTransform>
+                                <TranslateTransform Y="20"/>
+                            </TextBlock.RenderTransform>
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                            From="0" To="1"
+                                                            Duration="0:0:0.8"
+                                                            BeginTime="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                            From="20" To="0"
+                                                            Duration="0:0:0.8"
+                                                            BeginTime="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBlock.Triggers>
                             <Run Text="Looks "/>
                             <Run>
                                 <Run.Foreground>
@@ -219,7 +247,36 @@
                                   Foreground="#808080"
                                   FontWeight="Medium"
                                   TextWrapping="Wrap"
-                                  Margin="0,12,0,0"/>
+                                  Margin="0,12,0,0"
+                                  Opacity="0">
+                            <TextBlock.RenderTransform>
+                                <TranslateTransform Y="20"/>
+                            </TextBlock.RenderTransform>
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                            From="0" To="1"
+                                                            Duration="0:0:0.8"
+                                                            BeginTime="0:0:0.5">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                            From="20" To="0"
+                                                            Duration="0:0:0.8"
+                                                            BeginTime="0:0:0.5">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBlock.Triggers>
+                        </TextBlock>
                     </StackPanel>
 
                     <!-- Controls Container (Glass Panel) -->

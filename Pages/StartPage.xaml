@@ -119,7 +119,35 @@
                 <!-- Heading & CTA -->
                 <StackPanel>
                     <!-- Glowing text with layered approach -->
-                    <Grid HorizontalAlignment="Center" Margin="0,0,0,12">
+                    <Grid HorizontalAlignment="Center" Margin="0,0,0,12" Opacity="0">
+                        <Grid.RenderTransform>
+                            <TranslateTransform Y="30"/>
+                        </Grid.RenderTransform>
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                        From="0" To="1"
+                                                        Duration="0:0:1.0"
+                                                        BeginTime="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                        From="30" To="0"
+                                                        Duration="0:0:1.0"
+                                                        BeginTime="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                        
                         <!-- Glow layer -->
                         <TextBlock FontSize="80"
                                   FontWeight="Black"
@@ -146,7 +174,36 @@
                               Foreground="#808080"
                               HorizontalAlignment="Center"
                               TextAlignment="Center"
-                              Margin="0,0,0,32"/>
+                              Margin="0,0,0,32"
+                              Opacity="0">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform Y="20"/>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                        From="0" To="1"
+                                                        Duration="0:0:0.8"
+                                                        BeginTime="0:0:0.7">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                        From="20" To="0"
+                                                        Duration="0:0:0.8"
+                                                        BeginTime="0:0:0.7">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
 
                     <Button Name="StartButton"
                             Width="300"

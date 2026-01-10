@@ -144,12 +144,70 @@
                               FontSize="48"
                               FontWeight="Bold"
                               Foreground="#F8F5F0"
-                              VerticalAlignment="Center"/>
+                              VerticalAlignment="Center"
+                              Opacity="0">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform Y="20"/>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                        From="0" To="1"
+                                                        Duration="0:0:0.8"
+                                                        BeginTime="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                        From="20" To="0"
+                                                        Duration="0:0:0.8"
+                                                        BeginTime="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
                     <fa:PackIconFontAwesome Kind="CameraSolid"
                                            Width="40" Height="40"
-                                           Foreground="White"
+                                           Foreground="#EAB308"
                                            VerticalAlignment="Center"
-                                           Margin="8,0,0,0"/>
+                                           Margin="8,0,0,0"
+                                           Opacity="0">
+                        <fa:PackIconFontAwesome.RenderTransform>
+                            <TranslateTransform Y="20"/>
+                        </fa:PackIconFontAwesome.RenderTransform>
+                        <fa:PackIconFontAwesome.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                        From="0" To="1"
+                                                        Duration="0:0:0.6"
+                                                        BeginTime="0:0:0.5">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                        From="20" To="0"
+                                                        Duration="0:0:0.6"
+                                                        BeginTime="0:0:0.5">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </fa:PackIconFontAwesome.Triggers>
+                    </fa:PackIconFontAwesome>
                 </StackPanel>
             </StackPanel>
 
