@@ -20,6 +20,7 @@ namespace PhotoBooth.Pages
         private readonly NavigationService _navigationService;
         private DispatcherTimer? countdownTimer;
         private int countdownValue = 3;
+        private int initialCountdownValue = 3; // Store initial value for ring animation calculation
         private int currentPhotoIndex = 0;
         private int totalPhotosNeeded = 1;
         private WebcamService? webcamService;
@@ -82,7 +83,14 @@ namespace PhotoBooth.Pages
         
         private void CapturePage_Loaded(object sender, RoutedEventArgs e)
         {
-            // Delay TTS slightly to ensure camera is initialized
+            // Initialize countdown ring to empty state (ready to fill up)
+            var ring = this.FindName("CountdownRing") as System.Windows.Shapes.Ellipse;
+            if (ring != null)
+            {
+                ring.StrokeDashOffset = 880; // Start empty (matches StrokeDashArray)
+            }
+            
+            // Delay TTS
             Task.Delay(1000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
@@ -90,15 +98,15 @@ namespace PhotoBooth.Pages
                     // Check if we're in retake mode
                     if (App.RetakePhotoIndex >= 0 && App.RetakePhotoIndex < totalPhotosNeeded)
                     {
-                        SpeakTextAsync($"Retake the {GetOrdinalNumber(App.RetakePhotoIndex + 1)} photo");
+                        SpeakTextAsync($"Retake the {GetOrdinalNumber(App.RetakePhotoIndex + 1)} photo. Click the camera button to start.");
                     }
                     else if (totalPhotosNeeded == 1)
                     {
-                        SpeakTextAsync("Click the camera icon to capture");
+                        SpeakTextAsync("Click the camera button to capture your photo");
                     }
                     else
                     {
-                        SpeakTextAsync($"You want to take {totalPhotosNeeded} photos");
+                        SpeakTextAsync($"Click the camera button for photo {currentPhotoIndex + 1}");
                     }
                 });
             });
@@ -447,11 +455,86 @@ namespace PhotoBooth.Pages
                 imageTimer = timer;
             }
             
+            // Store initial value for ring animation calculations
+            initialCountdownValue = imageTimer;
             countdownValue = imageTimer;
+            
             CountdownText.Text = countdownValue.ToString();
             CountdownOverlay.Visibility = Visibility.Visible;
+            
+            // Animate countdown text scale in
+            AnimateCountdownNumber();
+            
+            // Initialize the ring - animate first segment
+            AnimateCountdownRingSegment(initialCountdownValue);
+            
             UpdateTimerDisplay();
             countdownTimer?.Start();
+        }
+        
+        private void AnimateCountdownNumber()
+        {
+            // Scale animation for countdown number
+            var scaleTransform = new ScaleTransform(0, 0, CountdownText.ActualWidth / 2, CountdownText.ActualHeight / 2);
+            CountdownText.RenderTransform = scaleTransform;
+            
+            var scaleAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = 1,
+                Duration = new Duration(TimeSpan.FromSeconds(0.3)),
+                EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 }
+            };
+            
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
+        }
+        
+        private void AnimateCountdownRingSegment(int totalSeconds)
+        {
+            var ring = this.FindName("CountdownRing") as System.Windows.Shapes.Ellipse;
+            if (ring != null)
+            {
+                // Use 880 to match the StrokeDashArray value in XAML
+                double circumference = 880;
+                
+                // Stop any existing animations
+                ring.BeginAnimation(System.Windows.Shapes.Shape.StrokeDashOffsetProperty, null);
+                
+                // Create a storyboard for smooth animation sequence
+                var storyboard = new Storyboard();
+                
+                // Quick reset animation (0.05 seconds) - from current position to empty
+                var resetAnimation = new DoubleAnimation
+                {
+                    To = circumference,
+                    Duration = new Duration(TimeSpan.FromSeconds(0.05)),
+                    BeginTime = TimeSpan.Zero
+                };
+                
+                Storyboard.SetTarget(resetAnimation, ring);
+                Storyboard.SetTargetProperty(resetAnimation, new PropertyPath(System.Windows.Shapes.Shape.StrokeDashOffsetProperty));
+                storyboard.Children.Add(resetAnimation);
+                
+                // Main fill animation (0.7 seconds) - from empty to complete - faster
+                var fillAnimation = new DoubleAnimation
+                {
+                    From = circumference,
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromSeconds(1.5)),
+                    BeginTime = TimeSpan.FromSeconds(0.05), // Start after reset
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+                };
+                
+                Storyboard.SetTarget(fillAnimation, ring);
+                Storyboard.SetTargetProperty(fillAnimation, new PropertyPath(System.Windows.Shapes.Shape.StrokeDashOffsetProperty));
+                storyboard.Children.Add(fillAnimation);
+                
+                // Start the storyboard
+                storyboard.Begin();
+                
+                System.Diagnostics.Debug.WriteLine($"[CapturePage] Ring animation started with smooth reset + fill");
+            }
         }
 
         private void CountdownTimer_Tick(object? sender, EventArgs e)
@@ -460,17 +543,108 @@ namespace PhotoBooth.Pages
 
             if (countdownValue > 0)
             {
+                // Make sure text is visible and icon is hidden
+                CountdownText.Visibility = Visibility.Visible;
+                var cameraIcon = this.FindName("CountdownCameraIcon") as MahApps.Metro.IconPacks.PackIconFontAwesome;
+                if (cameraIcon != null)
+                {
+                    cameraIcon.Visibility = Visibility.Collapsed;
+                }
+                
                 CountdownText.Text = countdownValue.ToString();
+                AnimateCountdownNumber();
+                
+                // Animate next ring segment
+                AnimateCountdownRingSegment(initialCountdownValue);
             }
             else if (countdownValue == 0)
             {
-                CountdownText.Text = "SMILE!";
+                // Hide text and show camera icon
+                CountdownText.Visibility = Visibility.Collapsed;
+                var cameraIcon = this.FindName("CountdownCameraIcon") as MahApps.Metro.IconPacks.PackIconFontAwesome;
+                if (cameraIcon != null)
+                {
+                    cameraIcon.Visibility = Visibility.Visible;
+                    
+                    // Animate the camera icon
+                    var scaleTransform = new ScaleTransform(0, 0, cameraIcon.ActualWidth / 2, cameraIcon.ActualHeight / 2);
+                    cameraIcon.RenderTransform = scaleTransform;
+                    
+                    var scaleAnimation = new DoubleAnimation
+                    {
+                        From = 0,
+                        To = 1,
+                        Duration = new Duration(TimeSpan.FromSeconds(0.3)),
+                        EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 }
+                    };
+                    
+                    scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
+                    scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
+                }
+                
+                // Animate final ring segment
+                AnimateCountdownRingSegment(initialCountdownValue);
             }
             else
             {
                 countdownTimer?.Stop();
-                CountdownOverlay.Visibility = Visibility.Collapsed;
-                CapturePhoto();
+                
+                // Show flash effect
+                ShowFlashEffect();
+                
+                // Hide countdown and capture photo
+                Task.Delay(200).ContinueWith(_ =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        CountdownOverlay.Visibility = Visibility.Collapsed;
+                        
+                        // Reset visibility for next countdown
+                        CountdownText.Visibility = Visibility.Visible;
+                        CountdownText.FontSize = 140; // Reset font size
+                        var cameraIcon = this.FindName("CountdownCameraIcon") as MahApps.Metro.IconPacks.PackIconFontAwesome;
+                        if (cameraIcon != null)
+                        {
+                            cameraIcon.Visibility = Visibility.Collapsed;
+                        }
+                        
+                        // Reset the ring animation
+                        var ring = this.FindName("CountdownRing") as System.Windows.Shapes.Ellipse;
+                        if (ring != null)
+                        {
+                            ring.BeginAnimation(System.Windows.Shapes.Shape.StrokeDashOffsetProperty, null);
+                            // Reset to empty circle (ready for next countdown to fill up)
+                            ring.StrokeDashOffset = 880;
+                        }
+                        
+                        CapturePhoto();
+                    });
+                });
+            }
+        }
+        
+        private void ShowFlashEffect()
+        {
+            var flash = this.FindName("FlashOverlay") as Border;
+            if (flash != null)
+            {
+                flash.Visibility = Visibility.Visible;
+                flash.Opacity = 1;
+                
+                var fadeOut = new DoubleAnimation
+                {
+                    From = 1,
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromSeconds(0.3)),
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                };
+                
+                fadeOut.Completed += (s, e) =>
+                {
+                    flash.Visibility = Visibility.Collapsed;
+                };
+                
+                flash.BeginAnimation(UIElement.OpacityProperty, fadeOut);
             }
         }
 
@@ -652,6 +826,37 @@ namespace PhotoBooth.Pages
             }
             
             _navigationService.NavigateTo(typeof(FilterSelectionPage));
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Stop countdown if running
+                if (countdownTimer != null)
+                {
+                    countdownTimer.Stop();
+                }
+                
+                // Reset to default values
+                App.Brightness = 1.0;
+                App.Grayscale = false;
+                App.SelectedStyle = 0;
+                App.CapturedImages.Clear();
+                App.RetakePhotoIndex = -1;
+                App.NumberOfCopies = 1;
+                App.PendingTransactionData = null;
+
+                System.Diagnostics.Debug.WriteLine("[CapturePage] Starting over - navigating to StartPage");
+                
+                // Navigate back to start page
+                _navigationService.NavigateTo(typeof(StartPage));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[CapturePage] Reset error: {ex.Message}");
+                MessageBox.Show($"Reset error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -5,43 +5,10 @@
       Title="Style Selection">
     
     <Grid>
-        <!-- Background matching Stitch design -->
+        <!-- Clean Dark Background - No Glows -->
         <Grid.Background>
-            <SolidColorBrush Color="#221017"/>
+            <SolidColorBrush Color="#0a0a0a"/>
         </Grid.Background>
-
-        <!-- Ambient Background Glows -->
-        <Canvas ClipToBounds="False">
-            <!-- Top Left Glow -->
-            <Ellipse Width="1000" Height="1000" 
-                     Canvas.Left="-300" Canvas.Top="-200"
-                     Opacity="0.2">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#f4257b" Offset="0"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="120"/>
-                </Ellipse.Effect>
-            </Ellipse>
-
-            <!-- Bottom Right Glow -->
-            <Ellipse Width="1200" Height="1200"
-                     Canvas.Right="-400" Canvas.Bottom="-400"
-                     Opacity="0.1">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#a855f7" Offset="0"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="150"/>
-                </Ellipse.Effect>
-            </Ellipse>
-        </Canvas>
 
         <Grid Margin="40">
             <Grid.RowDefinitions>
@@ -70,12 +37,12 @@
                         Padding="0">
                     <StackPanel Orientation="Horizontal">
                         <fa:PackIconFontAwesome Kind="ArrowLeftSolid"
-                                                Width="20" Height="20"
+                                                Width="18" Height="18"
                                                 Foreground="White"
                                                 VerticalAlignment="Center"
                                                 Margin="0,0,8,0"/>
-                        <TextBlock Text="Back to Start" 
-                                  FontSize="16" 
+                        <TextBlock Text="Back" 
+                                  FontSize="15" 
                                   FontWeight="Medium"
                                   Foreground="White"
                                   VerticalAlignment="Center"/>
@@ -86,14 +53,14 @@
                 <StackPanel Grid.Column="1" 
                            Orientation="Horizontal" 
                            HorizontalAlignment="Center">
-                    <fa:PackIconFontAwesome Kind="CameraSolid"
-                                           Width="20" Height="20"
-                                           Foreground="#f4257b"
+                    <fa:PackIconFontAwesome Kind="PaintBrushSolid"
+                                           Width="18" Height="18"
+                                           Foreground="#EAB308"
                                            VerticalAlignment="Center"
-                                           Margin="0,0,8,0"/>
-                    <TextBlock Text="MemoraBooth"
+                                           Margin="0,0,10,0"/>
+                    <TextBlock Text="Choose Your Style"
                               FontSize="18"
-                              FontWeight="Bold"
+                              FontWeight="SemiBold"
                               Foreground="White"
                               VerticalAlignment="Center"/>
                 </StackPanel>
@@ -108,26 +75,27 @@
                 <StackPanel Orientation="Horizontal" 
                            HorizontalAlignment="Center">
                     <TextBlock Text="Pick Your Vibe"
-                              FontSize="64"
+                              FontFamily="Cormorant Garamond"
+                              FontSize="48"
                               FontWeight="Bold"
                               Foreground="White"
                               VerticalAlignment="Center"/>
                     <fa:PackIconFontAwesome Kind="StarSolid"
-                                           Width="24" Height="24"
-                                           Foreground="#f4257b"
+                                           Width="32" Height="32"
+                                           Foreground="#EAB308"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"/>
+                    <fa:PackIconFontAwesome Kind="StarSolid"
+                                           Width="28" Height="28"
+                                           Foreground="#D6AD70"
                                            VerticalAlignment="Center"
                                            Margin="8,0,0,0"/>
-                    <fa:PackIconFontAwesome Kind="StarSolid"
-                                           Width="24" Height="24"
-                                           Foreground="#fbbf24"
-                                           VerticalAlignment="Center"
-                                           Margin="4,0,0,0"/>
                 </StackPanel>
                 
                 <TextBlock Text="Choose a layout style to get the party started!"
                           FontSize="18"
                           FontWeight="Medium"
-                          Foreground="#99FFFFFF"
+                          Foreground="#808080"
                           HorizontalAlignment="Center"
                           TextAlignment="Center"
                           Margin="0,15,0,0"/>
@@ -142,16 +110,21 @@
                       Opacity="0"
                       HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                 
-                <!-- Style 1: Solo Shot -->
+                <!-- Style 1: Solo Shot - HIDDEN -->
                 <Button Tag="1"
                         Grid.Column="0"
+                        Visibility="Collapsed"
                         Margin="8"
                         Cursor="Hand"
                         Click="StyleButton_Click"
@@ -162,62 +135,70 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="CardBorder"
-                                    Background="#1AFFFFFF"
-                                    CornerRadius="20"
-                                    BorderBrush="#33FFFFFF"
+                                    Background="#141414"
+                                    CornerRadius="12"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Padding="16">
-                                <StackPanel>
-                                    <!-- Checkmark (Hidden by default) -->
-                                    <fa:PackIconFontAwesome x:Name="CheckMark"
-                                                           Kind="CheckSolid"
-                                                           Width="20" Height="20"
-                                                           Foreground="#f4257b"
-                                                           HorizontalAlignment="Right"
-                                                           Margin="0,0,10,-20"
-                                                           Opacity="0"/>
+                                <Grid>
+                                    <StackPanel>
+                                        <!-- Layout Preview Box -->
+                                        <Border Background="#0F0F0F"
+                                                CornerRadius="12"
+                                                Padding="16"
+                                                MaxHeight="240"
+                                                Margin="0,0,0,16">
+                                            <Viewbox Stretch="Uniform">
+                                                <!-- Single photo preview -->
+                                                <Border Width="120" Height="160"
+                                                        CornerRadius="8">
+                                                    <Border.Background>
+                                                        <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                    </Border.Background>
+                                                </Border>
+                                            </Viewbox>
+                                        </Border>
+                                        
+                                        <!-- Title & Description -->
+                                        <TextBlock x:Name="TitleText"
+                                                  Text="Solo Shot"
+                                                  FontFamily="Cormorant Garamond"
+                                                  FontSize="18"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,0,0,6"/>
+                                        <TextBlock Text="1 Frame · Classic"
+                                                  FontSize="14"
+                                                  FontWeight="Normal"
+                                                  Foreground="#808080"
+                                                  HorizontalAlignment="Center"/>
+                                    </StackPanel>
                                     
-                                    <!-- Layout Preview Box -->
-                                    <Border Background="#1a0c12"
-                                            CornerRadius="16"
-                                            Padding="16"
-                                            MaxHeight="240"
-                                            Margin="0,0,0,16">
-                                        <Viewbox Stretch="Uniform">
-                                            <!-- Single photo preview -->
-                                            <Border Width="120" Height="160"
-                                                    CornerRadius="12">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#6366f1" Offset="0"/>
-                                                        <GradientStop Color="#ec4899" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
-                                            </Border>
-                                        </Viewbox>
+                                    <!-- Checkmark in rounded circle (hidden by default) -->
+                                    <Border x:Name="CheckMark"
+                                            Width="24" Height="24"
+                                            CornerRadius="12"
+                                            Background="#EAB308"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,8,8,0"
+                                            Opacity="0">
+                                        <fa:PackIconFontAwesome Kind="CheckSolid"
+                                                                Width="14" Height="14"
+                                                                Foreground="White"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
                                     </Border>
-                                    
-                                    <!-- Title & Description -->
-                                    <TextBlock Text="Solo Shot"
-                                              FontSize="20"
-                                              FontWeight="Bold"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              Margin="0,0,0,4"/>
-                                    <TextBlock Text="1 Frame • Classic"
-                                              FontSize="13"
-                                              FontWeight="Medium"
-                                              Foreground="#80FFFFFF"
-                                              HorizontalAlignment="Center"/>
-                                </StackPanel>
+                                </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#80f4257b"/>
-                                    <Setter TargetName="CardBorder" Property="Background" Value="#15f4257b"/>
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#EAB308"/>
+                                    <Setter TargetName="CardBorder" Property="Background" Value="#1A1A1A"/>
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
-                                            <TranslateTransform Y="-4"/>
+                                            <TranslateTransform Y="-8"/>
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
@@ -236,7 +217,7 @@
 
                 <!-- Style 2: Dynamic Duo (Selected by default) -->
                 <Button Tag="2"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Name="Style2Button"
                         Margin="8"
                         Cursor="Hand"
@@ -248,67 +229,75 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="CardBorder"
-                                    Background="#1AFFFFFF"
-                                    CornerRadius="20"
-                                    BorderBrush="#33FFFFFF"
+                                    Background="#141414"
+                                    CornerRadius="12"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Padding="16">
-                                <StackPanel>
-                                    <fa:PackIconFontAwesome x:Name="CheckMark"
-                                                           Kind="CheckSolid"
-                                                           Width="20" Height="20"
-                                                           Foreground="#f4257b"
-                                                           HorizontalAlignment="Right"
-                                                           Margin="0,0,10,-20"
-                                                           Opacity="0"/>
+                                <Grid>
+                                    <!-- Main content -->
+                                    <StackPanel>
+                                        <Border Background="#0F0F0F"
+                                                CornerRadius="16"
+                                                Padding="16"
+                                                MaxHeight="240"
+                                                Margin="0,0,0,16">
+                                            <Viewbox Stretch="Uniform">
+                                                <!-- 2 photos stacked vertically -->
+                                                <StackPanel Width="100" Height="200">
+                                                    <Border Height="90" CornerRadius="8" Margin="0,0,0,8">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Height="90" CornerRadius="8">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Viewbox>
+                                        </Border>
+                                        
+                                        <TextBlock x:Name="TitleText"
+                                                  Text="Dynamic Duo"
+                                                  FontFamily="Cormorant Garamond"
+                                                  FontSize="18"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,0,0,6"/>
+                                        <TextBlock Text="2 Frames · Vertical"
+                                                  FontSize="14"
+                                                  FontWeight="Normal"
+                                                  Foreground="#808080"
+                                                  HorizontalAlignment="Center"/>
+                                    </StackPanel>
                                     
-                                    <Border Background="#1a0c12"
-                                            CornerRadius="16"
-                                            Padding="16"
-                                            MaxHeight="240"
-                                            Margin="0,0,0,16">
-                                        <Viewbox Stretch="Uniform">
-                                            <!-- 2 photos stacked vertically -->
-                                            <StackPanel Width="100" Height="200">
-                                                <Border Height="90" CornerRadius="8" Margin="0,0,0,8">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#6366f1" Offset="0"/>
-                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Height="90" CornerRadius="8">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#ec4899" Offset="0"/>
-                                                            <GradientStop Color="#f43f5e" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                            </StackPanel>
-                                        </Viewbox>
+                                    <!-- Checkmark in rounded circle (hidden by default) -->
+                                    <Border x:Name="CheckMark"
+                                            Width="24" Height="24"
+                                            CornerRadius="12"
+                                            Background="#EAB308"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,8,8,0"
+                                            Opacity="0">
+                                        <fa:PackIconFontAwesome Kind="CheckSolid"
+                                                               Width="14" Height="14"
+                                                               Foreground="White"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
                                     </Border>
-                                    
-                                    <TextBlock Text="Dynamic Duo"
-                                              FontSize="22"
-                                              FontWeight="Bold"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              Margin="0,0,0,6"/>
-                                    <TextBlock Text="2 Frames • Vertical"
-                                              FontSize="14"
-                                              FontWeight="Medium"
-                                              Foreground="#80FFFFFF"
-                                              HorizontalAlignment="Center"/>
-                                </StackPanel>
+                                </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#f4257b"/>
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#EAB308"/>
+                                    <Setter TargetName="CardBorder" Property="Background" Value="#1A1A1A"/>
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
-                                            <TranslateTransform Y="-4"/>
+                                            <TranslateTransform Y="-8"/>
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
@@ -318,9 +307,10 @@
                     </Button.Template>
                 </Button>
 
-                <!-- Style 3: Quad Grid (4 photos in 2x2) -->
+                <!-- Style 3: Quad Grid (4 photos in 2x2) - HIDDEN -->
                 <Button Tag="3"
-                        Grid.Column="2"
+                        Grid.Column="4"
+                        Visibility="Collapsed"
                         Margin="8"
                         Cursor="Hand"
                         Click="StyleButton_Click"
@@ -331,93 +321,92 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="CardBorder"
-                                    Background="#1AFFFFFF"
-                                    CornerRadius="20"
-                                    BorderBrush="#33FFFFFF"
+                                    Background="#141414"
+                                    CornerRadius="12"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Padding="16">
-                                <StackPanel>
-                                    <fa:PackIconFontAwesome x:Name="CheckMark"
-                                                           Kind="CheckSolid"
-                                                           Width="20" Height="20"
-                                                           Foreground="#f4257b"
-                                                           HorizontalAlignment="Right"
-                                                           Margin="0,0,10,-20"
-                                                           Opacity="0"/>
+                                <Grid>
+                                    <StackPanel>
+                                        <Border Background="#0F0F0F"
+                                                CornerRadius="12"
+                                                Padding="16"
+                                                MaxHeight="240"
+                                                Margin="0,0,0,16">
+                                            <Viewbox Stretch="Uniform">
+                                                <!-- 4 photos in 2x2 grid -->
+                                                <Grid Width="120" Height="160">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Row="0" Grid.Column="0" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="0" Grid.Column="1" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="1" Grid.Column="0" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="1" Grid.Column="1" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                </Grid>
+                                            </Viewbox>
+                                        </Border>
+                                        
+                                        <TextBlock x:Name="TitleText"
+                                                  Text="Quad Grid"
+                                                  FontFamily="Cormorant Garamond"
+                                                  FontSize="18"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,0,0,6"/>
+                                        <TextBlock Text="4 Frames · Grid"
+                                                  FontSize="14"
+                                                  FontWeight="Normal"
+                                                  Foreground="#808080"
+                                                  HorizontalAlignment="Center"/>
+                                    </StackPanel>
                                     
-                                    <Border Background="#1a0c12"
-                                            CornerRadius="16"
-                                            Padding="16"
-                                            MaxHeight="240"
-                                            Margin="0,0,0,16">
-                                        <Viewbox Stretch="Uniform">
-                                            <!-- 4 photos in 2x2 grid -->
-                                            <Grid Width="120" Height="160">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="*"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Border Grid.Row="0" Grid.Column="0" CornerRadius="6" Margin="3">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#6366f1" Offset="0"/>
-                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="0" Grid.Column="1" CornerRadius="6" Margin="3">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#ec4899" Offset="0"/>
-                                                            <GradientStop Color="#f43f5e" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="1" Grid.Column="0" CornerRadius="6" Margin="3">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#ec4899" Offset="0"/>
-                                                            <GradientStop Color="#f43f5e" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="1" Grid.Column="1" CornerRadius="6" Margin="3">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#6366f1" Offset="0"/>
-                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                            </Grid>
-                                        </Viewbox>
+                                    <!-- Checkmark in rounded circle (hidden by default) -->
+                                    <Border x:Name="CheckMark"
+                                            Width="24" Height="24"
+                                            CornerRadius="12"
+                                            Background="#EAB308"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,8,8,0"
+                                            Opacity="0">
+                                        <fa:PackIconFontAwesome Kind="CheckSolid"
+                                                                Width="14" Height="14"
+                                                                Foreground="White"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
                                     </Border>
-                                    
-                                    <TextBlock Text="Quad Grid"
-                                              FontSize="22"
-                                              FontWeight="Bold"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              Margin="0,0,0,6"/>
-                                    <TextBlock Text="4 Frames • Grid"
-                                              FontSize="14"
-                                              FontWeight="Medium"
-                                              Foreground="#80FFFFFF"
-                                              HorizontalAlignment="Center"/>
-                                </StackPanel>
+                                </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#80f4257b"/>
-                                    <Setter TargetName="CardBorder" Property="Background" Value="#15f4257b"/>
-                                    <Setter TargetName="CheckMark" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#EAB308"/>
+                                    <Setter TargetName="CardBorder" Property="Background" Value="#1A1A1A"/>
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
-                                            <TranslateTransform Y="-4"/>
+                                            <TranslateTransform Y="-8"/>
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
@@ -429,7 +418,7 @@
 
                 <!-- Style 4: Six Pack (6 photos in 3x2 horizontal) -->
                 <Button Tag="4"
-                        Grid.Column="3"
+                        Grid.Column="6"
                         Margin="8"
                         Cursor="Hand"
                         Click="StyleButton_Click"
@@ -440,110 +429,104 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="CardBorder"
-                                    Background="#1AFFFFFF"
-                                    CornerRadius="20"
-                                    BorderBrush="#33FFFFFF"
+                                    Background="#141414"
+                                    CornerRadius="12"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Padding="16">
-                                <StackPanel>
-                                    <fa:PackIconFontAwesome x:Name="CheckMark"
-                                                           Kind="CheckSolid"
-                                                           Width="20" Height="20"
-                                                           Foreground="#f4257b"
-                                                           HorizontalAlignment="Right"
-                                                           Margin="0,0,10,-20"
-                                                           Opacity="0"/>
+                                <Grid>
+                                    <!-- Main content -->
+                                    <StackPanel>
+                                        <Border Background="#0F0F0F"
+                                                CornerRadius="16"
+                                                Padding="16"
+                                                MaxHeight="240"
+                                                Margin="0,0,0,16">
+                                            <Viewbox Stretch="Uniform">
+                                                <!-- 6 photos in 3x2 grid (horizontal) -->
+                                                <Grid Width="150" Height="120">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Row="0" Grid.Column="0" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="0" Grid.Column="1" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="0" Grid.Column="2" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="1" Grid.Column="0" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="1" Grid.Column="1" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Border Grid.Row="1" Grid.Column="2" CornerRadius="4" Margin="2">
+                                                        <Border.Background>
+                                                            <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                        </Border.Background>
+                                                    </Border>
+                                                </Grid>
+                                            </Viewbox>
+                                        </Border>
+                                        
+                                        <TextBlock x:Name="TitleText"
+                                                  Text="Six Pack"
+                                                  FontFamily="Cormorant Garamond"
+                                                  FontSize="18"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,0,0,6"/>
+                                        <TextBlock Text="6 Frames · Horizontal"
+                                                  FontSize="14"
+                                                  FontWeight="Normal"
+                                                  Foreground="#808080"
+                                                  HorizontalAlignment="Center"/>
+                                    </StackPanel>
                                     
-                                    <Border Background="#1a0c12"
-                                            CornerRadius="16"
-                                            Padding="16"
-                                            MaxHeight="240"
-                                            Margin="0,0,0,16">
-                                        <Viewbox Stretch="Uniform">
-                                            <!-- 6 photos in 3x2 grid (horizontal) -->
-                                            <Grid Width="150" Height="120">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="*"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Border Grid.Row="0" Grid.Column="0" CornerRadius="4" Margin="2">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#6366f1" Offset="0"/>
-                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="0" Grid.Column="1" CornerRadius="4" Margin="2">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#ec4899" Offset="0"/>
-                                                            <GradientStop Color="#f43f5e" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="0" Grid.Column="2" CornerRadius="4" Margin="2">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#6366f1" Offset="0"/>
-                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="1" Grid.Column="0" CornerRadius="4" Margin="2">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#ec4899" Offset="0"/>
-                                                            <GradientStop Color="#f43f5e" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="1" Grid.Column="1" CornerRadius="4" Margin="2">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#6366f1" Offset="0"/>
-                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Grid.Row="1" Grid.Column="2" CornerRadius="4" Margin="2">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#ec4899" Offset="0"/>
-                                                            <GradientStop Color="#f43f5e" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                            </Grid>
-                                        </Viewbox>
+                                    <!-- Checkmark overlay in top-right -->
+                                    <Border x:Name="CheckMark"
+                                            Width="24" Height="24"
+                                            CornerRadius="12"
+                                            Background="#EAB308"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,8,8,0"
+                                            Opacity="0">
+                                        <fa:PackIconFontAwesome Kind="CheckSolid"
+                                                               Width="14" Height="14"
+                                                               Foreground="White"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
                                     </Border>
-                                    
-                                    <TextBlock Text="Six Pack"
-                                              FontSize="22"
-                                              FontWeight="Bold"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              Margin="0,0,0,6"/>
-                                    <TextBlock Text="6 Frames • Horizontal"
-                                              FontSize="14"
-                                              FontWeight="Medium"
-                                              Foreground="#80FFFFFF"
-                                              HorizontalAlignment="Center"/>
-                                </StackPanel>
+                                </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#80f4257b"/>
-                                    <Setter TargetName="CardBorder" Property="Background" Value="#15f4257b"/>
-                                    <Setter TargetName="CheckMark" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#EAB308"/>
+                                    <Setter TargetName="CardBorder" Property="Background" Value="#1A1A1A"/>
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
-                                            <TranslateTransform Y="-4"/>
+                                            <TranslateTransform Y="-8"/>
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
@@ -553,9 +536,10 @@
                     </Button.Template>
                 </Button>
 
-                <!-- Style 5: Double Column (grid8 - 4 photos duplicated: 4 left, 4 right) -->
+                <!-- Style 5: Double Column (grid8 - 4 photos duplicated: 4 left, 4 right) - HIDDEN -->
                 <Button Tag="5"
-                        Grid.Column="4"
+                        Grid.Column="8"
+                        Visibility="Collapsed"
                         Margin="8"
                         Cursor="Hand"
                         Click="StyleButton_Click"
@@ -566,127 +550,114 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="CardBorder"
-                                    Background="#1AFFFFFF"
-                                    CornerRadius="20"
-                                    BorderBrush="#33FFFFFF"
+                                    Background="#141414"
+                                    CornerRadius="12"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Padding="16">
-                                <StackPanel>
-                                    <fa:PackIconFontAwesome x:Name="CheckMark"
-                                                           Kind="CheckSolid"
-                                                           Width="20" Height="20"
-                                                           Foreground="#f4257b"
-                                                           HorizontalAlignment="Right"
-                                                           Margin="0,0,10,-20"
-                                                           Opacity="0"/>
+                                <Grid>
+                                    <StackPanel>
+                                        <Border Background="#0F0F0F"
+                                                CornerRadius="12"
+                                                Padding="16"
+                                                MaxHeight="240"
+                                                Margin="0,0,0,16">
+                                            <Viewbox Stretch="Uniform">
+                                                <!-- 4 photos duplicated: 4 on left, same 4 on right -->
+                                                <Grid Width="120" Height="200">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <!-- Left column: 4 images stacked -->
+                                                    <StackPanel Grid.Column="0" Margin="0,0,2,0">
+                                                        <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <Border Height="45" CornerRadius="4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <!-- Right column: Same 4 images duplicated -->
+                                                    <StackPanel Grid.Column="1" Margin="2,0,0,0">
+                                                        <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#EAB308" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <Border Height="45" CornerRadius="4">
+                                                            <Border.Background>
+                                                                <SolidColorBrush Color="#D6AD70" Opacity="0.4"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Viewbox>
+                                        </Border>
+                                        
+                                        <TextBlock x:Name="TitleText"
+                                                  Text="Double Column"
+                                                  FontFamily="Cormorant Garamond"
+                                                  FontSize="18"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,0,0,6"/>
+                                        <TextBlock Text="4 Frames · Duplicated"
+                                                  FontSize="14"
+                                                  FontWeight="Normal"
+                                                  Foreground="#808080"
+                                                  HorizontalAlignment="Center"/>
+                                    </StackPanel>
                                     
-                                    <Border Background="#1a0c12"
-                                            CornerRadius="16"
-                                            Padding="16"
-                                            MaxHeight="240"
-                                            Margin="0,0,0,16">
-                                        <Viewbox Stretch="Uniform">
-                                            <!-- 4 photos duplicated: 4 on left, same 4 on right -->
-                                            <Grid Width="120" Height="200">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <!-- Left column: 4 images stacked -->
-                                                <StackPanel Grid.Column="0" Margin="0,0,4,0">
-                                                    <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#6366f1" Offset="0"/>
-                                                                <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#ec4899" Offset="0"/>
-                                                                <GradientStop Color="#f43f5e" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#6366f1" Offset="0"/>
-                                                                <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <Border Height="45" CornerRadius="4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#ec4899" Offset="0"/>
-                                                                <GradientStop Color="#f43f5e" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                </StackPanel>
-                                                <!-- Right column: Same 4 images duplicated (same colors as left) -->
-                                                <StackPanel Grid.Column="1" Margin="4,0,0,0">
-                                                    <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#6366f1" Offset="0"/>
-                                                                <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#ec4899" Offset="0"/>
-                                                                <GradientStop Color="#f43f5e" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <Border Height="45" CornerRadius="4" Margin="0,0,0,4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#6366f1" Offset="0"/>
-                                                                <GradientStop Color="#8b5cf6" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <Border Height="45" CornerRadius="4">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                <GradientStop Color="#ec4899" Offset="0"/>
-                                                                <GradientStop Color="#f43f5e" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Viewbox>
+                                    <!-- Checkmark in rounded circle (hidden by default) -->
+                                    <Border x:Name="CheckMark"
+                                            Width="24" Height="24"
+                                            CornerRadius="12"
+                                            Background="#EAB308"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,8,8,0"
+                                            Opacity="0">
+                                        <fa:PackIconFontAwesome Kind="CheckSolid"
+                                                                Width="14" Height="14"
+                                                                Foreground="White"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
                                     </Border>
-                                    
-                                    <TextBlock Text="Double Column"
-                                              FontSize="22"
-                                              FontWeight="Bold"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              Margin="0,0,0,6"/>
-                                    <TextBlock Text="4 Frames • Duplicated"
-                                              FontSize="14"
-                                              FontWeight="Medium"
-                                              Foreground="#80FFFFFF"
-                                              HorizontalAlignment="Center"/>
-                                </StackPanel>
+                                </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#80f4257b"/>
-                                    <Setter TargetName="CardBorder" Property="Background" Value="#15f4257b"/>
-                                    <Setter TargetName="CheckMark" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#EAB308"/>
+                                    <Setter TargetName="CardBorder" Property="Background" Value="#1A1A1A"/>
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
-                                            <TranslateTransform Y="-4"/>
+                                            <TranslateTransform Y="-8"/>
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
@@ -709,11 +680,16 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="ButtonBorder"
-                                    Background="#f62585"
                                     CornerRadius="30"
                                     BorderThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#EAB308" Offset="0"/>
+                                        <GradientStop Color="#D6AD70" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
                                 <Border.Effect>
-                                    <DropShadowEffect Color="#f62585" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                                    <DropShadowEffect Color="#EAB308" BlurRadius="35" ShadowDepth="0" Opacity="0.5"/>
                                 </Border.Effect>
                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
                                       Width="280" Height="60" 
@@ -726,25 +702,31 @@
                                               VerticalAlignment="Center"
                                               UseLayoutRounding="True">
                                         <fa:PackIconFontAwesome Kind="CameraSolid"
-                                                               Width="20" Height="20"
-                                                               Foreground="White"
+                                                               Width="24" Height="24"
+                                                               Foreground="#0A0A0A"
                                                                VerticalAlignment="Center"
                                                                Margin="0,0,10,0"/>
                                         <TextBlock Text="Start Snap"
-                                                  FontSize="18"
-                                                  FontWeight="Bold"
-                                                  Foreground="White"
+                                                  FontFamily="Cormorant Garamond"
+                                                  FontSize="20"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="#0A0A0A"
                                                   VerticalAlignment="Center"
                                                   Margin="0,0,10,0"/>
-                                        <Border Width="24" Height="24"
+                                        <fa:PackIconFontAwesome Kind="ArrowRightSolid"
+                                                               Width="24" Height="24"
+                                                               Foreground="#0A0A0A"
+                                                               VerticalAlignment="Center"/>
+                                        <!-- Hidden Badge for dynamic updates -->
+                                        <Border x:Name="PhotoCountBadge" Width="24" Height="24"
                                                 CornerRadius="12"
                                                 Background="White"
-                                                VerticalAlignment="Center">
-                                            <TextBlock x:Name="PhotoCountBadge"
-                                                      Text="2"
+                                                VerticalAlignment="Center"
+                                                Visibility="Collapsed">
+                                            <TextBlock Text="2"
                                                       FontSize="14"
                                                       FontWeight="Bold"
-                                                      Foreground="#f62585"
+                                                      Foreground="#EAB308"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"/>
                                         </Border>
@@ -762,13 +744,17 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#f4257b"/>
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
                                             <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                    <Setter TargetName="ButtonBorder" Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="#EAB308" BlurRadius="50" ShadowDepth="0" Opacity="0.7"/>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter TargetName="ButtonBorder" Property="RenderTransform">

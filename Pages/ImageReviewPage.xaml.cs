@@ -10,6 +10,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Speech.Synthesis;
 using PhotoBooth.Services;
+using PhotoBooth.Models;
 
 namespace PhotoBooth.Pages
 {
@@ -18,6 +19,7 @@ namespace PhotoBooth.Pages
         private readonly NavigationService _navigationService;
         private int _selectedImageIndex = 0;
         private HashSet<int> _approvedImages = new HashSet<int>();
+        private FrameData? _currentFrameData;
 
         public ImageReviewPage()
         {
@@ -39,6 +41,9 @@ namespace PhotoBooth.Pages
 
         private void ImageReviewPage_Loaded(object sender, RoutedEventArgs e)
         {
+            // Get frame data for selected style (for thumbnail aspect ratio only)
+            _currentFrameData = FrameDataProvider.GetFrameDataForStyle(App.SelectedStyle);
+            
             // Populate thumbnails
             LoadThumbnails();
             
@@ -71,32 +76,47 @@ namespace PhotoBooth.Pages
         {
             ThumbnailsPanel.Children.Clear();
 
+            // Calculate thumbnail dimensions based on frame aspect ratio (responsive)
+            double thumbnailWidth = 100;
+            double thumbnailHeight = 140;
+            
+            if (_currentFrameData != null)
+            {
+                double aspectRatio = (double)_currentFrameData.FrameW / _currentFrameData.FrameH;
+                thumbnailHeight = thumbnailWidth / aspectRatio;
+            }
+
             // Only create thumbnails for captured images - no empty placeholders
             for (int i = 0; i < App.CapturedImages.Count; i++)
             {
                 int index = i; // Capture for closure
                 
-                // Create thumbnail container
+                // Create thumbnail container with responsive aspect ratio
                 var thumbnailBorder = new Border
                 {
-                    Width = 100,
-                    Height = 140,
+                    Width = thumbnailWidth,
+                    Height = thumbnailHeight,
                     Margin = new Thickness(6, 0, 6, 0),
                     Padding = new Thickness(3),
                     BorderThickness = new Thickness(2),
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(51, 51, 51)),
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(50, 49, 46)), // #32312E border color
                     CornerRadius = new CornerRadius(10),
                     Cursor = System.Windows.Input.Cursors.Hand,
-                    Tag = index
+                    Tag = index,
+                    ClipToBounds = true
                 };
 
                 var overlayGrid = new Grid();
 
-                // Has image
+                // Has image with responsive sizing
                 var thumbnailImage = new Image
                 {
                     Source = App.CapturedImages[i],
-                    Stretch = Stretch.UniformToFill
+                    Stretch = Stretch.UniformToFill,
+                    Width = thumbnailWidth,
+                    Height = thumbnailHeight,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
                 overlayGrid.Children.Add(thumbnailImage);
 
@@ -147,7 +167,7 @@ namespace PhotoBooth.Pages
                 {
                     if ((int)thumbnailBorder.Tag != _selectedImageIndex)
                     {
-                        thumbnailBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                        thumbnailBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(50, 49, 46)); // #32312E
                     }
                 };
 
@@ -177,18 +197,18 @@ namespace PhotoBooth.Pages
                 ProgressText.Text = $"Snap {index + 1} of {App.CapturedImages.Count}";
             }
 
-            // Update thumbnail borders and effects
+            // Update thumbnail borders and effects with golden theme
             foreach (Border border in ThumbnailsPanel.Children)
             {
                 int thumbIndex = (int)border.Tag;
                 if (thumbIndex == index && thumbIndex < App.CapturedImages.Count)
                 {
-                    // Selected thumbnail - pink border
-                    border.BorderBrush = new SolidColorBrush(Color.FromRgb(244, 37, 123)); // #f4257b
+                    // Selected thumbnail - golden border with glow
+                    border.BorderBrush = new SolidColorBrush(Color.FromRgb(234, 179, 8)); // #EAB308
                     border.BorderThickness = new Thickness(3);
                     border.Effect = new DropShadowEffect
                     {
-                        Color = Color.FromRgb(244, 37, 123),
+                        Color = Color.FromRgb(234, 179, 8),
                         BlurRadius = 15,
                         ShadowDepth = 0,
                         Opacity = 0.6
@@ -197,7 +217,7 @@ namespace PhotoBooth.Pages
                 else if (thumbIndex < App.CapturedImages.Count)
                 {
                     // Unselected thumbnails
-                    border.BorderBrush = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                    border.BorderBrush = new SolidColorBrush(Color.FromRgb(50, 49, 46)); // #32312E
                     border.BorderThickness = new Thickness(2);
                     border.Effect = null;
                 }

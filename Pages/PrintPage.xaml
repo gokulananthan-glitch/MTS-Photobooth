@@ -5,46 +5,10 @@
       Title="Print Page">
     
     <Grid>
-        <!-- Background Gradient -->
+        <!-- Background -->
         <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#2d1b3d" Offset="0"/>
-                <GradientStop Color="#0d0510" Offset="1"/>
-            </LinearGradientBrush>
+            <SolidColorBrush Color="#0a0a0a"/>
         </Grid.Background>
-
-        <!-- Ambient Background Glows -->
-        <Canvas ClipToBounds="False">
-            <!-- Top Left Glow (Pinkish) -->
-            <Ellipse Width="1000" Height="1000" 
-                     Canvas.Left="-300" Canvas.Top="-200"
-                     Opacity="0.2">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#f4257b" Offset="0"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="120"/>
-                </Ellipse.Effect>
-            </Ellipse>
-
-            <!-- Bottom Right Glow (Purplish) -->
-            <Ellipse Width="1200" Height="1200"
-                     Canvas.Right="-400" Canvas.Bottom="-400"
-                     Opacity="0.1">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#a855f7" Offset="0"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="150"/>
-                </Ellipse.Effect>
-            </Ellipse>
-        </Canvas>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -54,8 +18,8 @@
 
             <!-- Fixed Navbar -->
             <Border Grid.Row="0"
-                    Background="#0D2d1520"
-                    BorderBrush="#0D2d1520"
+                    Background="#141414"
+                    BorderBrush="#32312E"
                     BorderThickness="0,0,0,1"
                     Padding="40,20">
                 <Grid>
@@ -67,23 +31,16 @@
 
                     <!-- Brand -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Border Width="40" Height="40"
-                                CornerRadius="20"
-                                Margin="0,0,12,0"
-                                Background="#a855f7">
-                            <Border.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="6" ShadowDepth="0" Opacity="0.4"/>
-                            </Border.Effect>
-                            <fa:PackIconFontAwesome Kind="CameraSolid"
-                                                   Width="20" Height="20"
-                                                   Foreground="White"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-                        </Border>
+                        <fa:PackIconFontAwesome Kind="StarSolid"
+                                               Width="24" Height="24"
+                                               Foreground="#EAB308"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,12,0"/>
                         <TextBlock Text="MemoraBooth"
+                                  FontFamily="Cormorant Garamond"
                                   FontSize="18"
                                   FontWeight="Bold"
-                                  Foreground="White"
+                                  Foreground="#F8F5F0"
                                   VerticalAlignment="Center"/>
                     </StackPanel>
 
@@ -98,21 +55,19 @@
                             BorderThickness="0">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="#1AFFFFFF"
+                                <Border Background="#801F1F1F"
                                         CornerRadius="18"
-                                        BorderBrush="#33FFFFFF"
-                                        BorderThickness="1"
                                         Padding="20,8">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="↻"
                                                   FontSize="18"
-                                                  Foreground="White"
+                                                  Foreground="#F8F5F0"
                                                   VerticalAlignment="Center"
                                                   Margin="0,0,8,0"/>
                                         <TextBlock Text="Start Over"
                                                   FontSize="14"
                                                   FontWeight="Medium"
-                                                  Foreground="White"
+                                                  Foreground="#F8F5F0"
                                                   VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
@@ -244,15 +199,16 @@
                 <StackPanel Grid.Column="2" VerticalAlignment="Center">
                     <!-- Heading -->
                     <StackPanel Margin="0,0,0,40">
-                        <TextBlock FontSize="64"
+                        <TextBlock FontFamily="Cormorant Garamond"
+                                  FontSize="64"
                                   FontWeight="Bold"
-                                  Foreground="White">
+                                  Foreground="#F8F5F0">
                             <Run Text="Looks "/>
                             <Run>
                                 <Run.Foreground>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                        <GradientStop Color="#f4257b" Offset="0"/>
-                                        <GradientStop Color="#f97316" Offset="1"/>
+                                        <GradientStop Color="#EAB308" Offset="0"/>
+                                        <GradientStop Color="#D6AD70" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Run.Foreground>
                                 <Run.Text>fire!</Run.Text>
@@ -260,18 +216,18 @@
                         </TextBlock>
                         <TextBlock Text="Ready to print your masterpiece? Don't forget to grab a digital copy too! 📸"
                                   FontSize="16"
-                                  Foreground="#99FFFFFF"
+                                  Foreground="#808080"
                                   FontWeight="Medium"
                                   TextWrapping="Wrap"
                                   Margin="0,12,0,0"/>
                     </StackPanel>
 
                     <!-- Controls Container (Glass Panel) -->
-                    <Border Background="#102d1520"
+                    <Border Background="#141414"
                             CornerRadius="24"
                             Padding="32"
-                            BorderBrush="#0Dffffff"
-                            BorderThickness="1">
+                            BorderBrush="#32312E"
+                            BorderThickness="2">
                         <Border.Effect>
                             <DropShadowEffect Color="Black" BlurRadius="16" ShadowDepth="0" Opacity="0.35"/>
                         </Border.Effect>
@@ -279,10 +235,10 @@
                         <StackPanel>
                             <!-- Quantity Selector -->
                             <Border Name="QuantitySelectorBorder"
-                                    Background="#402d1520"
+                                    Background="#1A1A1A"
                                     CornerRadius="16"
                                     Padding="20"
-                                    BorderBrush="#0Dffffff"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Margin="0,0,0,24">
                                 <Grid>
@@ -295,11 +251,17 @@
                                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                                         <Border Width="48" Height="48"
                                                 CornerRadius="24"
-                                                Background="#1AFFFFFF"
                                                 Margin="0,0,16,0">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#F5E54C" Offset="0"/>
+                                                    <GradientStop Color="#D6950F" Offset="0.5"/>
+                                                    <GradientStop Color="#EAB308" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
                                             <fa:PackIconFontAwesome Kind="PrintSolid"
                                                                    Width="24" Height="24"
-                                                                   Foreground="#f4257b"
+                                                                   Foreground="#0A0A0A"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"/>
                                         </Border>
@@ -307,19 +269,19 @@
                                             <TextBlock Text="Copies"
                                                       FontSize="18"
                                                       FontWeight="Bold"
-                                                      Foreground="White"/>
+                                                      Foreground="#F8F5F0"/>
                                             <TextBlock Text="How many do you need?"
                                                       FontSize="14"
-                                                      Foreground="#99FFFFFF"/>
+                                                      Foreground="#808080"/>
                                         </StackPanel>
                                     </StackPanel>
 
                                     <!-- Right: Counter -->
                                     <Border Grid.Column="1"
-                                            Background="#66000000"
+                                            Background="#1A1A1A"
                                             CornerRadius="24"
                                             Padding="6"
-                                            BorderBrush="#1AFFFFFF"
+                                            BorderBrush="#32312E"
                                             BorderThickness="1">
                                         <StackPanel Orientation="Horizontal">
                                             <Button Name="DecreaseButton"
@@ -327,12 +289,12 @@
                                                     Content="−"
                                                     FontSize="24"
                                                     FontWeight="Bold"
-                                                    Foreground="White"
+                                                    Foreground="#F8F5F0"
                                                     Cursor="Hand"
                                                     Click="DecreaseButton_Click">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="#1AFFFFFF"
+                                                        <Border Background="#801F1F1F"
                                                                 CornerRadius="20">
                                                             <ContentPresenter HorizontalAlignment="Center"
                                                                             VerticalAlignment="Center"/>
@@ -355,7 +317,7 @@
                                                       Text="1"
                                                       FontSize="20"
                                                       FontWeight="Bold"
-                                                      Foreground="White"
+                                                      Foreground="#F8F5F0"
                                                       VerticalAlignment="Center"
                                                       Width="32"
                                                       TextAlignment="Center"/>
@@ -365,12 +327,12 @@
                                                     Content="+"
                                                     FontSize="24"
                                                     FontWeight="Bold"
-                                                    Foreground="White"
+                                                    Foreground="#F8F5F0"
                                                     Cursor="Hand"
                                                     Click="IncreaseButton_Click">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="#1AFFFFFF"
+                                                        <Border Background="#801F1F1F"
                                                                 CornerRadius="20">
                                                             <ContentPresenter HorizontalAlignment="Center"
                                                                             VerticalAlignment="Center"/>
@@ -394,10 +356,10 @@
                             </Border>
 
                             <!-- Get Digital Copy Section -->
-                            <Border Background="#402d1520"
+                            <Border Background="#1A1A1A"
                                     CornerRadius="16"
                                     Padding="20"
-                                    BorderBrush="#0Dffffff"
+                                    BorderBrush="#32312E"
                                     BorderThickness="1"
                                     Margin="0,0,0,24"
                                     Cursor="Hand"
@@ -412,7 +374,7 @@
                                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                                         <Border Width="48" Height="48"
                                                 CornerRadius="24"
-                                                Background="#1AFFFFFF"
+                                                Background="#801F1F1F"
                                                 Margin="0,0,16,0">
                                             <TextBlock Text="📱"
                                                       FontSize="24"
@@ -424,23 +386,23 @@
                                             <TextBlock Text="Get Digital Copy"
                                                       FontSize="18"
                                                       FontWeight="Bold"
-                                                      Foreground="White"/>
+                                                      Foreground="#F8F5F0"/>
                                             <TextBlock Text="Scan QR to download instantly"
                                                       FontSize="14"
-                                                      Foreground="#99FFFFFF"/>
+                                                      Foreground="#808080"/>
                                         </StackPanel>
                                     </StackPanel>
 
                                     <!-- Right: Arrow Icon -->
-                                    <fa:PackIconFontAwesome Kind="ArrowRightSolid"
-                                                           Grid.Column="1"
-                                                           Width="20" Height="20"
-                                                           Foreground="White"
-                                                           VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1"
+                                              Text="→"
+                                              FontSize="24"
+                                              Foreground="#F8F5F0"
+                                              VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
 
-                            <!-- Print Button -->
+                            <!-- Print Button - Golden Gradient -->
                             <Button Name="PrintButton"
                                     Height="72"
                                     Cursor="Hand"
@@ -451,12 +413,12 @@
                                                 CornerRadius="36">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                    <GradientStop Color="#f4257b" Offset="0"/>
-                                                    <GradientStop Color="#a855f7" Offset="1"/>
+                                                    <GradientStop Color="#EAB308" Offset="0"/>
+                                                    <GradientStop Color="#D6AD70" Offset="1"/>
                                                 </LinearGradientBrush>
                                             </Border.Background>
                                             <Border.Effect>
-                                                <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                                                <DropShadowEffect Color="#EAB308" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
                                             </Border.Effect>
                                             
                                             <StackPanel Orientation="Horizontal"

@@ -8,17 +8,17 @@
     <Grid>
         <!-- Background -->
         <Grid.Background>
-            <SolidColorBrush Color="#221017"/>
+            <SolidColorBrush Color="#0a0a0a"/>
         </Grid.Background>
         
         <!-- Ambient Background Glows -->
         <Canvas ClipToBounds="False">
-            <Ellipse Width="1000" Height="1000" 
-                     Canvas.Left="-300" Canvas.Top="-200"
-                     Opacity="0.2">
+            <Ellipse Width="960" Height="960" 
+                     Canvas.Left="240" Canvas.Top="180"
+                     Opacity="0.1">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
-                        <GradientStop Color="#f4257b" Offset="0"/>
+                        <GradientStop Color="#EAB308" Offset="0"/>
                         <GradientStop Color="Transparent" Offset="1"/>
                     </RadialGradientBrush>
                 </Ellipse.Fill>
@@ -27,17 +27,17 @@
                 </Ellipse.Effect>
             </Ellipse>
             
-            <Ellipse Width="1200" Height="1200"
-                     Canvas.Right="-400" Canvas.Bottom="-400"
+            <Ellipse Width="800" Height="800"
+                     Canvas.Right="200" Canvas.Bottom="180"
                      Opacity="0.1">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
-                        <GradientStop Color="#a855f7" Offset="0"/>
+                        <GradientStop Color="#D6AD70" Offset="0"/>
                         <GradientStop Color="Transparent" Offset="1"/>
                     </RadialGradientBrush>
                 </Ellipse.Fill>
                 <Ellipse.Effect>
-                    <BlurEffect Radius="150"/>
+                    <BlurEffect Radius="120"/>
                 </Ellipse.Effect>
             </Ellipse>
         </Canvas>
@@ -61,61 +61,56 @@
                        Margin="40">
                 <!-- Heading -->
                 <TextBlock Text="Complete Payment"
+                          FontFamily="Cormorant Garamond"
                           FontSize="48"
                           FontWeight="Bold"
-                          Foreground="White"
+                          Foreground="#F8F5F0"
                           HorizontalAlignment="Center"
                           Margin="0,0,0,40"/>
                 
                 <!-- Selected Style Card -->
                 <Border Name="StyleCardBorder"
                        Width="320"
-                       Background="#1AFFFFFF"
-                       CornerRadius="24"
-                       BorderBrush="#f4257b"
+                       CornerRadius="12"
+                       BorderBrush="#EAB308"
                        BorderThickness="2"
-                       Padding="24"
+                       Padding="16"
                        Margin="0,0,0,35"
                        HorizontalAlignment="Center">
+                    <Border.Background>
+                        <SolidColorBrush Color="#EAB308" Opacity="0.2"/>
+                    </Border.Background>
                     <Border.Effect>
-                        <DropShadowEffect Color="#f4257b" BlurRadius="25" ShadowDepth="0" Opacity="0.7"/>
+                        <DropShadowEffect Color="#EAB308" BlurRadius="20" ShadowDepth="0" Opacity="0.5"/>
                     </Border.Effect>
                     <StackPanel>
-                        <!-- Style Preview Box with Gradient Border -->
-                        <Border Background="#1a0c12"
-                               CornerRadius="18"
-                               Padding="24"
-                               MaxHeight="220"
-                               Margin="0,0,0,20"
-                               BorderBrush="#33f4257b"
-                               BorderThickness="1">
+                        <!-- Style Preview Box -->
+                        <Border Background="#0F0F0F"
+                               CornerRadius="16"
+                               Padding="16"
+                               MaxHeight="240"
+                               Margin="0,0,0,16">
                             <Viewbox Stretch="Uniform" Name="StylePreviewViewbox">
                                 <!-- Preview content will be set in code-behind based on selected style -->
                             </Viewbox>
                         </Border>
                         
                         <!-- Style Name with Icon -->
-                        <StackPanel Orientation="Horizontal"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,8">
-                            <TextBlock Text="✨"
-                                      FontSize="18"
-                                      Margin="0,0,8,0"
-                                      VerticalAlignment="Center"/>
                         <TextBlock Name="StyleNameText"
                                   Text="Dynamic Duo"
-                                      FontSize="24"
-                                  FontWeight="Bold"
-                                  Foreground="#f4257b"
-                                      VerticalAlignment="Center"/>
-                        </StackPanel>
+                                  FontFamily="Cormorant Garamond"
+                                  FontSize="18"
+                                  FontWeight="SemiBold"
+                                  Foreground="#EAB308"
+                                  HorizontalAlignment="Center"
+                                  Margin="0,0,0,6"/>
                         
                         <!-- Style Description -->
                         <TextBlock Name="StyleDescriptionText"
-                                  Text="2 Frames • Vertical"
-                                  FontSize="15"
-                                  FontWeight="Medium"
-                                  Foreground="#80FFFFFF"
+                                  Text="2 Frames · Vertical"
+                                  FontSize="14"
+                                  FontWeight="Normal"
+                                  Foreground="#808080"
                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
@@ -124,9 +119,10 @@
                 <StackPanel HorizontalAlignment="Center"
                            Margin="0,0,0,35">
                     <TextBlock Text="Number of Copies"
-                              FontSize="22"
+                              FontFamily="Cormorant Garamond"
+                              FontSize="24"
                               FontWeight="SemiBold"
-                          Foreground="White"
+                          Foreground="#F8F5F0"
                           HorizontalAlignment="Center"
                           Margin="0,0,0,20"/>
                 
@@ -138,8 +134,8 @@
                                Content="−"
                                FontSize="32"
                            FontWeight="Bold"
-                           Background="#f4257b"
-                           Foreground="White"
+                           Background="#EAB308"
+                           Foreground="#0A0A0A"
                            BorderThickness="0"
                            Cursor="Hand"
                            Click="DecreaseButton_Click"
@@ -151,6 +147,9 @@
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
                                                        CornerRadius="28">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                    </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -158,24 +157,25 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#ff4d7b"/>
+                                            <Setter Property="Background" Value="#D6AD70"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
                         
-                        <Border Background="#1AFFFFFF"
-                               CornerRadius="16"
+                        <Border Background="#1A1A1A"
+                               CornerRadius="12"
                                Padding="20,12"
-                               BorderBrush="#33f4257b"
+                               BorderBrush="#32312E"
                                BorderThickness="1"
                                MinWidth="80">
                     <TextBlock Name="CopyCountText"
                               Text="1"
+                                      FontFamily="Cormorant Garamond"
                                       FontSize="36"
                               FontWeight="Bold"
-                              Foreground="White"
+                              Foreground="#F8F5F0"
                               VerticalAlignment="Center"
                                       HorizontalAlignment="Center"/>
                         </Border>
@@ -186,8 +186,8 @@
                            Content="+"
                                FontSize="28"
                            FontWeight="Bold"
-                           Background="#f4257b"
-                           Foreground="White"
+                           Background="#EAB308"
+                           Foreground="#0A0A0A"
                            BorderThickness="0"
                            Cursor="Hand"
                            Click="IncreaseButton_Click"
@@ -199,6 +199,9 @@
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
                                                        CornerRadius="28">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                    </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -206,7 +209,7 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#ff4d7b"/>
+                                            <Setter Property="Background" Value="#D6AD70"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -218,8 +221,8 @@
                 <!-- Price Info -->
                 <TextBlock Name="PriceInfoText"
                           Text="Just ₹200 to freeze the moment! Get your photo printed &amp; a digital copy too."
-                          FontSize="20"
-                          Foreground="White"
+                          FontSize="18"
+                          Foreground="#808080"
                           TextWrapping="Wrap"
                           HorizontalAlignment="Center"
                           TextAlignment="Center"
@@ -234,10 +237,11 @@
                            Content="Back"
                            MinWidth="160"
                            Height="65"
+                           FontFamily="Cormorant Garamond"
                            FontSize="18"
                            FontWeight="SemiBold"
-                           Background="#2A2A2A"
-                           Foreground="White"
+                           Background="#1F1F1F"
+                           Foreground="#F8F5F0"
                            BorderThickness="0"
                            Cursor="Hand"
                            Click="BackButton_Click"
@@ -248,7 +252,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Button">
                                             <Border Background="{TemplateBinding Background}"
-                                                   CornerRadius="16">
+                                                   CornerRadius="30">
                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                         </ControlTemplate>
@@ -256,7 +260,7 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#3A3A3A"/>
+                                        <Setter Property="Background" Value="#32312E"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -265,12 +269,13 @@
                     
                     <Button Name="PayButton"
                            Content="Pay ₹200"
-                           MinWidth="180"
+                           MinWidth="200"
                            Height="65"
+                           FontFamily="Cormorant Garamond"
                            FontSize="20"
-                           FontWeight="Bold"
-                           Background="#f4257b"
-                           Foreground="White"
+                           FontWeight="SemiBold"
+                           Background="#EAB308"
+                           Foreground="#0A0A0A"
                            BorderThickness="0"
                            Cursor="Hand"
                            Click="PayButton_Click">
@@ -280,9 +285,9 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Button">
                                             <Border Background="{TemplateBinding Background}"
-                                                   CornerRadius="16">
+                                                   CornerRadius="30">
                                                 <Border.Effect>
-                                                    <DropShadowEffect Color="#f4257b" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                                    <DropShadowEffect Color="#EAB308" BlurRadius="28" ShadowDepth="0" Opacity="0.6"/>
                                                 </Border.Effect>
                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
@@ -291,7 +296,7 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#ff4d7b"/>
+                                        <Setter Property="Background" Value="#D6AD70"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -307,24 +312,24 @@
                Background="#E6000000"
                Visibility="Collapsed"
                Panel.ZIndex="1000">
-            <Border Background="#1a0d12"
+            <Border Background="#141414"
                    MinWidth="550"
                    MaxWidth="750"
                    MinHeight="500"
                    MaxHeight="650"
-                   CornerRadius="24"
-                   BorderBrush="#f4257b"
+                   CornerRadius="20"
+                   BorderBrush="#EAB308"
                    BorderThickness="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Margin="20">
                 <Border.Effect>
-                    <DropShadowEffect Color="#f4257b" BlurRadius="40" ShadowDepth="0" Opacity="1"/>
+                    <DropShadowEffect Color="#EAB308" BlurRadius="40" ShadowDepth="0" Opacity="0.7"/>
                 </Border.Effect>
                 
                 <Grid>
                     <!-- Animated Glow Effect -->
-                    <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
+                    <Border CornerRadius="20" Background="#1AEAB308" Opacity="0.2">
                         <Border.Effect>
                             <BlurEffect Radius="20"/>
                 </Border.Effect>
@@ -351,24 +356,26 @@
                                Width="48"
                                Height="48"
                                CornerRadius="24"
-                               Background="#1Af4257b"
+                               Background="#1AEAB308"
                                Margin="0,0,15,0">
-                            <TextBlock Text="💳"
-                                      FontSize="28"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                            <fa:PackIconFontAwesome Kind="CreditCardSolid"
+                                                   Width="24" Height="24"
+                                                   Foreground="#EAB308"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                         </Border>
                         
                         <!-- Title -->
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Select Payment Method"
+                                  FontFamily="Cormorant Garamond"
                                   FontSize="28"
                                   FontWeight="Bold"
-                                  Foreground="White"
+                                  Foreground="#F8F5F0"
                                   VerticalAlignment="Center"/>
                             <TextBlock Text="Choose your preferred payment option"
                                       FontSize="12"
-                                      Foreground="#80FFFFFF"
+                                      Foreground="#808080"
                                       Margin="0,4,0,0"/>
                         </StackPanel>
                         
@@ -377,7 +384,7 @@
                                Name="CloseModalButton"
                                Width="36"
                                Height="36"
-                               Background="#1AFFFFFF"
+                               Background="#1F1F1F"
                                BorderThickness="0"
                                Cursor="Hand"
                                Click="CloseModalButton_Click"
@@ -396,7 +403,7 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                            <Setter Property="Background" Value="#32312E"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -404,7 +411,7 @@
                             <TextBlock Text="✕"
                                       FontSize="20"
                                       FontWeight="Bold"
-                                      Foreground="White"
+                                      Foreground="#808080"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"/>
                         </Button>
@@ -423,8 +430,8 @@
                                MaxWidth="260"
                                MaxHeight="260"
                                Background="Transparent"
-                               BorderBrush="#f4257b"
-                               BorderThickness="3"
+                               BorderBrush="#EAB308"
+                               BorderThickness="2"
                                Cursor="Hand"
                                Click="CashPaymentButton_Click"
                                Margin="0,0,20,0"
@@ -437,9 +444,9 @@
                                                 <Border Background="{TemplateBinding Background}"
                                                        BorderBrush="{TemplateBinding BorderBrush}"
                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="20">
+                                                       CornerRadius="16">
                                                     <Border.Effect>
-                                                        <DropShadowEffect Color="#f4257b" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.3"/>
                                                     </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
@@ -448,8 +455,8 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="BorderBrush" Value="#ff4d7b"/>
-                                            <Setter Property="Background" Value="#1Af4257b"/>
+                                            <Setter Property="BorderBrush" Value="#EAB308"/>
+                                            <Setter Property="Background" Value="#1AEAB308"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -462,28 +469,30 @@
                                        HorizontalAlignment="Center"
                                        Margin="0,0,0,20">
                                     <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="#FFD700" Offset="0"/>
-                                            <GradientStop Color="#FFA500" Offset="1"/>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#EAB308" Offset="0"/>
+                                            <GradientStop Color="#D6AD70" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
                                     <Border.Effect>
-                                        <DropShadowEffect Color="#FFD700" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
                                     </Border.Effect>
-                                    <TextBlock Text="💰"
-                                              FontSize="50"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                                    <fa:PackIconFontAwesome Kind="MoneyBillSolid"
+                                                           Width="40" Height="40"
+                                                           Foreground="#0A0A0A"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
                                 </Border>
                                 <TextBlock Text="Pay Via Cash"
+                                          FontFamily="Cormorant Garamond"
                                           FontSize="20"
-                                          FontWeight="Bold"
-                                          Foreground="White"
+                                          FontWeight="SemiBold"
+                                          Foreground="#F8F5F0"
                                           HorizontalAlignment="Center"
                                           Margin="0,0,0,5"/>
                                 <TextBlock Text="Hand over cash to front desk"
                                           FontSize="12"
-                                          Foreground="#80FFFFFF"
+                                          Foreground="#808080"
                                           HorizontalAlignment="Center"
                                           TextWrapping="Wrap"
                                           TextAlignment="Center"/>
@@ -497,8 +506,8 @@
                                MaxWidth="260"
                                MaxHeight="260"
                                Background="Transparent"
-                               BorderBrush="#f4257b"
-                               BorderThickness="3"
+                               BorderBrush="#EAB308"
+                               BorderThickness="2"
                                Cursor="Hand"
                                Click="UpiPaymentButton_Click"
                                Visibility="Collapsed">
@@ -510,9 +519,9 @@
                                                 <Border Background="{TemplateBinding Background}"
                                                        BorderBrush="{TemplateBinding BorderBrush}"
                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="20">
+                                                       CornerRadius="16">
                                                     <Border.Effect>
-                                                        <DropShadowEffect Color="#f4257b" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.3"/>
                                                     </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
@@ -521,8 +530,8 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="BorderBrush" Value="#ff4d7b"/>
-                                            <Setter Property="Background" Value="#1Af4257b"/>
+                                            <Setter Property="BorderBrush" Value="#EAB308"/>
+                                            <Setter Property="Background" Value="#1AEAB308"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -535,28 +544,30 @@
                                        HorizontalAlignment="Center"
                                        Margin="0,0,0,20">
                                     <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="#4A90E2" Offset="0"/>
-                                            <GradientStop Color="#357ABD" Offset="1"/>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#EAB308" Offset="0"/>
+                                            <GradientStop Color="#D6AD70" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
                                     <Border.Effect>
-                                        <DropShadowEffect Color="#4A90E2" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
                                     </Border.Effect>
-                                    <TextBlock Text="📱"
-                                              FontSize="50"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                                    <fa:PackIconFontAwesome Kind="MobileSolid"
+                                                           Width="40" Height="40"
+                                                           Foreground="#0A0A0A"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
                                 </Border>
                                 <TextBlock Text="Pay Via UPI"
+                                          FontFamily="Cormorant Garamond"
                                           FontSize="20"
-                                          FontWeight="Bold"
-                                          Foreground="White"
+                                          FontWeight="SemiBold"
+                                          Foreground="#F8F5F0"
                                           HorizontalAlignment="Center"
                                           Margin="0,0,0,5"/>
                                 <TextBlock Text="Quick &amp; secure online payment"
                                           FontSize="12"
-                                          Foreground="#80FFFFFF"
+                                          Foreground="#808080"
                                           HorizontalAlignment="Center"
                                           TextWrapping="Wrap"
                                           TextAlignment="Center"/>
@@ -573,7 +584,7 @@
                                Orientation="Horizontal">
                         <TextBlock Text="Processing..."
                                   FontSize="16"
-                                  Foreground="#80FFFFFF"
+                                  Foreground="#808080"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"/>
                     </StackPanel>
@@ -587,22 +598,22 @@
                Background="#E6000000"
                Visibility="Collapsed"
                Panel.ZIndex="1001">
-            <Border Background="#1a0d12"
+            <Border Background="#141414"
                    MinWidth="380"
                    MaxWidth="480"
-                   CornerRadius="24"
-                   BorderBrush="#f4257b"
+                   CornerRadius="20"
+                   BorderBrush="#EAB308"
                    BorderThickness="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Margin="20">
                 <Border.Effect>
-                    <DropShadowEffect Color="#f4257b" BlurRadius="40" ShadowDepth="0" Opacity="1"/>
+                    <DropShadowEffect Color="#EAB308" BlurRadius="40" ShadowDepth="0" Opacity="0.7"/>
                 </Border.Effect>
                 
                 <Grid>
                     <!-- Animated Glow Effect -->
-                    <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
+                    <Border CornerRadius="20" Background="#1AEAB308" Opacity="0.2">
                         <Border.Effect>
                             <BlurEffect Radius="20"/>
                 </Border.Effect>
@@ -624,18 +635,20 @@
                         <Border Width="56"
                                Height="56"
                                CornerRadius="28"
-                               Background="#1Af4257b"
+                               Background="#1AEAB308"
                                HorizontalAlignment="Center"
                                Margin="0,0,0,15">
-                            <TextBlock Text="🔐"
-                                      FontSize="32"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                            <fa:PackIconFontAwesome Kind="LockSolid"
+                                                   Width="28" Height="28"
+                                                   Foreground="#EAB308"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                         </Border>
                         <TextBlock Text="Enter OTP Code"
+                                  FontFamily="Cormorant Garamond"
                                   FontSize="26"
                               FontWeight="Bold"
-                              Foreground="White"
+                              Foreground="#F8F5F0"
                               HorizontalAlignment="Center"/>
                     </StackPanel>
                     
@@ -643,7 +656,7 @@
                     <TextBlock Grid.Row="1"
                               Text="Please enter the code provided by the front desk:"
                               FontSize="14"
-                              Foreground="#CCFFFFFF"
+                              Foreground="#808080"
                               Margin="0,0,0,20"
                               HorizontalAlignment="Center"
                               TextWrapping="Wrap"
@@ -652,26 +665,27 @@
                     <!-- OTP TextBox -->
                     <Border Grid.Row="2"
                            CornerRadius="12"
-                           BorderBrush="#f4257b"
+                           BorderBrush="#EAB308"
                            BorderThickness="2"
-                           Background="#1a0d12"
+                           Background="#0F0F0F"
                            Margin="0,0,0,30">
                         <Border.Effect>
-                            <DropShadowEffect Color="#f4257b" BlurRadius="10" ShadowDepth="0" Opacity="0.4"/>
+                            <DropShadowEffect Color="#EAB308" BlurRadius="10" ShadowDepth="0" Opacity="0.3"/>
                         </Border.Effect>
                         <TextBox Name="OtpTextBox"
                                 MinHeight="60"
+                                FontFamily="Cormorant Garamond"
                                 FontSize="24"
                                 FontWeight="Bold"
                                 Background="Transparent"
-                                Foreground="White"
+                                Foreground="#F8F5F0"
                                 BorderThickness="0"
                                 Padding="20,15"
                                 TextChanged="OtpTextBox_TextChanged"
                                 TextAlignment="Center"
                                 MaxLength="6"
                                 VerticalContentAlignment="Center"
-                                CaretBrush="#f4257b"/>
+                                CaretBrush="#EAB308"/>
                     </Border>
                     
                     <!-- Buttons -->
@@ -682,9 +696,11 @@
                                Content="Cancel"
                                MinWidth="110"
                                Height="50"
+                               FontFamily="Cormorant Garamond"
                                FontSize="16"
-                               Background="#333333"
-                               Foreground="White"
+                               FontWeight="SemiBold"
+                               Background="#1F1F1F"
+                               Foreground="#F8F5F0"
                                BorderThickness="0"
                                Cursor="Hand"
                                Click="CancelOtpButton_Click"
@@ -695,12 +711,17 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
-                                                       CornerRadius="10">
+                                                       CornerRadius="25">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#32312E"/>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
@@ -709,10 +730,11 @@
                                Content="Verify"
                                MinWidth="110"
                                Height="50"
+                               FontFamily="Cormorant Garamond"
                                FontSize="16"
-                               FontWeight="Bold"
-                               Background="#f4257b"
-                               Foreground="White"
+                               FontWeight="SemiBold"
+                               Background="#EAB308"
+                               Foreground="#0A0A0A"
                                BorderThickness="0"
                                Cursor="Hand"
                                Click="VerifyOtpButton_Click"
@@ -723,7 +745,10 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
-                                                       CornerRadius="10">
+                                                       CornerRadius="25">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#EAB308" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+                                                    </Border.Effect>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -731,8 +756,11 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Background" Value="#804f2a4a"/>
-                                            <Setter Property="Foreground" Value="#80FFFFFF"/>
+                                            <Setter Property="Background" Value="#32312E"/>
+                                            <Setter Property="Foreground" Value="#808080"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#D6AD70"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -749,26 +777,26 @@
                Background="#E6000000"
                Visibility="Collapsed"
                Panel.ZIndex="1002">
-            <Border Background="#1a0d12"
+            <Border Background="#141414"
                    MinWidth="400"
                    MaxWidth="900"
                    MinHeight="500"
                    MaxHeight="700"
                    Width="850"
                    Height="650"
-                   CornerRadius="24"
-                   BorderBrush="#f4257b"
+                   CornerRadius="20"
+                   BorderBrush="#EAB308"
                    BorderThickness="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Margin="20">
                 <Border.Effect>
-                    <DropShadowEffect Color="#f4257b" BlurRadius="40" ShadowDepth="0" Opacity="1"/>
+                    <DropShadowEffect Color="#EAB308" BlurRadius="40" ShadowDepth="0" Opacity="0.7"/>
                 </Border.Effect>
                 
                 <Grid>
                     <!-- Animated Glow Effect -->
-                    <Border CornerRadius="24" Background="#1Af4257b" Opacity="0.3">
+                    <Border CornerRadius="20" Background="#1AEAB308" Opacity="0.2">
                         <Border.Effect>
                             <BlurEffect Radius="20"/>
                         </Border.Effect>
@@ -795,24 +823,26 @@
                                Width="48"
                                Height="48"
                                CornerRadius="24"
-                               Background="#1Af4257b"
+                               Background="#1AEAB308"
                                Margin="0,0,15,0">
-                            <TextBlock Text="💳"
-                                      FontSize="28"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                            <fa:PackIconFontAwesome Kind="CreditCardSolid"
+                                                   Width="24" Height="24"
+                                                   Foreground="#EAB308"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
                         </Border>
                         
                         <!-- Title -->
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Complete Payment via UPI"
+                                      FontFamily="Cormorant Garamond"
                                       FontSize="26"
                                       FontWeight="Bold"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
                             <TextBlock Text="Secure payment powered by Razorpay"
                                       FontSize="12"
-                                      Foreground="#80FFFFFF"
+                                      Foreground="#808080"
                                       Margin="0,4,0,0"/>
                         </StackPanel>
                         
@@ -821,7 +851,7 @@
                                Name="CloseRazorpayModalButton"
                                Width="36"
                                Height="36"
-                               Background="#1AFFFFFF"
+                               Background="#1F1F1F"
                                BorderThickness="0"
                                Cursor="Hand"
                                Click="CloseRazorpayModalButton_Click"
@@ -840,7 +870,7 @@
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                            <Setter Property="Background" Value="#32312E"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -848,7 +878,7 @@
                             <TextBlock Text="✕"
                                       FontSize="20"
                                       FontWeight="Bold"
-                                      Foreground="White"
+                                      Foreground="#808080"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"/>
                         </Button>
@@ -857,8 +887,8 @@
                     <!-- WebView2 for Razorpay Checkout -->
                     <Border Grid.Row="1"
                            Background="White"
-                           CornerRadius="16"
-                           BorderBrush="#33f4257b"
+                           CornerRadius="12"
+                           BorderBrush="#32312E"
                            BorderThickness="2">
                         <Border.Effect>
                             <DropShadowEffect Color="#000000" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
@@ -875,14 +905,15 @@
                               HorizontalAlignment="Center"
                               Margin="0,20,0,0"
                               Visibility="Collapsed">
-                        <TextBlock Text="⏳"
-                                  FontSize="16"
-                                  Margin="0,0,8,0"
-                                  VerticalAlignment="Center"/>
+                        <fa:PackIconFontAwesome Kind="SpinnerSolid"
+                                               Width="16" Height="16"
+                                               Foreground="#EAB308"
+                                               Margin="0,0,8,0"
+                                               VerticalAlignment="Center"/>
                         <TextBlock Name="RazorpayStatusText"
                                   Text="Processing payment..."
                                   FontSize="14"
-                                  Foreground="#CCFFFFFF"
+                                  Foreground="#808080"
                                   VerticalAlignment="Center"/>
                     </StackPanel>
                     </Grid>

@@ -62,7 +62,7 @@ namespace PhotoBooth.Pages
                 }
 
                 // Check if copy selection should be hidden
-                // Hide if payment_type is not 'N' OR offline_mode is not true
+                // Show copy selection only if payment_type is 'N' (regardless of offline mode)
                 bool shouldHideCopySelection = false;
                 
                 if (App.CurrentMachineConfig != null)
@@ -70,9 +70,9 @@ namespace PhotoBooth.Pages
                     string paymentType = App.CurrentMachineConfig.PaymentType ?? "";
                     bool offlineMode = App.CurrentMachineConfig.OfflineMode;
                     
-                    // Hide copy selection if payment is required (payment_type != 'N') OR not in offline mode
-                    // Show copy selection only if payment_type is 'N' AND offline_mode is true
-                    shouldHideCopySelection = (paymentType != "N") || !offlineMode;
+                    // Hide copy selection if payment is required (payment_type != 'N')
+                    // Show copy selection only if payment_type is 'N'
+                    shouldHideCopySelection = (paymentType != "N");
                     
                     System.Diagnostics.Debug.WriteLine($"[PrintPage] PaymentType: '{paymentType}', OfflineMode: {offlineMode}, ShouldHideCopySelection: {shouldHideCopySelection}");
                 }

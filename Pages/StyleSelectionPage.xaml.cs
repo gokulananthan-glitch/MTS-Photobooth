@@ -148,82 +148,141 @@ namespace PhotoBooth.Pages
 
         private void UpdateSelectedStyle(int style)
         {
-            // Reset all buttons
-            foreach (var child in StyleButtonsGrid.Children)
+            System.Diagnostics.Debug.WriteLine($"[UpdateSelectedStyle] === START === Updating to style: {style}");
+            
+            // First, deselect the previously selected button if it exists
+            if (_selectedStyleButton != null)
             {
-                if (child is Button btn && btn.Tag != null)
-                {
-                    var border = FindVisualChild<Border>(btn);
-                    if (border != null)
-                    {
-                        border.BorderBrush = new SolidColorBrush(Color.FromArgb(51, 255, 255, 255)); // #33FFFFFF
-                        border.BorderThickness = new Thickness(1);
-                        border.Effect = null;
-                        border.Background = new SolidColorBrush(Color.FromArgb(26, 255, 255, 255)); // #1AFFFFFF
-                    }
-
-                    // Hide checkmark
-                    var checkMark = FindVisualChildByName<FrameworkElement>(btn, "CheckMark");
-                    if (checkMark != null)
-                    {
-                        checkMark.Opacity = 0;
-                    }
-
-                    // Reset title color
-                    var titleText = FindVisualChild<TextBlock>(btn);
-                    if (titleText != null && titleText.Text != null)
-                    {
-                        titleText.Foreground = new SolidColorBrush(Colors.White);
-                    }
-                }
+                System.Diagnostics.Debug.WriteLine($"[UpdateSelectedStyle] Deselecting previous button Tag={_selectedStyleButton.Tag}");
+                ResetButtonToUnselected(_selectedStyleButton);
             }
-
-            // Highlight selected button
+            
+            // Now find and select the new button
+            Button? newSelectedButton = null;
             foreach (var child in StyleButtonsGrid.Children)
             {
                 if (child is Button btn && btn.Tag != null)
                 {
-                    string styleStr = btn.Tag.ToString() ?? "1";
+                    // Skip hidden buttons completely
+                    if (btn.Visibility != Visibility.Visible)
+                    {
+                        continue;
+                    }
+                    
+                    string styleStr = btn.Tag.ToString() ?? "";
                     if (int.TryParse(styleStr, out int btnStyle) && btnStyle == style)
                     {
-                        _selectedStyleButton = btn;
-                        var border = FindVisualChild<Border>(btn);
-                        if (border != null)
-                        {
-                            border.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 244, 37, 123)); // #f4257b
-                            border.BorderThickness = new Thickness(2);
-                            border.Effect = new DropShadowEffect
-                            {
-                                Color = Color.FromArgb(255, 244, 37, 123),
-                                BlurRadius = 20,
-                                ShadowDepth = 0,
-                                Opacity = 0.6
-                            };
-                        }
-
-                        // Show checkmark
-                        var checkMark = FindVisualChildByName<FrameworkElement>(btn, "CheckMark");
-                        if (checkMark != null)
-                        {
-                            checkMark.Opacity = 1;
-                        }
-
-                        // Set title color to pink
-                        var stackPanel = FindVisualChild<StackPanel>(btn);
-                        if (stackPanel != null)
-                        {
-                            foreach (var item in stackPanel.Children)
-                            {
-                                if (item is TextBlock tb && tb.FontSize == 22)
-                                {
-                                    tb.Foreground = new SolidColorBrush(Color.FromArgb(255, 244, 37, 123)); // #f4257b
-                                    break;
-                                }
-                            }
-                        }
+                        newSelectedButton = btn;
                         break;
                     }
                 }
+            }
+            
+            // Select the new button
+            if (newSelectedButton != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"[UpdateSelectedStyle] Selecting new button Tag={newSelectedButton.Tag}");
+                SetButtonToSelected(newSelectedButton);
+                _selectedStyleButton = newSelectedButton;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"[UpdateSelectedStyle] WARNING: Button for style {style} not found or not visible");
+                _selectedStyleButton = null;
+            }
+            
+            System.Diagnostics.Debug.WriteLine($"[UpdateSelectedStyle] === END === Update complete");
+        }
+        
+        private void ResetButtonToUnselected(Button btn)
+        {
+            if (btn == null || btn.Visibility != Visibility.Visible) return;
+            
+            try
+            {
+                // Apply template to ensure elements exist
+                btn.ApplyTemplate();
+                
+                // Get template elements
+                var cardBorder = btn.Template?.FindName("CardBorder", btn) as Border;
+                var checkMark = btn.Template?.FindName("CheckMark", btn) as Border;
+                var titleText = btn.Template?.FindName("TitleText", btn) as TextBlock;
+                
+                // Reset CardBorder
+                if (cardBorder != null)
+                {
+                    cardBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 50, 49, 46)); // #32312E
+                    cardBorder.BorderThickness = new Thickness(1);
+                    cardBorder.Background = new SolidColorBrush(Color.FromArgb(255, 20, 20, 20)); // #141414
+                    cardBorder.Effect = null;
+                }
+                
+                // Hide CheckMark
+                if (checkMark != null)
+                {
+                    checkMark.Opacity = 0;
+                }
+                
+                // Reset TitleText color
+                if (titleText != null)
+                {
+                    titleText.Foreground = new SolidColorBrush(Colors.White);
+                }
+                
+                System.Diagnostics.Debug.WriteLine($"[ResetButtonToUnselected] Successfully reset button Tag={btn.Tag}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ResetButtonToUnselected] ERROR resetting button Tag={btn.Tag}: {ex.Message}");
+            }
+        }
+        
+        private void SetButtonToSelected(Button btn)
+        {
+            if (btn == null || btn.Visibility != Visibility.Visible) return;
+            
+            try
+            {
+                // Apply template to ensure elements exist
+                btn.ApplyTemplate();
+                
+                // Get template elements
+                var cardBorder = btn.Template?.FindName("CardBorder", btn) as Border;
+                var checkMark = btn.Template?.FindName("CheckMark", btn) as Border;
+                var titleText = btn.Template?.FindName("TitleText", btn) as TextBlock;
+                
+                // Highlight CardBorder
+                if (cardBorder != null)
+                {
+                    cardBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 234, 179, 8)); // #EAB308
+                    cardBorder.BorderThickness = new Thickness(2);
+                    cardBorder.Background = new SolidColorBrush(Color.FromArgb(51, 234, 179, 8)); // #EAB308 at 20% opacity
+                    cardBorder.Effect = new DropShadowEffect
+                    {
+                        Color = Color.FromArgb(255, 234, 179, 8),
+                        BlurRadius = 20,
+                        ShadowDepth = 0,
+                        Opacity = 0.5
+                    };
+                }
+                
+                // Show CheckMark
+                if (checkMark != null)
+                {
+                    checkMark.Opacity = 1;
+                }
+                
+                // Highlight TitleText color
+                if (titleText != null)
+                {
+                    titleText.Foreground = new SolidColorBrush(Color.FromArgb(255, 234, 179, 8)); // #EAB308
+                }
+                
+                System.Diagnostics.Debug.WriteLine($"[SetButtonToSelected] Successfully selected button Tag={btn.Tag}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[SetButtonToSelected] ERROR selecting button Tag={btn.Tag}: {ex.Message}");
             }
         }
 
@@ -583,6 +642,21 @@ namespace PhotoBooth.Pages
                 }
             }
             return null;
+        }
+
+        private static List<T> FindAllVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            var results = new List<T>();
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T result)
+                {
+                    results.Add(result);
+                }
+                results.AddRange(FindAllVisualChildren<T>(child));
+            }
+            return results;
         }
 
         private static T? FindVisualChildByName<T>(DependencyObject parent, string name) where T : FrameworkElement

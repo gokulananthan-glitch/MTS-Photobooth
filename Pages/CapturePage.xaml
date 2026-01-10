@@ -7,41 +7,15 @@
     <Grid>
         <!-- Background -->
         <Grid.Background>
-            <SolidColorBrush Color="#221017"/>
+            <SolidColorBrush Color="#0a0a0a"/>
         </Grid.Background>
-        
-        <!-- Ambient Background Glows -->
-        <Canvas ClipToBounds="False">
-            <!-- Top Left Glow -->
-            <Ellipse Width="1000" Height="1000" 
-                     Canvas.Left="-300" Canvas.Top="-200"
-                     Opacity="0.2">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                        <GradientStop Color="#f4257b" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="120"/>
-                </Ellipse.Effect>
-        </Ellipse>
-        
-            <!-- Bottom Right Glow -->
-            <Ellipse Width="1200" Height="1200"
-                     Canvas.Right="-400" Canvas.Bottom="-400"
-                     Opacity="0.1">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                        <GradientStop Color="#a855f7" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="150"/>
-                </Ellipse.Effect>
-        </Ellipse>
-        </Canvas>
+
+        <!-- Flash Overlay -->
+        <Border Name="FlashOverlay"
+                Background="White"
+                Visibility="Collapsed"
+                Panel.ZIndex="1000"
+                IsHitTestVisible="False"/>
 
         <Grid Margin="40,20">
             <Grid.RowDefinitions>
@@ -51,52 +25,328 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Top Navigation Bar -->
-            <Grid Grid.Row="0" Margin="0,20,0,30">
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="20,20,20,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Brand/Title - Left -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Border Width="32" Height="32"
-                            CornerRadius="16"
-                            Background="#f4257b"
-                            Margin="0,0,8,0">
-                        <fa:PackIconFontAwesome Kind="CameraSolid"
-                                               Width="18" Height="18"
-                                               Foreground="White"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
-                    </Border>
-                    <TextBlock Text="MemoraBooth"
+                <!-- Back Button -->
+                <Button Grid.Column="0"
+                        Name="BackButton"
+                        Height="40"
+                        Padding="16,0"
+                        Cursor="Hand"
+                        Click="BackButton_Click"
+                        Background="Transparent"
+                        BorderThickness="0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#1A1A1A"
+                                    CornerRadius="20"
+                                    BorderBrush="#26FFFFFF"
+                                    BorderThickness="1"
+                                    Padding="16,0"
+                                    Height="40">
+                                <TextBlock Text="← Back"
+                                          FontSize="15"
+                                          FontWeight="Normal"
+                                          Foreground="#F8F5F0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <!-- Brand/Logo -->
+                <StackPanel Grid.Column="1" 
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center">
+                    <fa:PackIconFontAwesome Kind="StarSolid"
+                                           Width="18" Height="18"
+                                           Foreground="#EAB308"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,0"/>
+                    <TextBlock Text="Get Ready"
                               FontSize="18"
                               FontWeight="Bold"
-                              Foreground="White"
-                              VerticalAlignment="Center"
-                              Margin="0,0,4,0"/>
+                              Foreground="#F8F5F0"
+                              VerticalAlignment="Center"/>
+                    <fa:PackIconFontAwesome Kind="StarSolid"
+                                           Width="16" Height="16"
+                                           Foreground="#D6AD70"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0"
+                                           Opacity="0.8"/>
                 </StackPanel>
 
-                <!-- Back and Settings - Right -->
-                <StackPanel Grid.Column="2" Orientation="Horizontal">
-                    <Button Name="BackButton"
-                            Width="40" Height="40"
+                <!-- Reset Button -->
+                <Button Grid.Column="2"
+                        Name="ResetButton"
+                        Height="40"
+                        Padding="16,0"
+                        Cursor="Hand"
+                        Click="ResetButton_Click"
+                        Background="Transparent"
+                        BorderThickness="0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#1A1A1A"
+                                    CornerRadius="20"
+                                    BorderBrush="#26FFFFFF"
+                                    BorderThickness="1"
+                                    Padding="16,0"
+                                    Height="40">
+                                <TextBlock Text="Start Over"
+                                          FontSize="15"
+                                          FontWeight="Normal"
+                                          Foreground="#F8F5F0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <!-- Main Title: "Serve a pose! 📷" -->
+            <StackPanel Grid.Row="1" 
+                       Name="TitleSection"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,24">
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center">
+                    <TextBlock Text="Serve a pose! "
+                              FontFamily="Cormorant Garamond"
+                              FontSize="48"
+                              FontWeight="Bold"
+                              Foreground="#F8F5F0"
+                              VerticalAlignment="Center"/>
+                    <fa:PackIconFontAwesome Kind="CameraSolid"
+                                           Width="40" Height="40"
+                                           Foreground="White"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Camera Preview (aspect-video = 16:9) -->
+            <Viewbox Grid.Row="2" 
+                     Margin="100,0"
+                     Stretch="Uniform"
+                     StretchDirection="Both">
+                <Grid Width="1280" Height="720">
+                    <Grid ClipToBounds="True">
+                        <Border CornerRadius="22">
+                            <Grid x:Name="PreviewContainer">
+                                <Image Name="PreviewImage" 
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                                
+                                <!-- Viewfinder grid overlay -->
+                                    <Grid IsHitTestVisible="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Vertical lines -->
+                                        <Rectangle Grid.Column="1" Grid.RowSpan="3" 
+                                                  Width="1" HorizontalAlignment="Left"
+                                                  Fill="White" Opacity="0.1"/>
+                                        <Rectangle Grid.Column="2" Grid.RowSpan="3" 
+                                                  Width="1" HorizontalAlignment="Left"
+                                                  Fill="White" Opacity="0.1"/>
+                                        
+                                        <!-- Horizontal lines -->
+                                        <Rectangle Grid.Row="1" Grid.ColumnSpan="3" 
+                                                  Height="1" VerticalAlignment="Top"
+                                                  Fill="White" Opacity="0.1"/>
+                                        <Rectangle Grid.Row="2" Grid.ColumnSpan="3" 
+                                                  Height="1" VerticalAlignment="Top"
+                                                  Fill="White" Opacity="0.1"/>
+                                    </Grid>
+                                    
+                                    <!-- Corner guides (border-white/30) -->
+                                    <Canvas IsHitTestVisible="False">
+                                        <!-- Top Left -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Left="16" Canvas.Top="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="2,2,0,0"
+                                                Opacity="0.3"/>
+                                        <!-- Top Right -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Right="16" Canvas.Top="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="0,2,2,0"
+                                                Opacity="0.3"/>
+                                        <!-- Bottom Left -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Left="16" Canvas.Bottom="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="2,0,0,2"
+                                                Opacity="0.3"/>
+                                        <!-- Bottom Right -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Right="16" Canvas.Bottom="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="0,0,2,2"
+                                                Opacity="0.3"/>
+                                    </Canvas>
+
+                                    <!-- Shot indicator badge - Top Center -->
+                                    <Border HorizontalAlignment="Center"
+                                            VerticalAlignment="Top"
+                                            Margin="0,20,0,0"
+                                            CornerRadius="20"
+                                            Padding="16,6">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#F5E54C" Offset="0"/>
+                                                <GradientStop Color="#D6950F" Offset="0.5"/>
+                                                <GradientStop Color="#EAB308" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <TextBlock Name="PhotoCounterText"
+                                                  Text="SHOT 1 OF 3"
+                                                  FontSize="14"
+                                                  FontWeight="Bold"
+                                                  Foreground="#0A0A0A"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <!-- Countdown overlay with circular ring -->
+                                    <Border Name="CountdownOverlay"
+                                            Background="#4D000000"
+                                            Visibility="Collapsed"
+                                            IsHitTestVisible="False">
+                                        <Grid HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center">
+                                            <Canvas Width="320" Height="320">
+                                                <!-- Background ring (secondary color) -->
+                                                <Ellipse Width="280" Height="280"
+                                                        Canvas.Left="20" Canvas.Top="20"
+                                                        Stroke="#1F1F1F"
+                                                        StrokeThickness="16"
+                                                        Fill="Transparent"/>
+                                                
+                                                <!-- Animated ring (primary golden color) -->
+                                                <Ellipse Name="CountdownRing"
+                                                        Width="280" Height="280"
+                                                        Canvas.Left="20" Canvas.Top="20"
+                                                        StrokeThickness="16"
+                                                        Fill="Transparent"
+                                                        StrokeDashArray="880"
+                                                        StrokeDashOffset="880"
+                                                        RenderTransformOrigin="0.5,0.5">
+                                                    <Ellipse.Stroke>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                            <GradientStop Color="#F5E54C" Offset="0"/>
+                                                            <GradientStop Color="#EAB308" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Ellipse.Stroke>
+                                                    <Ellipse.RenderTransform>
+                                                        <RotateTransform Angle="-90"/>
+                                                    </Ellipse.RenderTransform>
+                                                </Ellipse>
+                                            </Canvas>
+                                            
+                                            <!-- Countdown number -->
+                                            <TextBlock Name="CountdownText" 
+                                                      FontFamily="Cormorant Garamond"
+                                                      FontSize="140" 
+                                                      FontWeight="Bold"
+                                                      Foreground="#EAB308" 
+                                                      HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"
+                                                      TextAlignment="Center">
+                                                <TextBlock.Effect>
+                                                    <DropShadowEffect Color="#EAB308" 
+                                                                    BlurRadius="40" 
+                                                                    ShadowDepth="0" 
+                                                                    Opacity="0.6"/>
+                                                </TextBlock.Effect>
+                                            </TextBlock>
+                                            
+                                            <!-- Camera icon for countdown end (initially hidden) -->
+                                            <fa:PackIconFontAwesome Name="CountdownCameraIcon"
+                                                                   Kind="CameraSolid"
+                                                                   Width="120" Height="120"
+                                                                   Foreground="#EAB308"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Visibility="Collapsed">
+                                                <fa:PackIconFontAwesome.Effect>
+                                                    <DropShadowEffect Color="#EAB308" 
+                                                                    BlurRadius="40" 
+                                                                    ShadowDepth="0" 
+                                                                    Opacity="0.6"/>
+                                                </fa:PackIconFontAwesome.Effect>
+                                            </fa:PackIconFontAwesome>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Viewbox>
+
+            <!-- Bottom Controls (gap-6 = 24px) -->
+            <Grid Grid.Row="3" Margin="0,0,0,32">
+                <StackPanel Orientation="Horizontal"
+                           HorizontalAlignment="Center">
+                    <!-- Capture/Shutter Button (shutter-button class) -->
+                    <Button Name="CaptureButton"
+                            Width="72" Height="72"
                             Cursor="Hand"
-                            Click="BackButton_Click"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Margin="0,0,8,0">
+                            Click="CaptureButton_Click">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="#1AFFFFFF"
-                                        CornerRadius="20"
-                                        BorderBrush="#33FFFFFF"
-                                        BorderThickness="1"
-                                        Width="40" Height="40">
-                                    <fa:PackIconFontAwesome Kind="ArrowLeftSolid"
-                                                           Width="18" Height="18"
+                                <Border CornerRadius="36"
+                                        BorderThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#EAB308" Offset="0"/>
+                                            <GradientStop Color="#D6AD70" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#EAB308" BlurRadius="25" ShadowDepth="0" Opacity="0.6"/>
+                                    </Border.Effect>
+                                    <fa:PackIconFontAwesome Kind="CameraSolid"
+                                                           Width="32" Height="32"
                                                            Foreground="White"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"/>
@@ -110,249 +360,48 @@
                                         </Setter>
                                         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
                                     </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                    </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </StackPanel>
             </Grid>
 
-            <!-- Main Instruction -->
-            <StackPanel Grid.Row="1" 
-                       Name="TitleSection"
-                       HorizontalAlignment="Center"
-                       Margin="0,10,0,30">
-                <StackPanel Orientation="Horizontal" 
-                           HorizontalAlignment="Center">
-                    <TextBlock Text="Serve a pose!"
-                              FontSize="48"
-                              FontWeight="Bold"
-                              Foreground="White"
-                              VerticalAlignment="Center"/>
-                        <fa:PackIconFontAwesome Kind="CameraSolid"
-                                               Width="36" Height="36"
-                                               Foreground="#f4257b"
-                                               VerticalAlignment="Center"
-                                               Margin="12,0,0,0"/>
-                </StackPanel>
-            </StackPanel>
-
-            <!-- Live Preview Area -->
-            <Grid Grid.Row="2" Margin="100,0">
-                <Border Name="PreviewBorder" 
-                        CornerRadius="0"
-                        Background="#0a0506"
-                        ClipToBounds="False"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        MaxWidth="1200"
-                        MaxHeight="600">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#AAFFFFFF" Offset="0"/>
-                            <GradientStop Color="#88FFFFFF" Offset="0.5"/>
-                            <GradientStop Color="#AAFFFFFF" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Border.BorderThickness>
-                        <Thickness>3</Thickness>
-                    </Border.BorderThickness>
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" BlurRadius="40" ShadowDepth="0" Opacity="0.6"/>
-                    </Border.Effect>
-                    <!-- Inner glassy border -->
-                    <Border CornerRadius="0"
-                            BorderBrush="#66FFFFFF"
-                            BorderThickness="1"
-                            Margin="3"
-                            ClipToBounds="True">
-                        <Border.Effect>
-                            <DropShadowEffect Color="#FFFFFF" BlurRadius="8" ShadowDepth="0" Opacity="0.4"/>
-                        </Border.Effect>
-                    
-                    <Grid>
-                        <!-- Live Camera Feed -->
-                        <Image Name="PreviewImage" 
-                               Stretch="Uniform"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                        
-                        <!-- Grid Overlay (3x3 Rule of Thirds) -->
-                        <Grid Opacity="0.3">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <!-- Vertical lines -->
-                            <Rectangle Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Fill="#FFFFFF" Width="1"/>
-                            <Rectangle Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Fill="#FFFFFF" Width="1"/>
-                            
-                            <!-- Horizontal lines -->
-                            <Rectangle Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Fill="#FFFFFF" Height="1"/>
-                            <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Fill="#FFFFFF" Height="1"/>
-                        </Grid>
-
-                        <!-- Shot Badge - Top Center -->
-                        <Border HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                Margin="0,20,0,0"
-                                Background="#8B0000"
-                                CornerRadius="16"
-                                BorderBrush="White"
-                                BorderThickness="2"
-                                Padding="16,8">
-                            <TextBlock Name="PhotoCounterText"
-                                      Text="SHOT 1 OF 3"
-                                      FontSize="12"
-                                      FontWeight="Bold"
-                                      Foreground="White"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
-                        </Border>
-
-                        <!-- Status Text Overlay (Hidden by default, shown when needed) -->
-                        <Border Name="StatusBorder"
-                               Background="#E0000000"
-                               CornerRadius="10"
-                               Padding="20,12"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Bottom"
-                               Margin="0,0,0,50"
-                               Visibility="Collapsed"
-                               Panel.ZIndex="10">
-                            <TextBlock Name="StatusText" 
-                                      Text="Ready to capture" 
-                                      FontSize="20" 
-                                      FontWeight="Bold"
-                                      Foreground="#f4257b"
-                                      HorizontalAlignment="Center">
-                                <TextBlock.Effect>
-                                    <DropShadowEffect Color="#f4257b" 
-                                                    BlurRadius="10" 
-                                                    ShadowDepth="0" 
-                                                    Opacity="0.8"/>
-                                </TextBlock.Effect>
-                            </TextBlock>
-                        </Border>
-                    </Grid>
-                    </Border>
-                </Border>
-            </Grid>
-
-            <!-- Bottom Controls -->
-            <Grid Grid.Row="3" Margin="0,40,0,30">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Left: Gallery Button (Placeholder - can be removed if not needed) -->
-                <StackPanel Grid.Column="0" 
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center">
-                    <!-- Empty for now - user said don't add extra buttons -->
-                </StackPanel>
-
-                <!-- Center: Capture Button -->
-                <Button Grid.Column="1"
-                       Name="CaptureButton" 
-                       Width="120"
-                       Height="120"
-                       Cursor="Hand"
-                       Click="CaptureButton_Click">
-                    <Button.RenderTransform>
-                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                    </Button.RenderTransform>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Grid>
-                                            <Ellipse Fill="#f4257b"
-                                                    Stroke="#f4257b"
-                                                    StrokeThickness="3">
-                                                <Ellipse.Effect>
-                                                    <DropShadowEffect Color="#f4257b" 
-                                                                    BlurRadius="30" 
-                                                                    ShadowDepth="0" 
-                                                                    Opacity="0.8"/>
-                                                </Ellipse.Effect>
-                                            </Ellipse>
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="RenderTransform">
-                                        <Setter.Value>
-                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0.5"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                    <fa:PackIconFontAwesome Kind="CameraSolid"
-                                           Width="48" Height="48"
-                                           Foreground="White"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                </Button>
-
-                <!-- Right: Timer Display -->
-                <StackPanel Grid.Column="2" 
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center">
-                    <TextBlock Text="⏱️"
-                              FontSize="24"
-                              Foreground="White"
-                              HorizontalAlignment="Center"/>
-                    <TextBlock Name="TimerText"
-                              Text="TIMER: 3S"
-                              FontSize="14"
-                              FontWeight="Bold"
-                              Foreground="White"
-                              HorizontalAlignment="Center"
-                              Margin="0,4,0,0"/>
-                </StackPanel>
-            </Grid>
-
-            <!-- Countdown Overlay (No Background) -->
-            <Border Grid.Row="2" 
-                    Name="CountdownOverlay"
-                    Background="Transparent"
-                    Visibility="Collapsed"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    IsHitTestVisible="False">
-                <TextBlock Name="CountdownText" 
-                          FontSize="180" 
+            <!-- Status Text Overlay (Hidden by default) -->
+            <Border Name="StatusBorder"
+                   Grid.Row="2"
+                   Background="#E0000000"
+                   CornerRadius="10"
+                   Padding="20,12"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   Margin="0,0,0,50"
+                   Visibility="Collapsed"
+                   Panel.ZIndex="10">
+                <TextBlock Name="StatusText" 
+                          Text="Ready to capture" 
+                          FontSize="20" 
                           FontWeight="Bold"
-                          Foreground="#f4257b" 
-                          HorizontalAlignment="Center" 
-                          VerticalAlignment="Center"
-                          TextAlignment="Center">
+                          Foreground="#EAB308"
+                          HorizontalAlignment="Center">
                     <TextBlock.Effect>
-                        <DropShadowEffect Color="#f4257b" 
-                                        BlurRadius="30" 
+                        <DropShadowEffect Color="#EAB308" 
+                                        BlurRadius="10" 
                                         ShadowDepth="0" 
-                                        Opacity="1"/>
+                                        Opacity="0.8"/>
                     </TextBlock.Effect>
                 </TextBlock>
             </Border>

@@ -193,17 +193,9 @@ namespace PhotoBooth.Pages
             {
                 Width = 120,
                 Height = 160,
-                CornerRadius = new CornerRadius(12)
+                CornerRadius = new CornerRadius(8)
             };
-            border.Background = new LinearGradientBrush(
-                new GradientStopCollection
-                {
-                    new GradientStop(Color.FromRgb(99, 102, 241), 0),
-                    new GradientStop(Color.FromRgb(236, 72, 153), 1)
-                },
-                new Point(0, 0),
-                new Point(1, 1)
-            );
+            border.Background = new SolidColorBrush(Color.FromArgb(102, 234, 179, 8)); // #EAB308 with 40% opacity
             return border;
         }
 
@@ -217,30 +209,14 @@ namespace PhotoBooth.Pages
                 CornerRadius = new CornerRadius(8),
                 Margin = new Thickness(0, 0, 0, 8)
             };
-            border1.Background = new LinearGradientBrush(
-                new GradientStopCollection
-                {
-                    new GradientStop(Color.FromRgb(99, 102, 241), 0),
-                    new GradientStop(Color.FromRgb(139, 92, 246), 1)
-                },
-                new Point(0, 0),
-                new Point(1, 1)
-            );
+            border1.Background = new SolidColorBrush(Color.FromArgb(102, 234, 179, 8)); // #EAB308 with 40% opacity
             
             var border2 = new Border
             {
                 Height = 90,
                 CornerRadius = new CornerRadius(8)
             };
-            border2.Background = new LinearGradientBrush(
-                new GradientStopCollection
-                {
-                    new GradientStop(Color.FromRgb(236, 72, 153), 0),
-                    new GradientStop(Color.FromRgb(244, 63, 94), 1)
-                },
-                new Point(0, 0),
-                new Point(1, 1)
-            );
+            border2.Background = new SolidColorBrush(Color.FromArgb(102, 214, 173, 112)); // #D6AD70 with 40% opacity
             
             stackPanel.Children.Add(border1);
             stackPanel.Children.Add(border2);
@@ -261,18 +237,13 @@ namespace PhotoBooth.Pages
                 {
                     var border = new Border
                     {
-                        CornerRadius = new CornerRadius(6),
-                        Margin = new Thickness(3)
+                        CornerRadius = new CornerRadius(4),
+                        Margin = new Thickness(2)
                     };
-                    border.Background = new LinearGradientBrush(
-                        new GradientStopCollection
-                        {
-                            new GradientStop((row + col) % 2 == 0 ? Color.FromRgb(99, 102, 241) : Color.FromRgb(236, 72, 153), 0),
-                            new GradientStop((row + col) % 2 == 0 ? Color.FromRgb(139, 92, 246) : Color.FromRgb(244, 63, 94), 1)
-                        },
-                        new Point(0, 0),
-                        new Point(1, 1)
-                    );
+                    // Alternate between primary (#EAB308) and accent (#D6AD70) with 40% opacity
+                    border.Background = (row + col) % 2 == 0 
+                        ? new SolidColorBrush(Color.FromArgb(102, 234, 179, 8))   // #EAB308 with 40% opacity
+                        : new SolidColorBrush(Color.FromArgb(102, 214, 173, 112)); // #D6AD70 with 40% opacity
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, col);
                     grid.Children.Add(border);
@@ -299,15 +270,10 @@ namespace PhotoBooth.Pages
                         CornerRadius = new CornerRadius(4),
                         Margin = new Thickness(2)
                     };
-                    border.Background = new LinearGradientBrush(
-                        new GradientStopCollection
-                        {
-                            new GradientStop((row + col) % 2 == 0 ? Color.FromRgb(99, 102, 241) : Color.FromRgb(236, 72, 153), 0),
-                            new GradientStop((row + col) % 2 == 0 ? Color.FromRgb(139, 92, 246) : Color.FromRgb(244, 63, 94), 1)
-                        },
-                        new Point(0, 0),
-                        new Point(1, 1)
-                    );
+                    // Alternate between primary (#EAB308) and accent (#D6AD70) with 40% opacity
+                    border.Background = (row + col) % 2 == 0 
+                        ? new SolidColorBrush(Color.FromArgb(102, 234, 179, 8))   // #EAB308 with 40% opacity
+                        : new SolidColorBrush(Color.FromArgb(102, 214, 173, 112)); // #D6AD70 with 40% opacity
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, col);
                     grid.Children.Add(border);
@@ -324,24 +290,19 @@ namespace PhotoBooth.Pages
             
             for (int col = 0; col < 2; col++)
             {
-                var stackPanel = new StackPanel { Margin = new Thickness(col == 0 ? 0 : 4, 0, col == 1 ? 0 : 4, 0) };
+                var stackPanel = new StackPanel { Margin = new Thickness(col == 0 ? 0 : 2, 0, col == 1 ? 0 : 2, 0) };
                 for (int i = 0; i < 4; i++)
                 {
                     var border = new Border
                     {
                         Height = 45,
                         CornerRadius = new CornerRadius(4),
-                        Margin = new Thickness(0, 0, 0, 4)
+                        Margin = new Thickness(0, 0, 0, i < 3 ? 4 : 0)
                     };
-                    border.Background = new LinearGradientBrush(
-                        new GradientStopCollection
-                        {
-                            new GradientStop(i % 2 == 0 ? Color.FromRgb(99, 102, 241) : Color.FromRgb(236, 72, 153), 0),
-                            new GradientStop(i % 2 == 0 ? Color.FromRgb(139, 92, 246) : Color.FromRgb(244, 63, 94), 1)
-                        },
-                        new Point(0, 0),
-                        new Point(1, 1)
-                    );
+                    // Alternate between primary (#EAB308) and accent (#D6AD70) with 40% opacity
+                    border.Background = i % 2 == 0 
+                        ? new SolidColorBrush(Color.FromArgb(102, 234, 179, 8))   // #EAB308 with 40% opacity
+                        : new SolidColorBrush(Color.FromArgb(102, 214, 173, 112)); // #D6AD70 with 40% opacity
                     stackPanel.Children.Add(border);
                 }
                 Grid.SetColumn(stackPanel, col);

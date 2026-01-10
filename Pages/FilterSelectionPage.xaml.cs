@@ -98,19 +98,50 @@ namespace PhotoBooth.Pages
         }
 
 
+        private void SetChipTextColor(Border chip, SolidColorBrush color)
+        {
+            if (chip?.Child is StackPanel stackPanel)
+            {
+                foreach (var child in stackPanel.Children)
+                {
+                    if (child is TextBlock textBlock)
+                    {
+                        textBlock.Foreground = color;
+                    }
+                }
+            }
+        }
+
         private void UpdateChipStates()
         {
             try
             {
-                var inactiveBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2a1a1f"));
-                var inactiveBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FFFFFF"));
-                var activeBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#f4257b"));
+                var inactiveBackground = new SolidColorBrush(Colors.Transparent);
+                var inactiveBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32312E"));
+                var inactiveForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8F5F0"));
+                
+                // Create golden gradient for active state (135deg diagonal)
+                var activeBackground = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(1, 1),
+                    GradientStops = new GradientStopCollection
+                    {
+                        new GradientStop((Color)ColorConverter.ConvertFromString("#F5E54C"), 0),
+                        new GradientStop((Color)ColorConverter.ConvertFromString("#D6950F"), 0.5),
+                        new GradientStop((Color)ColorConverter.ConvertFromString("#EAB308"), 1)
+                    }
+                };
+                
+                var activeBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0C74A"));
+                var activeForeground = new SolidColorBrush(Colors.White);
+                
                 var activeGlow = new DropShadowEffect
                 {
-                    Color = (Color)ColorConverter.ConvertFromString("#f4257b"),
-                    BlurRadius = 20,
-                    ShadowDepth = 0,
-                    Opacity = 0.5
+                    Color = (Color)ColorConverter.ConvertFromString("#EAB308"),
+                    BlurRadius = 30,
+                    ShadowDepth = 4,
+                    Opacity = 0.4
                 };
 
                 // Reset all chips to inactive state
@@ -119,6 +150,7 @@ namespace PhotoBooth.Pages
                     GlowChip.Background = inactiveBackground;
                     GlowChip.BorderBrush = inactiveBorder;
                     GlowChip.Effect = null;
+                    SetChipTextColor(GlowChip, inactiveForeground);
                 }
                 
                 if (MoodyChip != null)
@@ -126,6 +158,7 @@ namespace PhotoBooth.Pages
                     MoodyChip.Background = inactiveBackground;
                     MoodyChip.BorderBrush = inactiveBorder;
                     MoodyChip.Effect = null;
+                    SetChipTextColor(MoodyChip, inactiveForeground);
                 }
                 
                 if (DreamyChip != null)
@@ -133,6 +166,7 @@ namespace PhotoBooth.Pages
                     DreamyChip.Background = inactiveBackground;
                     DreamyChip.BorderBrush = inactiveBorder;
                     DreamyChip.Effect = null;
+                    SetChipTextColor(DreamyChip, inactiveForeground);
                 }
                 
                 if (FireChip != null)
@@ -140,6 +174,7 @@ namespace PhotoBooth.Pages
                     FireChip.Background = inactiveBackground;
                     FireChip.BorderBrush = inactiveBorder;
                     FireChip.Effect = null;
+                    SetChipTextColor(FireChip, inactiveForeground);
                 }
                 
                 if (RetroChip != null)
@@ -147,6 +182,7 @@ namespace PhotoBooth.Pages
                     RetroChip.Background = inactiveBackground;
                     RetroChip.BorderBrush = inactiveBorder;
                     RetroChip.Effect = null;
+                    SetChipTextColor(RetroChip, inactiveForeground);
                 }
                 
                 if (MonoChip != null)
@@ -154,6 +190,7 @@ namespace PhotoBooth.Pages
                     MonoChip.Background = inactiveBackground;
                     MonoChip.BorderBrush = inactiveBorder;
                     MonoChip.Effect = null;
+                    SetChipTextColor(MonoChip, inactiveForeground);
                 }
                 
                 if (NormalChip != null)
@@ -161,6 +198,7 @@ namespace PhotoBooth.Pages
                     NormalChip.Background = inactiveBackground;
                     NormalChip.BorderBrush = inactiveBorder;
                     NormalChip.Effect = null;
+                    SetChipTextColor(NormalChip, inactiveForeground);
                 }
 
                 // Activate current chip based on state
@@ -172,47 +210,69 @@ namespace PhotoBooth.Pages
                 // Mono: grayscale = true
                 // Normal: brightness = 1.0, grayscale = false
 
-                const double tolerance = 0.1;
+                const double tolerance = 0.05;
+                
+                System.Diagnostics.Debug.WriteLine($"[UpdateChipStates] Brightness={App.Brightness}, Grayscale={App.Grayscale}");
 
                 if (App.Grayscale && MonoChip != null)
                 {
                     MonoChip.Background = activeBackground;
+                    MonoChip.BorderBrush = activeBorder;
                     MonoChip.Effect = activeGlow;
+                    SetChipTextColor(MonoChip, activeForeground);
                 }
                 else if (Math.Abs(App.Brightness - 1.9) < tolerance && FireChip != null)
                 {
                     FireChip.Background = activeBackground;
+                    FireChip.BorderBrush = activeBorder;
                     FireChip.Effect = activeGlow;
+                    SetChipTextColor(FireChip, activeForeground);
                 }
                 else if (Math.Abs(App.Brightness - 1.6) < tolerance && GlowChip != null)
                 {
                     GlowChip.Background = activeBackground;
+                    GlowChip.BorderBrush = activeBorder;
                     GlowChip.Effect = activeGlow;
+                    SetChipTextColor(GlowChip, activeForeground);
                 }
                 else if (Math.Abs(App.Brightness - 1.2) < tolerance && RetroChip != null)
                 {
                     RetroChip.Background = activeBackground;
+                    RetroChip.BorderBrush = activeBorder;
                     RetroChip.Effect = activeGlow;
-                }
-                else if (Math.Abs(App.Brightness - 1.0) < tolerance && !App.Grayscale && NormalChip != null)
-                {
-                    NormalChip.Background = activeBackground;
-                    NormalChip.Effect = activeGlow;
+                    SetChipTextColor(RetroChip, activeForeground);
                 }
                 else if (Math.Abs(App.Brightness - 0.95) < tolerance && DreamyChip != null)
                 {
                     DreamyChip.Background = activeBackground;
+                    DreamyChip.BorderBrush = activeBorder;
                     DreamyChip.Effect = activeGlow;
+                    SetChipTextColor(DreamyChip, activeForeground);
+                    System.Diagnostics.Debug.WriteLine("[UpdateChipStates] DREAMY chip activated");
+                }
+                else if (Math.Abs(App.Brightness - 1.0) < tolerance && !App.Grayscale && NormalChip != null)
+                {
+                    NormalChip.Background = activeBackground;
+                    NormalChip.BorderBrush = activeBorder;
+                    NormalChip.Effect = activeGlow;
+                    SetChipTextColor(NormalChip, activeForeground);
+                    System.Diagnostics.Debug.WriteLine("[UpdateChipStates] NORMAL chip activated");
                 }
                 else if (Math.Abs(App.Brightness - 0.6) < tolerance && MoodyChip != null)
                 {
                     MoodyChip.Background = activeBackground;
+                    MoodyChip.BorderBrush = activeBorder;
                     MoodyChip.Effect = activeGlow;
+                    SetChipTextColor(MoodyChip, activeForeground);
+                    System.Diagnostics.Debug.WriteLine("[UpdateChipStates] MOODY chip activated");
                 }
                 else if (GlowChip != null) // Default to Glow
                 {
                     GlowChip.Background = activeBackground;
+                    GlowChip.BorderBrush = activeBorder;
                     GlowChip.Effect = activeGlow;
+                    SetChipTextColor(GlowChip, activeForeground);
+                    System.Diagnostics.Debug.WriteLine("[UpdateChipStates] GLOW chip activated (default)");
                 }
             }
             catch (Exception ex)
@@ -346,18 +406,24 @@ namespace PhotoBooth.Pages
         {
             try
             {
-                // Reset to default values (Normal filter)
+                // Reset to default values
                 App.Brightness = 1.0;
                 App.Grayscale = false;
+                App.SelectedStyle = 0;
+                App.CapturedImages.Clear();
+                App.RetakePhotoIndex = -1;
+                App.NumberOfCopies = 1;
+                App.PendingTransactionData = null;
 
-                // Update chip states
-                UpdateChipStates();
-
-                System.Diagnostics.Debug.WriteLine("[FilterSelectionPage] Filters reset to defaults (Normal)");
+                System.Diagnostics.Debug.WriteLine("[FilterSelectionPage] Starting over - navigating to StartPage");
+                
+                // Navigate back to start page
+                _navigationService.NavigateTo(typeof(StartPage));
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[FilterSelectionPage] Reset error: {ex.Message}");
+                MessageBox.Show($"Reset error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

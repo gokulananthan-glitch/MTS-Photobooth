@@ -8,41 +8,8 @@
     <Grid>
         <!-- Background -->
         <Grid.Background>
-            <SolidColorBrush Color="#221017"/>
+            <SolidColorBrush Color="#0a0a0a"/>
         </Grid.Background>
-        
-        <!-- Ambient Background Glows -->
-        <Canvas ClipToBounds="False">
-            <!-- Top Left Glow -->
-            <Ellipse Width="1000" Height="1000" 
-                     Canvas.Left="-300" Canvas.Top="-200"
-                     Opacity="0.2">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                        <GradientStop Color="#f4257b" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="120"/>
-                </Ellipse.Effect>
-        </Ellipse>
-        
-            <!-- Bottom Right Glow -->
-            <Ellipse Width="1200" Height="1200"
-                     Canvas.Right="-400" Canvas.Bottom="-400"
-                     Opacity="0.1">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                        <GradientStop Color="#a855f7" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="150"/>
-                </Ellipse.Effect>
-        </Ellipse>
-        </Canvas>
 
         <Grid Margin="40,20">
             <Grid.RowDefinitions>
@@ -64,23 +31,26 @@
                 <!-- Back Button -->
                 <Button Grid.Column="0"
                         Name="BackButton"
-                        Width="40" Height="40"
+                        Height="40"
+                        Padding="16,0"
                         Cursor="Hand"
                         Click="BackButton_Click"
                         Background="Transparent"
                         BorderThickness="0">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="#1AFFFFFF"
+                            <Border Background="#1A1A1A"
                                     CornerRadius="20"
-                                    BorderBrush="#33FFFFFF"
+                                    BorderBrush="#26FFFFFF"
                                     BorderThickness="1"
-                                    Width="40" Height="40">
-                                <fa:PackIconFontAwesome Kind="ArrowLeftSolid"
-                                                       Width="18" Height="18"
-                                                       Foreground="White"
-                   HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                    Padding="16,0"
+                                    Height="40">
+                                <TextBlock Text="← Back"
+                                          FontSize="15"
+                                          FontWeight="Normal"
+                                          Foreground="#F8F5F0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
@@ -100,42 +70,49 @@
                 <StackPanel Grid.Column="1" 
                            Orientation="Horizontal"
                            HorizontalAlignment="Center">
-                    <fa:PackIconFontAwesome Kind="CameraSolid"
-                                           Width="20" Height="20"
-                                           Foreground="#f4257b"
-                   VerticalAlignment="Center"
+                    <fa:PackIconFontAwesome Kind="StarSolid"
+                                           Width="18" Height="18"
+                                           Foreground="#EAB308"
+                                           VerticalAlignment="Center"
                                            Margin="0,0,8,0"/>
-                    <TextBlock Text="MemoraBooth"
+                    <TextBlock Text="Set the Mood"
                               FontSize="18"
-                         FontWeight="Bold"
-                         Foreground="White"
+                              FontWeight="Bold"
+                              Foreground="#F8F5F0"
                               VerticalAlignment="Center"/>
+                    <fa:PackIconFontAwesome Kind="StarSolid"
+                                           Width="16" Height="16"
+                                           Foreground="#D6AD70"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0"
+                                           Opacity="0.8"/>
                 </StackPanel>
 
                 <!-- Reset Button -->
                 <Button Grid.Column="2"
                         Name="ResetButton"
-                        Height="36"
-                        Padding="20,8"
+                        Height="40"
+                        Padding="16,0"
                         Cursor="Hand"
                         Click="ResetButton_Click"
-                                                  Background="Transparent"
+                        Background="Transparent"
                         BorderThickness="0">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="#1AFFFFFF"
-                                    CornerRadius="18"
-                                    BorderBrush="#33FFFFFF"
+                            <Border Background="#1A1A1A"
+                                    CornerRadius="20"
+                                    BorderBrush="#26FFFFFF"
                                     BorderThickness="1"
-                                    Padding="20,8">
-                                <TextBlock Text="Reset"
-                                          FontSize="14"
-                                          FontWeight="Medium"
-                                          Foreground="White"
+                                    Padding="16,0"
+                                    Height="40">
+                                <TextBlock Text="Start Over"
+                                          FontSize="15"
+                                          FontWeight="Normal"
+                                          Foreground="#F8F5F0"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
-                                            </Border>
-                                        <ControlTemplate.Triggers>
+                            </Border>
+                            <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
@@ -143,54 +120,129 @@
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
                     </Button.Template>
                 </Button>
             </Grid>
 
-            <!-- Heading -->
+            <!-- Main Title: "Pick Your Vibe 🖥️" -->
             <StackPanel Grid.Row="1" 
                        Name="TitleSection"
                        HorizontalAlignment="Center"
-                       Margin="0,10,0,30">
+                       Margin="0,10,0,24">
                 <StackPanel Orientation="Horizontal" 
                            HorizontalAlignment="Center">
-                    <TextBlock Text="Pick Your Vibe"
+                    <TextBlock Text="Pick Your Vibe "
+                              FontFamily="Cormorant Garamond"
                               FontSize="48"
                               FontWeight="Bold"
-                              Foreground="White"
+                              Foreground="#F8F5F0"
                               VerticalAlignment="Center"/>
-                    <fa:PackIconFontAwesome Kind="TvSolid"
-                                           Width="36" Height="36"
-                                           Foreground="#f4257b"
-                                           VerticalAlignment="Center"
-                                           Margin="12,0,0,0"/>
+                    <TextBlock Text="🖥️"
+                              FontSize="48"
+                              VerticalAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
 
-            <!-- Live Preview Viewport -->
-            <Grid Grid.Row="2" Margin="100,0">
-                <controls:LivePreviewControl x:Name="LivePreview"/>
-            </Grid>
+            <!-- Camera Preview (aspect-video = 16:9) -->
+            <Viewbox Grid.Row="2" 
+                     Margin="100,0"
+                     Stretch="Uniform"
+                     StretchDirection="Both">
+                <Grid Width="1280" Height="720">
+                    <Grid ClipToBounds="True">
+                        <Border CornerRadius="22">
+                            <Grid x:Name="PreviewContainer">
+                                <controls:LivePreviewControl x:Name="LivePreview"/>
+                                
+                                <!-- Viewfinder grid overlay -->
+                                    <Grid IsHitTestVisible="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Vertical lines -->
+                                        <Rectangle Grid.Column="1" Grid.RowSpan="3" 
+                                                  Width="1" HorizontalAlignment="Left"
+                                                  Fill="White" Opacity="0.1"/>
+                                        <Rectangle Grid.Column="2" Grid.RowSpan="3" 
+                                                  Width="1" HorizontalAlignment="Left"
+                                                  Fill="White" Opacity="0.1"/>
+                                        
+                                        <!-- Horizontal lines -->
+                                        <Rectangle Grid.Row="1" Grid.ColumnSpan="3" 
+                                                  Height="1" VerticalAlignment="Top"
+                                                  Fill="White" Opacity="0.1"/>
+                                        <Rectangle Grid.Row="2" Grid.ColumnSpan="3" 
+                                                  Height="1" VerticalAlignment="Top"
+                                                  Fill="White" Opacity="0.1"/>
+                                    </Grid>
+                                    
+                                    <!-- Corner guides (border-white/30) -->
+                                    <Canvas IsHitTestVisible="False">
+                                        <!-- Top Left -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Left="16" Canvas.Top="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="2,2,0,0"
+                                                Opacity="0.3"/>
+                                        <!-- Top Right -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Right="16" Canvas.Top="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="0,2,2,0"
+                                                Opacity="0.3"/>
+                                        <!-- Bottom Left -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Left="16" Canvas.Bottom="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="2,0,0,2"
+                                                Opacity="0.3"/>
+                                        <!-- Bottom Right -->
+                                        <Border Width="32" Height="32" 
+                                                Canvas.Right="16" Canvas.Bottom="16"
+                                                BorderBrush="White" 
+                                                BorderThickness="0,0,2,2"
+                                                Opacity="0.3"/>
+                                    </Canvas>
+                                </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Viewbox>
 
-            <!-- Filter Chips -->
-            <Grid Grid.Row="3" Margin="0,40,0,30">
+            <!-- Filter Options (gap-3 = 12px) -->
+            <Grid Grid.Row="3" Margin="0,24,0,32">
                 <StackPanel Orientation="Horizontal" 
-                           HorizontalAlignment="Center"
-                           Margin="20,0">
+                           HorizontalAlignment="Center">
                     
                     <!-- Glow Chip (Active by default) -->
                     <Border Name="GlowChip"
                             Margin="6"
-                            Background="#f4257b"
-                            CornerRadius="20"
-                            Padding="20,12"
+                            CornerRadius="2"
+                            Padding="20,10"
+                            BorderBrush="#F0C74A"
+                            BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="GlowChip_Click">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#F5E54C" Offset="0"/>
+                                <GradientStop Color="#D6950F" Offset="0.5"/>
+                                <GradientStop Color="#EAB308" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
                         <Border.Effect>
-                            <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.5"/>
+                            <DropShadowEffect Color="#EAB308" BlurRadius="30" ShadowDepth="4" Opacity="0.4"/>
                         </Border.Effect>
                         <Border.RenderTransform>
                             <ScaleTransform CenterX="50" CenterY="20"/>
@@ -200,9 +252,9 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
-                                                       To="1.05" Duration="0:0:0.2"/>
+                                                       To="1.05" Duration="0:0:0.3"/>
                                         <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
-                                                       To="1.05" Duration="0:0:0.2"/>
+                                                       To="1.05" Duration="0:0:0.3"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -210,34 +262,38 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
-                                                       To="1" Duration="0:0:0.2"/>
+                                                       To="1" Duration="0:0:0.3"/>
                                         <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
-                                                       To="1" Duration="0:0:0.2"/>
+                                                       To="1" Duration="0:0:0.3"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="✨"
-                                      FontSize="18"
+                                      FontSize="12"
                                       Foreground="White"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
-                            <TextBlock Text="Glow"
-                                      FontSize="15"
-                              FontWeight="Bold"
+                            <TextBlock Text="GLOW"
+                                      FontSize="12"
+                                      FontWeight="Medium"
                                       Foreground="White"
-                                      VerticalAlignment="Center"/>
+                                      VerticalAlignment="Center">
+                                <TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="1.1" ScaleY="1"/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
                         </StackPanel>
                     </Border>
 
                     <!-- Moody Chip -->
                     <Border Name="MoodyChip"
                             Margin="6"
-                            Background="#2a1a1f"
-                            CornerRadius="20"
+                            Background="Transparent"
+                            CornerRadius="0"
                             Padding="20,12"
-                            BorderBrush="#33FFFFFF"
+                            BorderBrush="#32312E"
                             BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="MoodyChip_Click">
@@ -267,15 +323,15 @@
                             </EventTrigger>
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🖤"
-                                      FontSize="18"
-                                      Foreground="White"
+                            <TextBlock Text="💜"
+                                      FontSize="16"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
                             <TextBlock Text="Moody"
-                                      FontSize="15"
+                                      FontSize="14"
                                       FontWeight="Medium"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
@@ -283,10 +339,10 @@
                     <!-- Dreamy Chip -->
                     <Border Name="DreamyChip"
                             Margin="6"
-                            Background="#2a1a1f"
-                            CornerRadius="20"
+                            Background="Transparent"
+                            CornerRadius="0"
                             Padding="20,12"
-                            BorderBrush="#33FFFFFF"
+                            BorderBrush="#32312E"
                             BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="DreamyChip_Click">
@@ -317,14 +373,14 @@
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="☁️"
-                                      FontSize="18"
-                                      Foreground="White"
+                                      FontSize="16"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
                             <TextBlock Text="Dreamy"
-                                      FontSize="15"
+                                      FontSize="14"
                                       FontWeight="Medium"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
@@ -332,10 +388,10 @@
                     <!-- Fire Chip -->
                     <Border Name="FireChip"
                             Margin="6"
-                            Background="#2a1a1f"
-                            CornerRadius="20"
+                            Background="Transparent"
+                            CornerRadius="0"
                             Padding="20,12"
-                            BorderBrush="#33FFFFFF"
+                            BorderBrush="#32312E"
                             BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="FireChip_Click">
@@ -366,14 +422,14 @@
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🔥"
-                                      FontSize="18"
-                                      Foreground="White"
+                                      FontSize="16"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
                             <TextBlock Text="Fire"
-                                      FontSize="15"
+                                      FontSize="14"
                                       FontWeight="Medium"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
@@ -381,10 +437,10 @@
                     <!-- Retro Chip -->
                     <Border Name="RetroChip"
                             Margin="6"
-                            Background="#2a1a1f"
-                            CornerRadius="20"
+                            Background="Transparent"
+                            CornerRadius="0"
                             Padding="20,12"
-                            BorderBrush="#33FFFFFF"
+                            BorderBrush="#32312E"
                             BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="RetroChip_Click">
@@ -414,15 +470,15 @@
                             </EventTrigger>
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🎞️"
-                                      FontSize="18"
-                                      Foreground="White"
+                            <TextBlock Text="📺"
+                                      FontSize="16"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
                             <TextBlock Text="Retro"
-                                      FontSize="15"
+                                      FontSize="14"
                                       FontWeight="Medium"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
@@ -430,10 +486,10 @@
                     <!-- Mono Chip -->
                     <Border Name="MonoChip"
                             Margin="6"
-                            Background="#2a1a1f"
-                            CornerRadius="20"
+                            Background="Transparent"
+                            CornerRadius="0"
                             Padding="20,12"
-                            BorderBrush="#33FFFFFF"
+                            BorderBrush="#32312E"
                             BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="MonoChip_Click">
@@ -463,15 +519,15 @@
                             </EventTrigger>
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🏁"
-                                      FontSize="18"
-                                      Foreground="White"
+                            <TextBlock Text="🖤"
+                                      FontSize="16"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
                             <TextBlock Text="Mono"
-                                      FontSize="15"
+                                      FontSize="14"
                                       FontWeight="Medium"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
@@ -479,10 +535,10 @@
                     <!-- Normal Chip -->
                     <Border Name="NormalChip"
                             Margin="6"
-                            Background="#2a1a1f"
-                            CornerRadius="20"
+                            Background="Transparent"
+                            CornerRadius="0"
                             Padding="20,12"
-                            BorderBrush="#33FFFFFF"
+                            BorderBrush="#32312E"
                             BorderThickness="1"
                             Cursor="Hand"
                             MouseLeftButtonDown="NormalChip_Click">
@@ -513,99 +569,76 @@
                         </Border.Triggers>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="📷"
-                                      FontSize="18"
-                                      Foreground="White"
+                                      FontSize="16"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"
                                       Margin="0,0,8,0"/>
                             <TextBlock Text="Normal"
-                                      FontSize="15"
+                                      FontSize="14"
                                       FontWeight="Medium"
-                                      Foreground="White"
+                                      Foreground="#F8F5F0"
                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
-        </StackPanel>
             </Grid>
 
-            <!-- Bottom Control Bar -->
-            <Grid Grid.Row="4" Margin="0,20,0,30">
+            <!-- Bottom Controls (gap-6 = 24px) -->
+            <Grid Grid.Row="4" Margin="0,0,0,32">
                 <StackPanel Orientation="Horizontal"
                            HorizontalAlignment="Center">
-                    <!-- Timer Icon -->
-                    <Border Width="48" Height="48"
-                            CornerRadius="24"
-                            Background="#1AFFFFFF"
-                            BorderBrush="#33FFFFFF"
-                            BorderThickness="1"
-                            Margin="0,0,16,0"
-                            Cursor="Hand">
-                        <TextBlock Text="⏱️"
-                                  FontSize="20"
-                                  Foreground="White"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"/>
-                    </Border>
+                    
 
-                    <!-- Flash Icon -->
-                    <Border Width="48" Height="48"
-                            CornerRadius="24"
-                            Background="#1AFFFFFF"
-                            BorderBrush="#33FFFFFF"
-                            BorderThickness="1"
-                            Margin="0,0,16,0"
-                            Cursor="Hand">
-                        <TextBlock Text="⚡"
-                                  FontSize="20"
-                   Foreground="White"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"/>
-                    </Border>
-
-                    <!-- Capture Button -->
+                    <!-- Capture/Shutter Button (shutter-button class) -->
                     <Button Name="CaptureButton"
                             Width="72" Height="72"
-                   Cursor="Hand"
+                            Cursor="Hand"
                             Click="CaptureButton_Click">
                         <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                <Border Background="#f4257b"
-                                        CornerRadius="36"
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="36"
                                         BorderThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#EAB308" Offset="0"/>
+                                            <GradientStop Color="#D6AD70" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
                                     <Border.Effect>
-                                        <DropShadowEffect Color="#f4257b" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                                        <DropShadowEffect Color="#EAB308" BlurRadius="25" ShadowDepth="0" Opacity="0.6"/>
                                     </Border.Effect>
                                     <fa:PackIconFontAwesome Kind="CameraSolid"
                                                            Width="32" Height="32"
                                                            Foreground="White"
                                                            HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"/>
-                                    </Border>
+                                                           VerticalAlignment="Center"/>
+                                </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="RenderTransform">
                                             <Setter.Value>
                                                 <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                            </Setter.Value>
-                        </Setter>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                            </Trigger>
+                                    </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
                                         <Setter Property="RenderTransform">
-                            <Setter.Value>
-                                                <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
-                            </Setter.Value>
-                        </Setter>
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                            </Trigger>
+                                    </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                    </Style>
-                </Button.Style>
-            </Button>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Grid>
