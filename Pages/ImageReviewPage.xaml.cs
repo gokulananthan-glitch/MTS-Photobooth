@@ -38,9 +38,29 @@ namespace PhotoBooth.Pages
             // Clear thumbnails
             ThumbnailsPanel.Children.Clear();
         }
+        
+        private void DisconnectCamera()
+        {
+            try
+            {
+                if (App.CanonCameraService != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[ImageReviewPage] Stopping EVF...");
+                    App.CanonCameraService.StopLiveView();
+                    System.Diagnostics.Debug.WriteLine("[ImageReviewPage] EVF stopped");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ImageReviewPage] Error stopping EVF: {ex.Message}");
+            }
+        }
 
         private void ImageReviewPage_Loaded(object sender, RoutedEventArgs e)
         {
+            // Disconnect camera when entering review page
+            DisconnectCamera();
+            
             // Get frame data for selected style (for thumbnail aspect ratio only)
             _currentFrameData = FrameDataProvider.GetFrameDataForStyle(App.SelectedStyle);
             

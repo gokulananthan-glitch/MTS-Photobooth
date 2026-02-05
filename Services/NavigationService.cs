@@ -58,6 +58,35 @@ namespace PhotoBooth.Services
                 throw;
             }
         }
+
+        public void GoBack()
+        {
+            if (_frame == null)
+            {
+                System.Diagnostics.Debug.WriteLine("[NavigationService] Frame not initialized! Cannot go back.");
+                return;
+            }
+
+            try
+            {
+                if (_frame.CanGoBack)
+                {
+                    // Clean up resources before navigation
+                    ResourceManager.ClearCaches();
+                    ResourceManager.OptimizeMemory(aggressive: false);
+                    
+                    _frame.GoBack();
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("[NavigationService] Cannot go back - no navigation history");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[NavigationService] Error going back: {ex.Message}");
+            }
+        }
     }
 }
 

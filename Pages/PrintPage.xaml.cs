@@ -44,8 +44,28 @@ namespace PhotoBooth.Pages
             return $"OF-{yy}{mm}{dd}-{rnd}";
         }
 
+        private void DisconnectCamera()
+        {
+            try
+            {
+                if (App.CanonCameraService != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[PrintPage] Stopping EVF...");
+                    App.CanonCameraService.StopLiveView();
+                    System.Diagnostics.Debug.WriteLine("[PrintPage] EVF stopped");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[PrintPage] Error stopping EVF: {ex.Message}");
+            }
+        }
+        
         private void PrintPage_Loaded(object sender, RoutedEventArgs e)
         {
+            // Disconnect camera when entering print page
+            DisconnectCamera();
+            
             try
             {
                 // Load preview image

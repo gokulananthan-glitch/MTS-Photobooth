@@ -51,13 +51,13 @@ namespace PhotoBooth.Pages
                 }
 
                 // Check if webcam is active (LivePreviewControl initializes it)
-                // Wait a bit for LivePreviewControl to initialize
-                Task.Delay(500).ContinueWith(_ =>
+                // Check immediately and update status
+                Task.Delay(200).ContinueWith(_ =>
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        _isWebcamActive = App.WebcamService != null && App.WebcamService.IsConnected;
-                        System.Diagnostics.Debug.WriteLine($"[FilterSelectionPage] Webcam active: {_isWebcamActive}");
+                        _isWebcamActive = App.CanonCameraService != null && App.CanonCameraService.IsConnected && App.CanonCameraService.IsLiveViewOn;
+                        System.Diagnostics.Debug.WriteLine($"[FilterSelectionPage] Camera active: {_isWebcamActive}");
                     });
                 });
 

@@ -105,10 +105,10 @@ namespace PhotoBooth.Utils
             }
         }
 
-        private static BitmapImage ConvertToBitmapImage(WriteableBitmap bitmap, int qualityLevel = 95)
+        private static BitmapImage ConvertToBitmapImage(WriteableBitmap bitmap, int qualityLevel = 100)
         {
             using var stream = new MemoryStream();
-            var encoder = new JpegBitmapEncoder { QualityLevel = qualityLevel }; // High quality for captured images
+            var encoder = new JpegBitmapEncoder { QualityLevel = qualityLevel }; // Maximum quality for captured images
             encoder.Frames.Add(BitmapFrame.Create(bitmap));
             encoder.Save(stream);
             stream.Position = 0;
@@ -125,8 +125,9 @@ namespace PhotoBooth.Utils
 
         /// <summary>
         /// Crops and scales an image to match the target aspect ratio
+        /// Crops to fill the entire target size (may crop edges)
         /// </summary>
-        public static BitmapImage? CropAndScaleToAspectRatio(BitmapSource? source, int targetWidth, int targetHeight)
+        public static BitmapImage? CropAndScaleToAspectRatio(BitmapSource? source, int targetWidth, int targetHeight, int quality = 100)
         {
             if (source == null) return null;
 
@@ -135,15 +136,18 @@ namespace PhotoBooth.Utils
                 int sourceWidth = source.PixelWidth;
                 int sourceHeight = source.PixelHeight;
                 
+                System.Diagnostics.Debug.WriteLine($"[ImageProcessor] CropAndScale: Source {sourceWidth}x{sourceHeight} → Target {targetWidth}x{targetHeight}");
+                
                 // Calculate aspect ratios
                 double sourceAspect = (double)sourceWidth / sourceHeight;
                 double targetAspect = (double)targetWidth / targetHeight;
 
                 int cropWidth, cropHeight, cropX, cropY;
 
-                // Determine how to crop
+                // Crop to match aspect ratio (FILL mode - crops to cover entire target)
                 if (sourceAspect > targetAspect)
                 {
+                    // Source is wider - crop width, keep height
                     cropHeight = sourceHeight;
                     cropWidth = (int)(sourceHeight * targetAspect);
                     cropX = (sourceWidth - cropWidth) / 2;
@@ -151,32 +155,33 @@ namespace PhotoBooth.Utils
                 }
                 else
                 {
+                    // Source is taller - crop height, keep width
                     cropWidth = sourceWidth;
                     cropHeight = (int)(sourceWidth / targetAspect);
                     cropX = 0;
                     cropY = (sourceHeight - cropHeight) / 2;
                 }
 
-                // Create cropped bitmap
-                var croppedBitmap = new CroppedBitmap(source, new Int32Rect(cropX, cropY, cropWidth, cropHeight));
+                System.Diagnostics.Debug.WriteLine($"[ImageProcessor] Crop region: {cropX},{cropY} {cropWidth}x{cropHeight}");
 
-                // Scale to target dimensions
-                var scaledBitmap = new TransformedBitmap(croppedBitmap, new ScaleTransform(
-                    (double)targetWidth / cropWidth,
-                    (double)targetHeight / cropHeight));
+                // Use CroppedBitmap for precise cropping
+                var croppedSource = new CroppedBitmap(source, new Int32Rect(cropX, cropY, cropWidth, cropHeight));
+                croppedSource.Freeze();
 
-                // Convert to Bgra32 format
-                var formatConverted = new FormatConvertedBitmap(scaledBitmap, PixelFormats.Bgra32, null, 0);
+                // Scale to exact target size using high-quality transform
+                var scaleX = (double)targetWidth / cropWidth;
+                var scaleY = (double)targetHeight / cropHeight;
                 
-                // Create WriteableBitmap
-                var writeableBitmap = new WriteableBitmap(formatConverted);
-                writeableBitmap.Freeze();
+                var scaledBitmap = new TransformedBitmap(croppedSource, new ScaleTransform(scaleX, scaleY));
+                scaledBitmap.Freeze();
 
-                return ConvertToBitmapImage(writeableBitmap);
+                // Convert to BitmapImage
+                return ConvertToBitmapImage(new WriteableBitmap(scaledBitmap), quality);
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[ImageProcessor] CropAndScaleToAspectRatio error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[ImageProcessor] Stack: {ex.StackTrace}");
                 return null;
             }
         }

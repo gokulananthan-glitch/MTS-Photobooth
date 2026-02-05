@@ -75,8 +75,28 @@ namespace PhotoBooth.Pages
             }
         }
 
+        private void DisconnectCamera()
+        {
+            try
+            {
+                if (App.CanonCameraService != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[FrameSelectionPage] Stopping EVF...");
+                    App.CanonCameraService.StopLiveView();
+                    System.Diagnostics.Debug.WriteLine("[FrameSelectionPage] EVF stopped");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[FrameSelectionPage] Error stopping EVF: {ex.Message}");
+            }
+        }
+        
         private async void FrameSelectionPage_Loaded(object sender, RoutedEventArgs e)
         {
+            // Disconnect camera when entering frame selection page
+            DisconnectCamera();
+            
             try
             {
                 LoadingPanel.Visibility = Visibility.Visible;

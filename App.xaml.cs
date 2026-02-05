@@ -23,7 +23,7 @@ namespace PhotoBooth
         public static System.Collections.Generic.List<System.Windows.Media.Imaging.BitmapImage> CapturedImages { get; set; } = new();
         public static int RetakePhotoIndex { get; set; } = -1; // -1 means normal mode, >= 0 means retake mode
         public static string? TempFramePath { get; set; } // Temporary frame file path for current session
-        public static Services.WebcamService? WebcamService { get; set; } // Shared webcam service instance
+        public static CanonCameraService? CanonCameraService { get; set; } // Shared Canon camera service instance
         public static int NumberOfCopies { get; set; } = 1; // Number of copies selected in payment page
         public static TransactionData? PendingTransactionData { get; set; } // Pending transaction data from API
 
@@ -148,19 +148,19 @@ namespace PhotoBooth
                 System.Diagnostics.Debug.WriteLine($"[App] Total sessions: {_sessionCount}");
                 System.Diagnostics.Debug.WriteLine($"[App] Avg session time: {(uptime.TotalMinutes / Math.Max(_sessionCount, 1)):F1} min");
                 
-                // Cleanup shared webcam service
-                if (WebcamService != null)
+                // Cleanup shared Canon camera service
+                if (CanonCameraService != null)
                 {
                     try
                     {
-                        WebcamService.StopCapture();
-                        WebcamService.Dispose();
-                        WebcamService = null;
-                        System.Diagnostics.Debug.WriteLine("[App] Webcam service disposed");
+                        CanonCameraService.StopLiveView();
+                        CanonCameraService.Dispose();
+                        CanonCameraService = null;
+                        System.Diagnostics.Debug.WriteLine("[App] Canon camera service disposed");
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[App] Error disposing webcam service: {ex.Message}");
+                        System.Diagnostics.Debug.WriteLine($"[App] Error disposing Canon camera service: {ex.Message}");
                     }
                 }
                 
